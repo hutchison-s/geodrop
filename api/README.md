@@ -1,4 +1,4 @@
-# API Documentation
+# GeoDrop API Documentation
 
 ## Overview
 
@@ -28,11 +28,12 @@ This API allows for managing users and pins, including creating, updating, delet
   - `type` (string, required)
   - `data` (string, required)
   - `creator` (string, required)
+  - `createdBy` (string, required)
   - `title` (string, required)
   - `location` (string, required)
   - `viewLimit` (number, optional)
   - `tags` (array of strings, optional)
-  - `desc` (string, optional)
+  - `description` (string, optional)
 - **Response:** Created pin object.
 
 #### Delete Pin
