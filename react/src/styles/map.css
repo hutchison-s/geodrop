@@ -1,0 +1,24 @@
+#tempPositionMarker {
+    position: fixed;
+    bottom: 3rem;
+    right: 0;
+    width: 4.5rem;
+    background: var(--fg);
+    color: var(--bg);
+    text-wrap: wrap;
+    text-align: right;
+    padding: 0.5rem;
+    z-index: 10000;
+    border: 2px solid var(--blue);
+    display: none;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-control-attribution {
+    opacity: 0.3;
+    translate: 0 -5px;
+}

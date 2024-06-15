@@ -1,0 +1,32 @@
+# Node.js
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+
+# Dependency directories
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Debugging
+.DS_Store
+.vscode/
+*.sublime-project
+*.sublime-workspace
+Thumbs.db
+.cache
+.history
+
+# Runtime data
+pids/
+*.pid
+*.lock
+*.log
+*.socket

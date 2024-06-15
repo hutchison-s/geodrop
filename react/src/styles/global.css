@@ -1,0 +1,147 @@
+:root {
+    --bg: #111424;
+    --bg50: #11142480;
+    --bg80: #111424cc;
+    --fg: #F1EFEF;
+    --blue: #26A9E0;
+    --blue80: #26A9E0dd;
+    --basic: #dadee2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    /* border: 1px solid pink; */
+}
+.flex {
+    display: flex;
+}
+.flex.vertical {
+    flex-direction: column;
+}
+.flex.wrap {
+    flex-wrap: wrap;
+}
+.flex.center {
+    justify-content: center;
+    align-items: center;
+}
+.grid {
+    display: grid;
+}
+.grid.center {
+    align-items: center;
+}
+.gapS {
+    gap: 0.5rem;
+}
+.gapM {
+    gap: 1.2rem;
+}
+.gapL {
+    gap: 2.5rem;
+}
+.padS {
+    padding: 0.25rem;
+}
+.padM {
+    padding: 0.6rem;
+}
+.padL {
+    padding: 1.2rem;
+}
+.mAuto {
+    margin: auto;
+}
+.w100 {
+    width: 100%;
+}
+.h100 {
+    height: 100%;
+}
+.bgNone {
+    background-color: transparent;
+}
+.circle {
+    border-radius: 50%;
+}
+.rounded {
+    border-radius: 0.5rem;
+}
+.borderThin {
+    border: 1px solid #00000055;
+}
+.borderNone {
+    border: none;
+}
+.shadowS {
+    box-shadow: 1px 2px 4px #00000022, 0 0 10px #00000011;
+}
+.shadowL {
+    box-shadow: 2px 2px 15px #ffffff88 inset, 2px 4px 16px #00000055, -6px -8px 25px #00000022;
+}
+.rotate90 {
+    rotate: 90deg;
+}
+.absolute {
+    position: absolute;
+}
+.fixed {
+    position: fixed;
+}
+
+html {
+    background-color:var(--bg);
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#root {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    height: 100dvh;
+    overflow-x: hidden;
+}
+#root a,
+#root button {
+    cursor: pointer;
+}
+#root a {
+    text-decoration: none;
+}
+#root a,
+#root a:active,
+#root a:visited,
+#root a:focus {
+    color: inherit;
+}
+#root ul {
+    list-style-type: none;
+}
+
+#root .appView {
+    width: 100%;
+    height: calc(100dvh - 100px);
+    padding: 0 1rem;
+    background-color: var(--basic);
+}
+
+#root .contentWrap {
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0 2rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#root .contentWrap:has(.leaflet-container),
+#root .appView:has(.leaflet-container) {
+    padding: 0 0;
+}
