@@ -4,11 +4,19 @@ import User from "../schemas/User.js";
 // CREATE PIN
 
 export async function createPin(pin) {
-    const newPin = await Pin.create(pin);
+    const creatorDoc = await User.findById(pin.creator);
+    const modifiedPin = {
+        ...pin,
+        creatorInfo: {
+            displayName: creatorDoc.displayName,
+            photo: creatorDoc.photo,
+        }
+    }
+    const newPin = await Pin.create(modifiedPin);
     if (!newPin) {
         throw new Error("Database error when creating pin")
     }
-    const creator = await addPinToCreator(pin);
+    await addPinToCreator(pin);
     return newPin;
 
 }

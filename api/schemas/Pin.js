@@ -13,6 +13,10 @@ const pinSchema = new Schema(
         location: {type: positionSchema, required: true}, 
         title: {type: String, required: true},
         creator: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+        creatorInfo: {
+            displayName: {type: String, required: true},
+            photo: {type: String, required: false}
+        },
 
         // Default values on creation
         timestamp: {type: String, default: new Date().toISOString()},
