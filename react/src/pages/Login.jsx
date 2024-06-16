@@ -1,51 +1,49 @@
 import { useUser } from "../contexts/UserContext"
 import { auth, googleProvider } from "../config/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, setPersistence, browserSessionPersistence } from "firebase/auth";
 import axios from 'axios'
 import dropLogo from '../assets/logo.png';
 import '../styles/login.css'
 
+
 export default function Login() {
     const {login} = useUser();
 
-    const onClick = async ()=>{
+    const onClick = async () => {
         try {
-            // Try sign in with pop up
+            // Set persistence to session
+            await setPersistence(auth, browserSessionPersistence);
+    
+            // Try sign in with popup
             const result = await signInWithPopup(auth, googleProvider);
+    
             if (!result) {
                 throw new Error("No redirect result found");
             }
-            const {user} = result;
-            console.log('Success!', user);
-
-            // Get app profile info for Google user
-            axios.post(`http://localhost:5000/confirm`, {uid: user.uid, email: user.email})
-                .then(res => {
-                    if (res.status == 200) {
-                        // Log in with user profile
-                        login(res.data)
-                    }
-                })
-                .catch(async (err) => {
-                    console.log("Received error from vercel:", err);
-                    const {email, displayName, photoURL, uid} = user;
-                    // Create a new profile for Google user
-                    axios.post(`http://localhost:5000/users`, {uid, email, displayName, photo: photoURL})
-                        .then(res => {
-                            if (res.status === 201) {
-                                // Log in with newly created profile
-                                login(res.data)
-                            }
-                        })
-                        .catch(err => {
-                            console.log("Could not create new user.", err);
-                        })
-                })
-
         } catch (error) {
-            console.log(error);
+            console.log("Error during sign-in process:", error);
+    
+            if (error.response && error.response.status === 404) {
+                const { email, displayName, photoURL, uid } = error.response.data.user;
+                
+                try {
+                    // Create a new profile for Google user
+                    const createResponse = await axios.post(`http://localhost:5000/users`, { uid, email, displayName, photo: photoURL });
+    
+                    if (createResponse.status === 201) {
+                        // Log in with newly created profile
+                        login(createResponse.data);
+                    } else {
+                        console.log("Could not create new user.");
+                    }
+                } catch (createError) {
+                    console.log("Could not create new user.", createError);
+                }
+            } else {
+                console.log("An unexpected error occurred.", error);
+            }
         }
-    }
+    };
 
     return (
         <section id="loginPage" className="flex vertical center gapM">

@@ -1,7 +1,9 @@
 import { createContext, useContext, useState } from "react";
 import PropTypes from 'prop-types'
-import { browserLocalPersistence, setPersistence, signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { useEffect } from "react";
+import axios from 'axios'
 
 const initialUser = {
     username: null,
@@ -15,6 +17,28 @@ export function UserProvider({children}) {
 
     const [profile, setProfile] = useState(initialUser);
 
+    useEffect(()=>{
+        const unsubscribe = onAuthStateChanged(auth, async (user)=> {
+            if (user) {
+                console.log('Success!', user);
+    
+                // Get app profile info for Google user
+                const confirmResponse = await axios.post(`http://localhost:5000/confirm`, { uid: user.uid, email: user.email });
+                
+                if (confirmResponse.status === 200) {
+                    // Log in with user profile
+                    login(confirmResponse.data);
+                } else {
+                    throw new Error("Failed to confirm user.");
+                }
+            } else {
+                console.log("no user signed in");
+            }
+        })
+
+        return () => unsubscribe();
+    }, [auth])
+
     const logout = async()=>{
         await signOut(auth)
         // eslint-disable-next-line no-unused-vars
@@ -24,7 +48,7 @@ export function UserProvider({children}) {
     const login = (account)=>{
         // eslint-disable-next-line no-unused-vars
         setProfile(p => account);
-        setPersistence(auth, browserLocalPersistence)
+        
     }
 
     return (

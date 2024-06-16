@@ -29,7 +29,7 @@ export default function MapController({panTo, children, clearParams}) {
 
     return (
         <>
-            {(panTo || isBrowsing) && <button className='findMeButton' onClick={findMe}><i className="fa-solid fa-crosshairs"></i></button>}
+            {(panTo || isBrowsing) && <button className='findMeButton shadow3d' onClick={findMe}><i className="fa-solid fa-crosshairs"></i></button>}
             {children}
         </>
     )

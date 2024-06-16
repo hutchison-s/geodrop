@@ -39,6 +39,10 @@ export default function Feed() {
     }
     return (
         <div className="dropFeed">
+            <div className="feedWelcome">
+                <h2>Welcome {profile.displayName}!</h2>
+                <p>Explore these new drops near you:</p>
+            </div>
             {pins.length > 0 && sortByDistance(filterFeed(pins)).map(p => <DropPreview key={p._id} drop={p} distance={distanceToDrop(p.location)} following={profile.connections.includes(p.creator)}/>)}
         </div>
     )

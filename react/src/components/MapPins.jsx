@@ -25,8 +25,8 @@ export default function MapPins() {
     
         const distance = R * c; // Distance in kilometers
     
-        // return distance < 0.035; // Check if distance is less than 30.5 meters (about 100 ft)
-        return distance < 5; // expanded for development to 5 km
+        return distance < 0.035; // Check if distance is less than 30.5 meters (about 100 ft)
+        // return distance < 5; // expanded for development to 5 km
     }
 
     return pins.map(p => (isClose(p.location) || profile.viewed.includes(p._id)) ? <NearPin key={p._id} pin={p}/> : <FarPin key={p._id} pin={p} />)

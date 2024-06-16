@@ -48,7 +48,7 @@ export default function ClosePin({ pin }) {
               <p>
                 <em>{pin.creatorInfo.displayName}</em>
               </p>
-              <button onClick={()=>{setViewing(true)}} className="viewButton borderNone shadowS">
+              <button onClick={()=>{setViewing(true)}} className="viewButton borderNone shadow3d">
                 Open
               </button>
               <p className="popupDate">
