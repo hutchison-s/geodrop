@@ -126,7 +126,6 @@ export async function viewPin(pinId, userId) {
     if (!updatedUser) {
         throw new Error('User not found');
     }
-
     const returnPin = await pinLimiter(updatedPin);
     return returnPin;  
 }

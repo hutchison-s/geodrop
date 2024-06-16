@@ -141,6 +141,21 @@ app.delete('/pins/:id', async (req, res) => {
 -----------------------  USERS  -----------------------------
 ---------------------------------------------------------- */
 
+app.post('/users/populate', async (req, res)=>{
+    const {users} = req.body;
+    console.log(users);
+    User.insertMany(users)
+        .then(data => {
+            console.log(data.length+" users added");
+            res.send({success: true})
+        })
+        .catch(err => {
+            console.log(err.message);
+            res.status(500).send({message: err.message})
+        })
+
+})
+
 // Authorize by email
 
 app.post('/confirm', async (req, res) => {
