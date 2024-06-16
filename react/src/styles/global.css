@@ -15,6 +15,25 @@
     scroll-behavior: smooth;
     /* border: 1px solid pink; */
 }
+
+/* Apply font styles */
+body {
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
+  }
+  
+  button, .navbar, .header-title {
+    font-family: 'Lato', sans-serif;
+  }
+  
+  p, .article-text, .description {
+    font-family: 'Source Sans 3', sans-serif;
+  }
+
+  
 .flex {
     display: flex;
 }
@@ -26,6 +45,10 @@
 }
 .flex.center {
     justify-content: center;
+    align-items: center;
+}
+.flex.spread {
+    justify-content: space-between;
     align-items: center;
 }
 .grid {

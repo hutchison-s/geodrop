@@ -22,3 +22,47 @@
     opacity: 0.3;
     translate: 0 -5px;
 }
+
+.leaflet-popup-content-wrapper {
+    border-left: 4px solid var(--blue);
+}
+
+.leaflet-popup-content > .popupFrame {
+    width: fit-content;
+    min-width: 200px;
+    max-width: 350px;
+}
+
+.leaflet-popup-content > .popupFrame .popupLeft p {
+    color: var(--bg);
+}
+.leaflet-popup-content > .popupFrame .popupRight {
+    min-width: 30px;
+}
+.leaflet-popup-content > .popupFrame .popupRight * {
+    color: var(--blue);
+}
+
+.leaflet-popup-content > .popupFrame p {
+    margin: 0.1rem;
+}
+
+.leaflet-popup-content > .popupFrame .popupTitle {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.leaflet-marker-icon[src='/src/assets/drop-far.png'] {
+    filter: blur(2px);
+}
+.popupCreatorImage {
+    border: 1px solid var(--bg);
+}
+.viewButton {
+    background-color: var(--blue);
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    padding: 0.5rem 2.5rem;
+    color: var(--fg);
+
+}

@@ -1,0 +1,58 @@
+.dropViewer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    border: none;
+    border-radius: 0.5rem;
+    background: var(--blue80);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    overflow: hidden;
+    animation: popup 0.3s cubic-bezier(.51,.79,.69,1.22) both;
+}
+
+@keyframes popup {
+    from {scale: 0}
+    to {scale: 1}
+}
+
+.dropViewer .dropWrapper {
+    width: 90%;
+    padding: 2rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--fg);
+    color: var(--bg);
+    line-height: 1.5;
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+}
+.dropViewer .dropWrapper p {
+    font-size: 1.1rem;
+}
+.dropViewer .dropWrapper > p {
+    font-size: 1.4rem;
+}
+.dropViewer .dropWrapper i {
+    font-size: 1.4rem;
+    color: var(--blue)
+}
+.dropViewer .dropWrapper .dropCreator {
+    text-align: left;
+}
+.dropViewer .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    color: var(--fg);
+    background: transparent;
+    border: unset;
+}
