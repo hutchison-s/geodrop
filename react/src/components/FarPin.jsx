@@ -1,12 +1,14 @@
 import { Marker } from "react-leaflet";
-import { Popup } from "react-leaflet";
+import { Popup, useMap } from "react-leaflet";
 import { pinIcons } from "../assets/pinIcons";
 import { DropProp } from "../assets/customProps";
 
 export default function FarPin({ pin }) {
+  const map = useMap();
+
   return (
-    <Marker icon={pinIcons.farDrop} position={pin.location}>
-      <Popup>
+    <Marker icon={pinIcons.farDrop} position={pin.location} >
+      <Popup eventHandlers={{add: ()=>{map.flyTo(pin.location)}}}>
         <div className="popupFrame flex spread">
           <div className="popupLeft flex vertical">
             <p className="popupTitle">

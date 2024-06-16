@@ -168,3 +168,7 @@ body {
 #root .appView:has(.leaflet-container) {
     padding: 0 0;
 }
+
+#root .appView:has(.dropFeed) {
+    background-color: var(--bg);
+}

@@ -1,5 +1,5 @@
 import { Marker } from "react-leaflet";
-import { Popup } from "react-leaflet";
+import { Popup, useMap } from "react-leaflet";
 import { pinIcons } from "../assets/pinIcons";
 import { useUser } from "../contexts/UserContext";
 import { DropProp } from "../assets/customProps";
@@ -9,10 +9,11 @@ import DropViewer from '../components/DropViewer'
 
 export default function ClosePin({ pin }) {
   const { profile } = useUser();
-
+  const map = useMap();
   const [viewing, setViewing] = useState(false)
 
   const handleView = ()=>{
+    map.flyTo(pin.location, 16)
     if (!pin.viewedBy.includes(profile._id)) {
         axios.post(`http://localhost:5000/pins/${pin._id}/view/${profile._id}`)
             .catch(err => console.log(err.message))

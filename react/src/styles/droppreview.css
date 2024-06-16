@@ -1,0 +1,74 @@
+.dropPreviewFrame {
+  background-color: var(--fg);
+  border: 2px solid #ffffff88;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+.dropPreviewFrame.following {
+    border: 4px solid var(--blue);
+}
+.dropPreviewFrame p,
+.dropPreviewFrame h3 {
+    color: var(--bg);
+}
+
+.dropPreviewFrame.darkMode p,
+.dropPreviewFrame.darkMode h3 {
+    color: var(--fg);
+}
+
+.dropPreviewFrame.darkMode {
+  background-color: var(--bg);
+}
+
+.dropPreviewHeader {
+    font-size: 1.5rem;
+    color: var(--fg);
+}
+.dropPreviewFrame img {
+    border: 1px solid var(--bg);
+}
+.dropPreviewFrame.darkMode img {
+    border-color: var(--fg);
+}
+.dropPreviewFrame.following img {
+    border-color: var(--blue);
+}
+
+.dropTypeIcon {
+  background-color: var(--blue80);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: var(--bg);
+  border: 1px solid var(--bg);
+}
+.darkMode .dropTypeIcon {
+    background-color: #ffffffcc;
+    border-color: var(--fg);
+}
+
+.dropPreviewFrame p.dropDistance {
+  color: var(--blue);
+  margin: 0.5rem 0;
+}
+.dropPreviewTimestamp {
+    font-size: 0.8rem;
+}
+.dropPreviewFrame.following .dropPreviewCreator {
+    background-color: var(--blue);
+    padding: 0rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--fg);
+    text-shadow: 0 0 10px var(--bg);
+}
+.dropPreviewFrame .viewOnMapButton {
+    background-color: transparent;
+    border: 1px solid var(--blue);
+    color: var(--blue) !important;
+    border-radius: 0.5rem;
+    padding: 0 1rem;
+}
+
