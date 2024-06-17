@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types'
 import axios from "axios";
+import { apiBaseURL } from "../apiSwitch";
 
 export const DropContext = createContext([]);
 
@@ -8,7 +9,7 @@ export function DropContextProvider({children}) {
     const [drops, setDrops] = useState([]);
 
     const getDrops = ()=>{
-        axios.get('${apiBaseURL}/drops')
+        axios.get(`${apiBaseURL}/drops`)
             .then(res => {
                 if (res.status === 200) {
                     console.log(`obtaining ${res.data.length} drops`);
