@@ -70,6 +70,20 @@ export function UserProvider({ children }) {
     return () => unsubscribe();
   }, [auth]);
 
+  // Ping Render server every minute to keep it from spinning down. Clear on unmount
+  useEffect(()=>{
+
+    const pinger = setInterval( ()=>{
+        axios.get('http://localhost:8000/ping')
+          .then(res => console.log(res.data))
+          .catch(err => console.log(err.message))
+    }, 60000)
+
+    return ()=>{
+      clearInterval(pinger)
+    }
+  })
+
   const logout = async () => {
     await signOut(auth);
     // eslint-disable-next-line no-unused-vars
