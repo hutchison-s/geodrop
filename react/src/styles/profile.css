@@ -1,3 +1,65 @@
 #profileFrame {
-    padding: 2rem;
+    padding: 1rem;
+}
+#profileFrame .profileName,
+#profileFrame .profileTimestamp,
+#profileFrame .profileStats span,
+#profileFrame .profileFeedTitle,
+#profileFrame .followButton,
+#profileFrame .profileEdit,
+#profileFrame .followingFrame * {
+    color: var(--fg);
+}
+#profileFrame h2 {
+    font-size: 2.25rem;
+    padding: 0.5rem;
+}
+#profileFrame > img {
+    margin: 1rem auto;
+}
+
+.followButton {
+    display: block;
+    padding: 0.5rem 2rem;
+    width: fit-content;
+    margin: auto;
+    border-radius: 0.5rem;
+    background-color: var(--blue);
+    border: none;
+    text-shadow: 0 0 8px #00000055;
+}
+
+.profileStats > div {
+    align-items: center;
+    justify-content: space-evenly;
+}
+.profileStats > div > div {
+    flex: 1;
+    text-align: center;
+}
+.profileStats i {
+    font-size: 2.25rem;
+    color: var(--blue);
+}
+.profileStats span {
+    font-size: 1.8rem;
+}
+
+.profileScroller {
+    overflow: hidden;
+    height: 3rem;
+    color: var(--fg);
+    position: relative;
+}
+.profileScroller .scroller {
+    height: 40px;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    width: fit-content;
+    position: absolute;
+    left: 50%;
+    top: 0.5rem;
+    translate: -50%;
+    max-width: 100%;
 }

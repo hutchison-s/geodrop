@@ -2,28 +2,28 @@
 
 ## Overview
 
-This API allows for managing users and pins, including creating, updating, deleting, and viewing pins, as well as connecting and disconnecting users.
+This API allows for managing users and drops, including creating, updating, deleting, and viewing drops, as well as connecting and disconnecting users.
 
 ## Endpoints
 
-### Pins
+### Drops
 
-#### Get All Pins
-- **URL:** `/pins`
+#### Get All Drops
+- **URL:** `/drops`
 - **Method:** `GET`
-- **Description:** Retrieve all pins.
-- **Response:** Array of pin objects.
+- **Description:** Retrieve all drops.
+- **Response:** Array of drop objects.
 
-#### Get One Pin
-- **URL:** `/pins/:id`
+#### Get One Drop
+- **URL:** `/drops/:id`
 - **Method:** `GET`
-- **Description:** Retrieve a specific pin by ID.
-- **Response:** Pin object.
+- **Description:** Retrieve a specific drop by ID.
+- **Response:** Drop object.
 
-#### Create New Pin
-- **URL:** `/pins`
+#### Create New Drop
+- **URL:** `/drops`
 - **Method:** `POST`
-- **Description:** Create a new pin and add it to the creator's pin array.
+- **Description:** Create a new drop and add it to the creator's drop array.
 - **Request Body:**
   - `type` (string, required)
   - `data` (string, required)
@@ -34,31 +34,31 @@ This API allows for managing users and pins, including creating, updating, delet
   - `viewLimit` (number, optional)
   - `tags` (array of strings, optional)
   - `description` (string, optional)
-- **Response:** Created pin object.
+- **Response:** Created drop object.
 
-#### Delete Pin
-- **URL:** `/pins/:id`
+#### Delete Drop
+- **URL:** `/drops/:id`
 - **Method:** `DELETE`
-- **Description:** Delete a specific pin by ID.
-- **Response:** Deleted pin object.
+- **Description:** Delete a specific drop by ID.
+- **Response:** Deleted drop object.
 
-#### Like Pin
-- **URL:** `/pins/:id/like/:user`
+#### Like Drop
+- **URL:** `/drops/:id/like/:user`
 - **Method:** `POST`
-- **Description:** Add a user to the pin's likedBy array and add the pin to the user's liked array.
-- **Response:** Updated pin object.
+- **Description:** Add a user to the drop's likedBy array and add the drop to the user's liked array.
+- **Response:** Updated drop object.
 
-#### Unlike Pin
-- **URL:** `/pins/:id/like/:user`
+#### Unlike Drop
+- **URL:** `/drops/:id/like/:user`
 - **Method:** `DELETE`
-- **Description:** Remove a user from the pin's likedBy array and remove the pin from the user's liked array.
-- **Response:** Updated pin object.
+- **Description:** Remove a user from the drop's likedBy array and remove the drop from the user's liked array.
+- **Response:** Updated drop object.
 
-#### View Pin
-- **URL:** `/pins/:id/view/:user`
+#### View Drop
+- **URL:** `/drops/:id/view/:user`
 - **Method:** `POST`
-- **Description:** Add a user to the pin's viewedBy array and add the pin to the user's viewed array.
-- **Response:** Updated pin object.
+- **Description:** Add a user to the drop's viewedBy array and add the drop to the user's viewed array.
+- **Response:** Updated drop object.
 
 ### Users
 

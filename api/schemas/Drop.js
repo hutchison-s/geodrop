@@ -5,15 +5,15 @@ const positionSchema = new Schema({
     lng: {type: Number, required: true}
 })
 
-const pinSchema = new Schema(
+const dropSchema = new Schema(
     {
         // Required
         type: {type: String, enum: ['audio', 'video', 'image', 'text'], required: true},
         data: {type: String, required: true},
         location: {type: positionSchema, required: true}, 
         title: {type: String, required: true},
-        creator: {type: Schema.Types.ObjectId, ref: 'User', required: true},
         creatorInfo: {
+            _id: {type: Schema.Types.ObjectId, ref: 'User', required: true},
             displayName: {type: String, required: true},
             photo: {type: String, required: false}
         },
@@ -31,6 +31,6 @@ const pinSchema = new Schema(
     }
 )
 
-const Pin = model('Pin', pinSchema, 'pins')
+const Drop = model('Drop', dropSchema, 'drops')
 
-export default Pin
+export default Drop

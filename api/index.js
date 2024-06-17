@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 import { connect } from 'mongoose';
-import Pin from './schemas/Pin.js';
+import Drop from './schemas/Drop.js';
 import User from './schemas/User.js';
-import { createPin, deletePin, likePin, unlikePin, viewPin } from './dbFuncs/PinFuncs.mjs';
-import { createUser, updateUser, removeConnection, deleteUser, connectUsers } from './dbFuncs/UserFuncs.mjs';
+import { createDrop, deleteDrop, likeDrop, unlikeDrop, viewDrop } from './dbFuncs/DropFuncs.mjs';
+import { createUser, updateUser, deleteUser, followUser, unfollowUser } from './dbFuncs/UserFuncs.mjs';
 
 
 // Initialization
@@ -60,13 +60,13 @@ function sendUpdate(update) {
 
 /*
 
-GET /pins                       get all pins
-POST /pins                      create pin / add pin to user.pins
-GET /pins/:id                   get one pin
-DELETE /pins/:id                delete one pin
-POST /pins/:id/like/:user       add user to pin.likedBy / add pin to user.liked
-DELETE /pins/:id/like/:user     remove user from pin.likedBy / remove pin from user.liked
-POST /pins/:id/view/:user       add user to pin.viewedBy / add pin to user.viewed
+GET /drops                       get all drops
+POST /drops                      create drop / add drop to user.drops
+GET /drops/:id                   get one drop
+DELETE /drops/:id                delete one drop
+POST /drops/:id/like/:user       add user to drop.likedBy / add drop to user.liked
+DELETE /drops/:id/like/:user     remove user from drop.likedBy / remove drop from user.liked
+POST /drops/:id/view/:user       add user to drop.viewedBy / add drop to user.viewed
 
 POST /confirm                   confirm user exists, if not create one
 GET /users                      get all users
@@ -84,54 +84,54 @@ PUT /users/:id/disconnect/:user remove user ids from each other's connection arr
 -----------------------  PINS  ------------------------------
 ---------------------------------------------------------- */
 
-// Get All Pins
-app.get('/pins', async (req, res) => {
+// Get All Drops
+app.get('/drops', async (req, res) => {
     try {
-        const pins = await Pin.find();
-        return res.send(pins);
+        const drops = await Drop.find();
+        return res.send(drops);
     } catch (err) {
         return res.status(500).send({error: err.message})
     }
 })
 
-// Get One Pin
-app.get('/pins/:id', async (req, res) => {
+// Get One Drop
+app.get('/drops/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const pin = await Pin.findById(id);
-        if (!pin) {
-            return res.status(404).send({error: "Pin not found"})
+        const drop = await Drop.findById(id);
+        if (!drop) {
+            return res.status(404).send({error: "Drop not found"})
         }
-        return res.send(pin);
+        return res.send(drop);
     } catch (err) {
         return res.status(500).send({error: err.message})
     }
 })
 
-// Create New Pin and add to creator's pin array
-app.post('/pins', async (req, res) => {
+// Create New Drop and add to creator's drop array
+app.post('/drops', async (req, res) => {
     const {type, data, creator, title, location, viewLimit, tags, description} = req.body;
 
     if (!location || !title || !creator || !data || !type) {
         return res.status(400).send({error: `Required values missing. Received ${location, title, creator, data, type}`})
     }
-    const pinObject = {type, data, creator, title, location, viewLimit, tags, description}
+    const dropObject = {type, data, creator, title, location, viewLimit, tags, description}
     try {
-        const newPin = await createPin(pinObject)
-        sendUpdate({type: 'newPin', data: newPin})
-        return res.status(201).send(newPin)
+        const newDrop = await createDrop(dropObject)
+        sendUpdate({type: 'newDrop', data: newDrop})
+        return res.status(201).send(newDrop)
     } catch (err) {
         return res.status(500).send({ error: err.message });
     }
 })
 
-// Delete Pin
-app.delete('/pins/:id', async (req, res) => {
+// Delete Drop
+app.delete('/drops/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedPin = await deletePin(id)
-        sendUpdate({type: 'deletePin', data: deletedPin})
-        return res.send(deletedPin);
+        const deletedDrop = await deleteDrop(id)
+        sendUpdate({type: 'deleteDrop', data: deletedDrop})
+        return res.send(deletedDrop);
     } catch (err) {
       return res.status(500).send({ error: err.message });
     }
@@ -250,37 +250,37 @@ app.patch('/users/:id', async (req, res) => {
 -----------------------  PIN ACTIONS  -----------------------
 ---------------------------------------------------------- */
 
-// Like pin
-app.post('/pins/:id/like/:user', async (req, res) => {
+// Like drop
+app.post('/drops/:id/like/:user', async (req, res) => {
     const { id, user } = req.params;
     try {
-        const updatedPin = await likePin(id, user)
-        sendUpdate({type: 'updatePin', data: updatedPin})
-        return res.send(updatedPin);
+        const updatedDrop = await likeDrop(id, user)
+        sendUpdate({type: 'updateDrop', data: updatedDrop})
+        return res.send(updatedDrop);
     } catch (err) {
         return res.status(500).send({error: err.message})
     }
 })
 
-// Unlike pin
-app.delete('/pins/:id/like/:user', async (req, res) => {
+// Unlike drop
+app.delete('/drops/:id/like/:user', async (req, res) => {
     const { id, user } = req.params;
     try {
-        const updatedPin = await unlikePin(id, user)
-        sendUpdate({type: 'updatePin', data: updatedPin})
-        return res.send(updatedPin);
+        const updatedDrop = await unlikeDrop(id, user)
+        sendUpdate({type: 'updateDrop', data: updatedDrop})
+        return res.send(updatedDrop);
     } catch (err) {
         return res.status(500).send({error: err.message})
     }
 })
 
-// View pin
-app.post('/pins/:id/view/:user', async (req, res) => {
+// View drop
+app.post('/drops/:id/view/:user', async (req, res) => {
     const { id, user } = req.params
     try {
-        const updatedPin = await viewPin(id, user);
-        sendUpdate({type: 'updatePin', data: updatedPin})
-        return res.send(updatedPin);
+        const updatedDrop = await viewDrop(id, user);
+        sendUpdate({type: 'updateDrop', data: updatedDrop})
+        return res.send(updatedDrop);
     } catch (err) {
         return res.status(500).send({error: err.message})
     }
@@ -291,10 +291,10 @@ app.post('/pins/:id/view/:user', async (req, res) => {
 ---------------------------------------------------------- */
 
 // Connect users
-app.post('/users/:id/connect/:user', async (req, res) => {
+app.post('/users/:id/follow/:user', async (req, res) => {
     const { id, user } = req.params
     try {
-        const updatedUser = await connectUsers(id, user);
+        const updatedUser = await followUser(id, user);
         sendUpdate({type: 'updateUser', data: updatedUser});
         return res.send(updatedUser);
     } catch (err) {
@@ -304,10 +304,10 @@ app.post('/users/:id/connect/:user', async (req, res) => {
 
 // Remove user connection
 
-app.put('/users/:id/disconnect/:user', async (req, res) => {
+app.delete('/users/:id/follow/:user', async (req, res) => {
     const { id, user } = req.params
     try {
-        const updatedUser = await removeConnection(id, user)
+        const updatedUser = await unfollowUser(id, user)
         sendUpdate({type: 'updateUser', data: updatedUser});
         return res.send(updatedUser);
     } catch (err) {

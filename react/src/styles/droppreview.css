@@ -22,8 +22,11 @@
 }
 
 .dropPreviewHeader {
-    font-size: 1.5rem;
+    font-size: 1.2em;
     color: var(--fg);
+}
+.dropPreviewHeader h3 {
+    font-weight: 300;
 }
 .dropPreviewFrame img {
     border: 1px solid var(--bg);
@@ -62,13 +65,13 @@
     padding: 0rem 1rem;
     border-radius: 0.5rem;
     color: var(--fg);
-    text-shadow: 0 0 10px var(--bg);
+    text-shadow: 0 0 8px #00000055;
 }
 .dropPreviewFrame .viewOnMapButton {
     background-color: transparent;
     border: 1px solid var(--blue);
     color: var(--blue) !important;
     border-radius: 0.5rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 

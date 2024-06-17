@@ -7,11 +7,13 @@ const userSchema = new Schema(
         displayName: {type: String, required: true},
         photo: {type: String, required: false}, // Link to photo
         bio: {type: String, required: false},
-        pins: {type: [Schema.Types.ObjectId], default: new Array()},
-        liked: {type: [Schema.Types.ObjectId], default: new Array()},
-        viewed: {type: [Schema.Types.ObjectId], default: new Array()},
-        connections: {type: [Schema.Types.ObjectId], default: new Array()},
-        lastLogin: {type: String, default: new Date().toISOString()}
+        drops: {type: [{type: Schema.Types.ObjectId, ref: 'Drop'}], default: new Array()},
+        liked: {type: [{type: Schema.Types.ObjectId, ref: 'Drop'}], default: new Array()},
+        viewed: {type: [{type: Schema.Types.ObjectId, ref: 'Drop'}], default: new Array()},
+        following: {type: [{type: Schema.Types.ObjectId, ref: 'User'}], default: new Array()},
+        followers: {type: [{type: Schema.Types.ObjectId, ref: 'User'}], default: new Array()},
+        lastLogin: {type: String, default: new Date().toISOString()},
+        accountCreated: {type: String, default: new Date().toISOString()}
     }
 )
 

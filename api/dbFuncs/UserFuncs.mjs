@@ -1,6 +1,6 @@
-import Pin from "../schemas/Pin.js";
+import Drop from "../schemas/Drop.js";
 import User from "../schemas/User.js";
-import { deletePin } from "./PinFuncs.mjs";
+import { deleteDrop } from "./DropFuncs.mjs";
 
 // CREATE
 
@@ -25,22 +25,27 @@ export async function deleteUser(id) {
   }
   
   async function cascadeUserDelete(user) {
-    const { pins, connections } = user;
+    const { drops, followers, following } = user;
     const id = user._id;
     const promises = [];
   
-    // Remove user id from 'likedBy' in all pins user liked
-    promises.push(Pin.updateMany({ likedBy: id }, { $pull: { likedBy: id } }));
-    // Remove user id from 'viewedby' in all pins user viewed
-    promises.push(Pin.updateMany({ viewedBy: id }, { $pull: { viewedBy: id } }));
-    // Delete each pin user created and its references in other users liked and viewed lists
-    pins.forEach((pin) => {
-      promises.push(deletePin(pin));
+    // Remove user id from 'likedBy' in all drops user liked
+    promises.push(Drop.updateMany({ likedBy: id }, { $pull: { likedBy: id } }));
+    // Remove user id from 'viewedby' in all drops user viewed
+    promises.push(Drop.updateMany({ viewedBy: id }, { $pull: { viewedBy: id } }));
+    // Delete each drop user created and its references in other users liked and viewed lists
+    drops.forEach((drop) => {
+      promises.push(deleteDrop(drop));
     });
-    // Remove all connections between user and other users
-    connections.forEach((conn) => {
-      promises.push(removeConnection(conn, id));
+    // Unfollow all users
+    following.forEach((user) => {
+      promises.push(unfollowUser(user, id));
     });
+    // Remove user from all other following lists
+    followers.forEach((user)=>{
+      promises.push(unfollowUser(id, user))
+    })
+
     // Await resolution of all promises
     const results = await Promise.all(promises);
   
@@ -62,10 +67,10 @@ export async function updateUser(id, updateObject) {
 
 // CONNECTIONS
 
-export async function connectUsers(other, user) {
+export async function followUser(other, user) {
   const user1 = await User.findByIdAndUpdate(
     other,
-    { $push: { connections: user } },
+    { $push: { followers: user } },
     { new: true }
   );
   if (!user1) {
@@ -73,7 +78,7 @@ export async function connectUsers(other, user) {
   }
   const user2 = await User.findByIdAndUpdate(
     user,
-    { $push: { connections: other } },
+    { $push: { following: other } },
     { new: true }
   );
 
@@ -84,10 +89,10 @@ export async function connectUsers(other, user) {
   return user2;
 }
 
-export async function removeConnection(other, user) {
+export async function unfollowUser(other, user) {
   const user1 = await User.findByIdAndUpdate(
     other,
-    { $pull: { connections: user } },
+    { $pull: { followers: user } },
     { new: true }
   );
   if (!user1) {
@@ -95,7 +100,7 @@ export async function removeConnection(other, user) {
   }
   const user2 = await User.findByIdAndUpdate(
     user,
-    { $pull: { connections: other } },
+    { $pull: { following: other } },
     { new: true }
   );
 

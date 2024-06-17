@@ -2,14 +2,12 @@ import { DropProp } from "../assets/customProps";
 import {Link} from 'react-router-dom';
 import { useMode } from "../contexts/LightContext";
 import axios from 'axios'
-import dropIcon from '../assets/drop.png'
 import "../styles/droppreview.css";
 import { useEffect } from "react";
 import { useState } from "react";
 
 export default function LikedDrop({ drop }) {
   const { mode } = useMode();
-  const [creator, setCreator] = useState({displayName: 'Loading...', photo: dropIcon})
   const [cityName, setCityName] = useState('Somewhere...')
 
   const typeIcon = () => {
@@ -43,17 +41,7 @@ export default function LikedDrop({ drop }) {
 }
 
   useEffect(()=>{
-    const getCreatorInfo = () => {
-        axios.get(`http://localhost:5000/users/${drop.creator}`)
-            .then(res => {
-                if (res.status === 200) {
-                    const {displayName, photo} = res.data;
-                    setCreator({displayName, photo})
-                }
-            })
-            .catch(err => console.log(err))
-        
-      }
+
       const locationToCity = () => {
         axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${drop.location.lat}&lon=${drop.location.lng}`)
             .then(res => {
@@ -66,8 +54,6 @@ export default function LikedDrop({ drop }) {
                 console.error('Error:', error);
             });
       };
-
-    getCreatorInfo();
     locationToCity();
   }, [])
 
@@ -82,8 +68,8 @@ export default function LikedDrop({ drop }) {
             <i className={`fa-solid fa-${typeIcon()}`}></i>
           </div>
           <img
-            src={creator.photo}
-            alt={creator.displayName}
+            src={drop.creatorInfo.photo}
+            alt={drop.creatorInfo.displayName}
             width="36px"
             className="circle"
           />
@@ -98,7 +84,7 @@ export default function LikedDrop({ drop }) {
       </div>
       <div className="dropPreviewFooter flex spread w100">
         <p className="dropPreviewCreator">
-          <small>{creator.displayName}</small>
+          <small>{drop.creatorInfo.displayName}</small>
         </p>
         <p className="dropPreviewTimestamp">
           <small>

@@ -12,7 +12,7 @@ import NewPost from "./pages/NewPost";
 import GeoLocationProvider from "./contexts/GeoLocationContext";
 import AwaitLocation from "./router/AwaitLocation";
 import { LightContextProvider } from "./contexts/LightContext";
-import { PinContextProvider } from "./contexts/PinContext";
+import { DropContextProvider } from "./contexts/DropContext";
 
 function App() {
     
@@ -21,7 +21,7 @@ function App() {
       <UserProvider>                
           <LightContextProvider>
               <GeoLocationProvider>
-                  <PinContextProvider>
+                  <DropContextProvider>
                       <Protected>
                           <Routes>
                               <Route path="/" element={<Layout/>}>
@@ -34,7 +34,7 @@ function App() {
                                   <Route path="drop" element={<NewPost />}/>
                                   <Route path="profile">
                                       <Route index element={<NotFound />}/>
-                                      <Route path="me" element={<Profile />}/>
+                                      <Route path="me" element={<Profile isMine/>}/>
                                       <Route path=":id" element={<Profile />}/>
                                   </Route>
                                   <Route path="favorites" element={<Favorites />}/>
@@ -42,7 +42,7 @@ function App() {
                               </Route>
                           </Routes>
                       </Protected>
-                  </PinContextProvider>
+                  </DropContextProvider>
               </GeoLocationProvider>
           </LightContextProvider>        
       </UserProvider>

@@ -17,12 +17,12 @@ const youIconDarkMode = new Icon({
     iconSize: [25, 25]
 });
 
-const pinIcon = new Icon({
+const nearDropIcon = new Icon({
     iconUrl: dropIcon,
     iconSize: [40,40]
 })
 
-const farPinIcon = new Icon({
+const farDropIcon = new Icon({
     iconUrl: dropFarIcon,
     iconSize: [40,40]
 })
@@ -42,11 +42,11 @@ const rippleIcon = new Icon({
     iconSize: [80,80]
 })
 
-export const pinIcons = {
+export const icons = {
     youLight: youIconLightMode,
     youDark: youIconDarkMode,
-    drop: pinIcon,
-    farDrop: farPinIcon,
+    drop: nearDropIcon,
+    farDrop: farDropIcon,
     multidrop: groupIcon,
     farMultidrop: farGroupIcon,
     ripple: rippleIcon

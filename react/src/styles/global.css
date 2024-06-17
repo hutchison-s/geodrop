@@ -32,8 +32,21 @@ body {
   p, .article-text, .description {
     font-family: 'Source Sans 3', sans-serif;
   }
-
-  
+.colorFG {
+    color: var(--fg);
+}
+.colorBG {
+    color: var(--bg);
+}
+.textCenter {
+    text-align: center;
+}
+.textRight {
+    text-align: right;
+}
+.textLarge {
+    font-size: 2rem;
+}
 .flex {
     display: flex;
 }
@@ -50,6 +63,9 @@ body {
 .flex.spread {
     justify-content: space-between;
     align-items: center;
+}
+.flex1 {
+    flex: 1;
 }
 .grid {
     display: grid;
@@ -161,7 +177,7 @@ body {
     width: 100%;
     height: calc(100dvh - 100px);
     padding: 0 1rem;
-    background-color: var(--basic);
+    background-color: var(--bg);
 }
 
 #root .contentWrap {
@@ -175,8 +191,4 @@ body {
 #root .contentWrap:has(.leaflet-container),
 #root .appView:has(.leaflet-container) {
     padding: 0 0;
-}
-
-#root .appView:has(.dropFeed) {
-    background-color: var(--bg);
 }

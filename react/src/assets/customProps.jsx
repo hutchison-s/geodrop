@@ -8,8 +8,8 @@ export const DropProp = shape({
         lng: number
     }).isRequired, 
     title: string.isRequired,
-    creator: string.isRequired,
     creatorInfo: shape({
+        _id: string.isRequired,
         displayName: string.isRequired,
         photo: string.isRequired
     }).isRequired,

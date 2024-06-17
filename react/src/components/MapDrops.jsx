@@ -1,23 +1,23 @@
 import { useGeoLoc } from "../contexts/GeoLocationContext"
-import { usePins } from "../contexts/PinContext";
+import { useDrops } from "../contexts/DropContext";
 import { useUser } from "../contexts/UserContext";
-import NearPin from "./NearPin";
-import FarPin from "./FarPin";
+import NearDrop from "./NearDrop";
+import FarDrop from "./FarDrop";
 
-export default function MapPins() {
+export default function MapDrops() {
     const {position} = useGeoLoc();
     const {profile} = useUser();
-    const {pins} = usePins();
+    const {drops} = useDrops();
 
     // from GPT
-    const isClose = (pinLoc) => {
+    const isClose = (dropLoc) => {
         const toRadians = (degree) => degree * (Math.PI / 180);
     
         const R = 6371; // Radius of the Earth in kilometers
-        const dLat = toRadians(pinLoc.lat - position.lat);
-        const dLng = toRadians(pinLoc.lng - position.lng);
+        const dLat = toRadians(dropLoc.lat - position.lat);
+        const dLng = toRadians(dropLoc.lng - position.lng);
         const lat1 = toRadians(position.lat);
-        const lat2 = toRadians(pinLoc.lat);
+        const lat2 = toRadians(dropLoc.lat);
     
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                   Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
@@ -29,5 +29,5 @@ export default function MapPins() {
         // return distance < 5; // expanded for development to 5 km
     }
 
-    return pins.map(p => (isClose(p.location) || profile.viewed.includes(p._id)) ? <NearPin key={p._id} pin={p}/> : <FarPin key={p._id} pin={p} />)
+    return drops.map(drop => (isClose(drop.location) || drop.viewedBy.includes(profile._id)) ? <NearDrop key={drop._id} drop={drop}/> : <FarDrop key={drop._id} drop={drop} />)
 }

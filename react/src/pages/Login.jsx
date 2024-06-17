@@ -1,13 +1,13 @@
-import { useUser } from "../contexts/UserContext"
+// import { useUser } from "../contexts/UserContext"
 import { auth, googleProvider } from "../config/firebase";
 import { signInWithPopup, setPersistence, browserSessionPersistence } from "firebase/auth";
-import axios from 'axios'
+// import axios from 'axios'
 import dropLogo from '../assets/logo.png';
 import '../styles/login.css'
 
 
 export default function Login() {
-    const {login} = useUser();
+    // const {login} = useUser();
 
     const onClick = async () => {
         try {
@@ -22,26 +22,7 @@ export default function Login() {
             }
         } catch (error) {
             console.log("Error during sign-in process:", error);
-    
-            if (error.response && error.response.status === 404) {
-                const { email, displayName, photoURL, uid } = error.response.data.user;
-                
-                try {
-                    // Create a new profile for Google user
-                    const createResponse = await axios.post(`http://localhost:5000/users`, { uid, email, displayName, photo: photoURL });
-    
-                    if (createResponse.status === 201) {
-                        // Log in with newly created profile
-                        login(createResponse.data);
-                    } else {
-                        console.log("Could not create new user.");
-                    }
-                } catch (createError) {
-                    console.log("Could not create new user.", createError);
-                }
-            } else {
-                console.log("An unexpected error occurred.", error);
-            }
+
         }
     };
 

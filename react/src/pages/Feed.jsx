@@ -1,11 +1,11 @@
-import DropPreview from "../components/DropPreview";
+import DropFeed from "../components/DropFeed";
 import { useGeoLoc } from "../contexts/GeoLocationContext";
-import { usePins } from "../contexts/PinContext"
+import { useDrops } from "../contexts/DropContext"
 import { useUser } from "../contexts/UserContext";
 import '../styles/feed.css'
 
 export default function Feed() {
-    const {pins} = usePins();
+    const {drops} = useDrops();
     const {profile} = useUser(); 
     const {position} = useGeoLoc();
 
@@ -29,8 +29,12 @@ export default function Feed() {
     }
 
     // Filter for drops by connections and drops within 5 miles
-    const filterFeed = (dropList) => {
-        return dropList.filter(drop => distanceToDrop(drop.location) < 26000 || profile.connections.includes(drop.creator))
+    const filterProximity = (dropList) => {
+        return dropList.filter(drop => (distanceToDrop(drop.location) < 26000) && !drop.viewedBy.includes(profile._id))
+    }
+
+    const filterFollowing = (dropList) => {
+        return dropList.filter(drop => (distanceToDrop(drop.location) >= 26000 && profile.following.includes(drop.creatorInfo._id)))
     }
 
     // Sort the filtered list from nearest to farthest
@@ -38,12 +42,17 @@ export default function Feed() {
         return dropList.sort((a,b)=>distanceToDrop(a.location) - distanceToDrop(b.location))
     }
     return (
-        <div className="dropFeed">
-            <div className="feedWelcome">
-                <h2>Welcome {profile.displayName}!</h2>
-                <p>Explore these new drops near you:</p>
-            </div>
-            {pins.length > 0 && sortByDistance(filterFeed(pins)).map(p => <DropPreview key={p._id} drop={p} distance={distanceToDrop(p.location)} following={profile.connections.includes(p.creator)}/>)}
-        </div>
+        <>
+            
+            <DropFeed drops={sortByDistance(filterProximity(drops))}>
+                <div className="feedWelcome">
+                    <h2>Welcome {profile.displayName}!</h2>
+                    <p>Explore these new drops near you:</p>
+                </div>
+            </DropFeed>
+            <DropFeed drops={sortByDistance(filterFollowing(drops))}>
+                <p className="textCenter w100 padM colorFG">More distant drops by people you follow:</p>
+            </DropFeed>
+            </>
     )
 }

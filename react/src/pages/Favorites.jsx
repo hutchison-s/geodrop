@@ -1,9 +1,9 @@
 import LikedDrop from "../components/LikedDrop";
-import { usePins } from "../contexts/PinContext"
+import { useDrops } from "../contexts/DropContext"
 import { useUser } from "../contexts/UserContext";
 
 export default function Favorites() {
-    const {pins} = usePins();
+    const {drops} = useDrops();
     const {profile} = useUser();
 
     return (
@@ -12,7 +12,7 @@ export default function Favorites() {
                 <div className="feedWelcome">
                     <h2>Your Favorite Things</h2>
                 </div>
-                {pins.filter(p => p.likedBy.includes(profile._id)).sort((a,b)=>a.timestamp - b.timestamp).map(drop => <LikedDrop key={drop._id} drop={drop}/>)}
+                {drops.filter(d => d.likedBy.includes(profile._id)).sort((a,b)=>a.timestamp - b.timestamp).map(drop => <LikedDrop key={drop._id} drop={drop}/>)}
             </div>
         </>
     )

@@ -1,40 +1,36 @@
 import { Marker } from "react-leaflet";
 import { Popup, useMap } from "react-leaflet";
-import { pinIcons } from "../assets/pinIcons";
+import { icons } from "../assets/icons";
 import { DropProp } from "../assets/customProps";
+import ClickableProfileImage from "./ClickableProfileImage";
 
-export default function FarPin({ pin }) {
+export default function FarDrop({ drop }) {
   const map = useMap();
 
   return (
-    <Marker icon={pinIcons.farDrop} position={pin.location} >
-      <Popup eventHandlers={{add: ()=>{map.flyTo(pin.location)}}}>
+    <Marker icon={icons.farDrop} position={drop.location} >
+      <Popup eventHandlers={{add: ()=>{map.flyTo(drop.location)}}}>
         <div className="popupFrame flex spread">
           <div className="popupLeft flex vertical">
             <p className="popupTitle">
-              <strong>{pin.title}</strong>
+              <strong>{drop.title}</strong>
             </p>
             <p className="popupDescription">
-              <em>{pin.creatorInfo.displayName}</em>
+              <em>{drop.creatorInfo.displayName}</em>
             </p>
             <p className="popupDate">
-              <small>{new Date(pin.timestamp).toLocaleDateString()}</small>
+              <small>{new Date(drop.timestamp).toLocaleDateString()}</small>
             </p>
           </div>
           <div className="popupRight flex vertical center gapS">
-            <img
-              src={pin.creatorInfo.photo}
-              alt={pin.creatorInfo.displayName}
-              width="25px"
-              className="circle popupCreatorImage"
-            />
+          <ClickableProfileImage id={drop.creatorInfo._id} photo={drop.creatorInfo.photo} name={drop.creatorInfo.displayName} />
             <div>
               <div className="popupViews flex gapS spread">
-                <span>{pin.viewedBy.length}</span>
+                <span>{drop.viewedBy.length}</span>
                 <i className="fa-solid fa-eye"></i>
               </div>
               <div className="popupLikes flex gapS spread">
-                <span>{pin.likedBy.length}</span>
+                <span>{drop.likedBy.length}</span>
                 <i className="fa-regular fa-heart"></i>
               </div>
             </div>
@@ -45,6 +41,6 @@ export default function FarPin({ pin }) {
   );
 }
 
-FarPin.propTypes = {
-  pin: DropProp,
+FarDrop.propTypes = {
+  drop: DropProp,
 };

@@ -2,15 +2,15 @@ import { DropProp } from "../assets/customProps";
 import PropTypes from "prop-types";
 import {Link} from 'react-router-dom';
 import { useMode } from "../contexts/LightContext";
-import axios from 'axios'
-import dropIcon from '../assets/drop.png'
 import "../styles/droppreview.css";
-import { useEffect } from "react";
-import { useState } from "react";
 
-export default function DropPreview({ drop, distance, following }) {
+
+import ClickableProfileImage from "./ClickableProfileImage";
+import { useUser } from "../contexts/UserContext";
+
+export default function DropPreview({ drop, distance }) {
   const { mode } = useMode();
-  const [creator, setCreator] = useState({displayName: 'Loading...', photo: dropIcon})
+  const {profile} = useUser();
 
   const typeIcon = () => {
     switch (drop.type) {
@@ -36,28 +36,10 @@ export default function DropPreview({ drop, distance, following }) {
     }
   };
 
-  
-
-  useEffect(()=>{
-    const getCreatorInfo = () => {
-        axios.get(`http://localhost:5000/users/${drop.creator}`)
-            .then(res => {
-                if (res.status === 200) {
-                    const {displayName, photo} = res.data;
-                    setCreator({displayName, photo})
-                }
-            })
-            .catch(err => console.log(err))
-        
-      }
-
-    getCreatorInfo();
-  }, [])
-
   return (
     <div
       className={`dropPreviewFrame w100 ${mode === "dark" ? "darkMode" : ""} ${
-        following ? "following" : ""
+        profile.following.includes(drop.creatorInfo._id) ? "following" : ""
       }`}
     >
       <div className="dropPreviewHeader flex spread w100">
@@ -66,12 +48,7 @@ export default function DropPreview({ drop, distance, following }) {
           <div className="circle dropTypeIcon">
             <i className={`fa-solid fa-${typeIcon()}`}></i>
           </div>
-          <img
-            src={creator.photo}
-            alt={creator.displayName}
-            width="36px"
-            className="circle"
-          />
+          <ClickableProfileImage id={drop.creatorInfo._id} photo={drop.creatorInfo.photo} name={drop.creatorInfo.displayName}/>
         </div>
       </div>
       <div className="flex spread w100">
@@ -80,7 +57,7 @@ export default function DropPreview({ drop, distance, following }) {
       </div>
       <div className="dropPreviewFooter flex spread w100">
         <p className="dropPreviewCreator">
-          <small>{creator.displayName}</small>
+          <small>{drop.creatorInfo.displayName}</small>
         </p>
         <p className="dropPreviewTimestamp">
           <small>
