@@ -31,7 +31,7 @@ app.get('/events', (req, res) => {
     const clientId = Date.now();
     const newClient = { id: clientId, res };
     clients.push(newClient);
-  
+    console.log(newClient+' connected and listening for events');
     req.on('close', () => {
         clients = clients.filter(client => client.id !== clientId);
     });

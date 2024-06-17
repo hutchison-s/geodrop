@@ -4,6 +4,7 @@ import cors from 'cors';
 import { connect } from 'mongoose';
 import Drop from './schemas/Drop.js';
 import User from './schemas/User.js';
+import axios from 'axios';
 import { createDrop, deleteDrop, likeDrop, unlikeDrop, viewDrop } from './dbFuncs/DropFuncs.mjs';
 import { createUser, updateUser, deleteUser, followUser, unfollowUser } from './dbFuncs/UserFuncs.mjs';
 
@@ -41,15 +42,12 @@ app.get('/ping', (req, res)=>{
 })
 
 function sendUpdate(update) {
-    fetch('https://geodrop.onrender.com/notify', {
-        method: 'POST',
+    axios.post('https://geodrop.onrender.com/notify', update, {
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Basic ${btoa(process.env.INTERSERVERAUTH)}`
-        },
-        body: JSON.stringify(update)
+        }
     })
-    .then(response => response.json())
+    .then(response => response.data)
     .then(data => console.log('Success:', data))
     .catch(error => console.error('Error:', error));
 }
