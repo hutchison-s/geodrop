@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useState } from "react";
 import DropViewer from './DropViewer'
 import ClickableProfileImage from "./ClickableProfileImage";
+import { apiBaseURL } from "../apiSwitch";
 
 export default function NearDrop({ drop }) {
   const { profile } = useUser();
@@ -16,17 +17,17 @@ export default function NearDrop({ drop }) {
   const handleView = ()=>{
     map.flyTo(drop.location, 16)
     if (!drop.viewedBy.includes(profile._id)) {
-        axios.post(`http://localhost:5000/drops/${drop._id}/view/${profile._id}`)
+        axios.post(`${apiBaseURL}/drops/${drop._id}/view/${profile._id}`)
             .catch(err => console.log(err.message))
     }
   }
 
   const handleLikeToggle = ()=>{
     if (drop.likedBy.includes(profile._id)) {
-        axios.delete(`http://localhost:5000/drops/${drop._id}/like/${profile._id}`)
+        axios.delete(`${apiBaseURL}/drops/${drop._id}/like/${profile._id}`)
             .catch(err => console.log(err.message))
     } else {
-        axios.post(`http://localhost:5000/drops/${drop._id}/like/${profile._id}`)
+        axios.post(`${apiBaseURL}/drops/${drop._id}/like/${profile._id}`)
             .catch(err => console.log(err.message))
     }
   }

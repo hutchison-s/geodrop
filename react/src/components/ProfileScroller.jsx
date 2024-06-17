@@ -3,6 +3,7 @@ import ClickableProfileImage from './ClickableProfileImage'
 import { useState } from 'react'
 import axios from 'axios'
 import { useEffect } from 'react'
+import { apiBaseURL } from '../apiSwitch'
 
 export default function ProfileScroller({people}) {
 
@@ -14,7 +15,7 @@ export default function ProfileScroller({people}) {
         const getPeople = async ()=>{
             const promises = [];
             for (const id of people) {
-                promises.push(axios.get(`http://localhost:5000/users/${id}`))
+                promises.push(axios.get(`${apiBaseURL}/users/${id}`))
             }
             const profs = await Promise.all(promises);
             setProfiles(profs.map(p => p.data))

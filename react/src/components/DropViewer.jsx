@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import '../styles/dropviewer.css'
 import { useUser } from "../contexts/UserContext";
 import axios from 'axios'
+import { apiBaseURL } from "../apiSwitch";
 
 export default function DropViewer({drop, close}) {
     const {profile} = useUser();
@@ -34,10 +35,10 @@ export default function DropViewer({drop, close}) {
 
     const handleLikeToggle = ()=>{
         if (drop.likedBy.includes(profile._id)) {
-            axios.delete(`http://localhost:5000/drops/${drop._id}/like/${profile._id}`)
+            axios.delete(`${apiBaseURL}/drops/${drop._id}/like/${profile._id}`)
                 .catch(err => console.log(err.message))
         } else {
-            axios.post(`http://localhost:5000/drops/${drop._id}/like/${profile._id}`)
+            axios.post(`${apiBaseURL}/drops/${drop._id}/like/${profile._id}`)
                 .catch(err => console.log(err.message))
         }
       }

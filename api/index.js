@@ -41,7 +41,7 @@ app.get('/ping', (req, res)=>{
 })
 
 function sendUpdate(update) {
-    fetch('http://localhost:8000/notify', {
+    fetch('https://geodrop.onrender.com/notify', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

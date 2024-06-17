@@ -4,6 +4,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useEffect } from "react";
 import axios from "axios";
+import { apiBaseURL } from "../apiSwitch";
 
 const initialUser = {
   username: null,
@@ -23,7 +24,7 @@ export function UserProvider({ children }) {
 
         // Get app profile info for Google user
         axios
-          .post(`http://localhost:5000/confirm`, {
+          .post(`${apiBaseURL}/confirm`, {
             uid: user.uid,
             email: user.email,
           })
@@ -41,7 +42,7 @@ export function UserProvider({ children }) {
 
               // Create a new profile for Google user
               axios
-                .post(`http://localhost:5000/users`, {
+                .post(`${apiBaseURL}/users`, {
                   uid,
                   email,
                   displayName,
@@ -74,7 +75,7 @@ export function UserProvider({ children }) {
   useEffect(()=>{
 
     const pinger = setInterval( ()=>{
-        axios.get('http://localhost:8000/ping')
+        axios.get('https://geodrop.onrender.com/ping')
           .then(res => console.log(res.data))
           .catch(err => console.log(err.message))
     }, 60000)

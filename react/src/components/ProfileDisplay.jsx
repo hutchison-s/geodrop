@@ -9,6 +9,7 @@ import DropFeed from "../components/DropFeed";
 import { useUser } from '../contexts/UserContext';
 import { useMode } from '../contexts/LightContext';
 import { useDrops } from '../contexts/DropContext';
+import { apiBaseURL } from '../apiSwitch';
 
 export default function ProfileDisplay({profileId}) {
 
@@ -20,7 +21,7 @@ export default function ProfileDisplay({profileId}) {
 
     useEffect(()=>{
         const getProfile = async () => {
-            const content = await axios.get(`http://localhost:5000/users/${profileId}`);
+            const content = await axios.get(`${apiBaseURL}/users/${profileId}`);
             if (content.status === 200) {
                 console.log(content.data);
                 setViewing(content.data);
@@ -43,7 +44,7 @@ export default function ProfileDisplay({profileId}) {
     }
 
     const follow = async ()=>{
-        axios.post(`http://localhost:5000/users/${viewing._id}/follow/${profile._id}`)
+        axios.post(`${apiBaseURL}/users/${viewing._id}/follow/${profile._id}`)
                 .then(() => {
                     setProfile(p => {
                         return {
@@ -61,7 +62,7 @@ export default function ProfileDisplay({profileId}) {
     }
 
     const unfollow = async ()=>{
-        axios.delete(`http://localhost:5000/users/${viewing._id}/follow/${profile._id}`)
+        axios.delete(`${apiBaseURL}/users/${viewing._id}/follow/${profile._id}`)
                 .then(() => {
                     
                     setProfile(p => {

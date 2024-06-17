@@ -8,7 +8,7 @@ export function DropContextProvider({children}) {
     const [drops, setDrops] = useState([]);
 
     const getDrops = ()=>{
-        axios.get('http://localhost:5000/drops')
+        axios.get('${apiBaseURL}/drops')
             .then(res => {
                 if (res.status === 200) {
                     console.log(`obtaining ${res.data.length} drops`);
@@ -21,7 +21,7 @@ export function DropContextProvider({children}) {
     useEffect(()=>{
         getDrops()
 
-        const sseSource = new EventSource('http://localhost:8000/events');
+        const sseSource = new EventSource('https://geodrop.onrender.com/events');
         
         sseSource.onerror = (err) => console.log(err)
 
