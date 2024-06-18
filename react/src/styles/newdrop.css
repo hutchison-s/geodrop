@@ -87,6 +87,7 @@
 }
 #newDropVideo {
     width: 100%;
+    max-width: 500px;
     object-fit: cover;
     /* transform: rotateY(180deg);    flip camera if necessary*/
     border-radius: 1rem;

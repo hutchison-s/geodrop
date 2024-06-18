@@ -19,7 +19,7 @@ export default function NewImageDrop() {
 
     useEffect(()=>{
         if (typeof(navigator.mediaDevices.getUserMedia) === 'function') {
-            navigator.mediaDevices.getUserMedia({video: {width: videoRef.current.width, height: videoRef.current.height, facingMode: 'environment'}, audio: false, })
+            navigator.mediaDevices.getUserMedia({video: true, audio: false, })
                 .then(stream => {
                     videoRef.current.srcObject = stream;
                     ctx.current = canvasRef.current.getContext("2d")
@@ -54,7 +54,7 @@ export default function NewImageDrop() {
     return (
         <>
             <div className="videoPreviewWrapper">
-                    <video id="newDropVideo" muted ref={videoRef} width='100%' height='100%' autoPlay></video>
+                    <video id="newDropVideo" muted ref={videoRef} autoPlay playsInline></video>
                     <button 
                         onClick={snapshot}
                         id="shutter" 
