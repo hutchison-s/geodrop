@@ -9,6 +9,7 @@ import { icons } from '../assets/icons.jsx';
 import MapController from '../components/MapController.jsx';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Popup } from 'react-leaflet';
 
 
 export default function MapComponent() {
@@ -44,7 +45,12 @@ export default function MapComponent() {
                         url={`https://cartodb-basemaps-{s}.global.ssl.fastly.net/${mode}_all/{z}/{x}/{y}.png`}
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
                     />
-                    <Marker icon={mode === 'light' ? icons.youLight : icons.youDark} position={position}/>
+                    <Marker icon={mode === 'light' ? icons.youLight : icons.youDark} position={position}>
+                        <Popup>
+                            <p>Latitude: {position.lat}</p>
+                            <p>Longitude: {position.lng}</p>
+                        </Popup>
+                        </Marker>
                     <MapDrops />
                 </MapController>
             </MapContainer>

@@ -108,9 +108,9 @@ export default function ProfileDisplay({profileId}) {
                     <div><i className="fa-solid fa-eye"></i></div>
                 </div>
                 <div className="flex w100">
-                    <div><span>{viewing.drops?.length}</span></div>
-                    <div><span>{viewing.liked?.length}</span></div>
-                    <div><span>{viewing.viewed?.length}</span></div>
+                    <div><span key={"drops"+viewing.drops.length}>{viewing.drops.length}</span></div>
+                    <div><span key={"liked"+viewing.liked.length}>{viewing.liked.length}</span></div>
+                    <div><span key={"viewed"+viewing.viewed.length}>{viewing.viewed.length}</span></div>
                 </div>
             </div>
             <FollowersFollowing user={viewing} key={viewing._id+'scroller'}/>

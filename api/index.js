@@ -7,7 +7,7 @@ import User from './schemas/User.js';
 import axios from 'axios';
 import { createDrop, deleteDrop, likeDrop, unlikeDrop, viewDrop } from './dbFuncs/DropFuncs.mjs';
 import { createUser, updateUser, deleteUser, followUser, unfollowUser } from './dbFuncs/UserFuncs.mjs';
-
+import { serverBaseURL } from './serverSwitch.mjs';
 
 // Initialization
 dotenv.config();
@@ -43,7 +43,7 @@ app.get('/ping', (req, res)=>{
 
 async function sendUpdate(update) {
     console.log('sending update to Render');
-    const data = await axios.post('https://geodrop.onrender.com/notify', update, {
+    const data = await axios.post(`${serverBaseURL}/notify`, update, {
         headers: {
             'Authorization': `Basic ${btoa(process.env.INTERSERVERAUTH)}`
         }
@@ -113,12 +113,12 @@ app.get('/drops/:id', async (req, res) => {
 
 // Create New Drop and add to creator's drop array
 app.post('/drops', async (req, res) => {
-    const {type, data, creator, title, location, viewLimit, tags, description} = req.body;
+    const {type, data, creator, title, location, viewLimit, tags, description, path} = req.body;
 
     if (!location || !title || !creator || !data || !type) {
         return res.status(400).send({error: `Required values missing. Received ${location, title, creator, data, type}`})
     }
-    const dropObject = {type, data, creator, title, location, viewLimit, tags, description}
+    const dropObject = {type, data, creator, title, location, viewLimit, tags, description, path}
     try {
         const newDrop = await createDrop(dropObject)
         await sendUpdate({type: 'newDrop', data: newDrop})
@@ -317,25 +317,3 @@ app.delete('/users/:id/follow/:user', async (req, res) => {
         return res.status(500).send({error: err.message})
     }
 })
-
-
-// Keep server active on Render ---- DEPRECATED
-
-// const seconds = ()=>Math.floor(Date.now()/1000)
-// let started = seconds()
-
-// const caffeine = setInterval(()=>{
-//     const now = seconds()
-//     const elapsed = now - started
-//     if (elapsed !== 0 && elapsed % 600 == 0) {
-//         axios.get('https://listen-here-api.onrender.com/ping')
-//         .then(res => {
-//             console.log(res.data)
-//             started = now
-//         })
-//         .catch(err => {
-//             console.log('Error making ping request:', err)
-//         })
-//     }
-    
-// }, 600000)

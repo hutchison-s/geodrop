@@ -4,6 +4,7 @@
     --bg80: #111424cc;
     --fg: #F1EFEF;
     --blue: #26A9E0;
+    --blue25: #26A9E055;
     --blue80: #26A9E0dd;
     --basic: #dadee2;
 }
@@ -128,6 +129,9 @@ body {
         1px 1px 3px #ffffff55 inset,
         -3px -4px 15px #00000033 inset,
         0 -1px 5px #00000088 inset;
+}
+.shadowWall {
+    box-shadow: 0 0 200px #000000;
 }
 .rotate90 {
     rotate: 90deg;

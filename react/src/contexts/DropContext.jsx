@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types'
 import axios from "axios";
-import { apiBaseURL } from "../apiSwitch";
+import { apiBaseURL, serverBaseURL } from "../apiSwitch";
 
 export const DropContext = createContext([]);
 
@@ -22,7 +22,7 @@ export function DropContextProvider({children}) {
     useEffect(()=>{
         getDrops()
 
-        const sseSource = new EventSource('https://geodrop.onrender.com/events');
+        const sseSource = new EventSource(`${serverBaseURL}/events`);
         
         sseSource.onerror = (err) => console.log(err)
 

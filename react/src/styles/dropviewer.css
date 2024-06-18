@@ -36,12 +36,21 @@
 .dropViewer .dropWrapper p {
     font-size: 1.1rem;
 }
+.dropViewer .dropWrapper .dropDescription {
+    font-size: 0.9rem;
+    text-align: left;
+    width: 100%;
+    padding: 1rem 0;
+}
 .dropViewer .dropWrapper > p {
     font-size: 1.4rem;
 }
 .dropViewer .dropWrapper i {
     font-size: 1.4rem;
     color: var(--blue)
+}
+.dropViewer .dropWrapper button i {
+    color: var(--fg)
 }
 .dropViewer .dropWrapper .dropCreator {
     text-align: left;

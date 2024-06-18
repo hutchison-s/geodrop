@@ -4,7 +4,7 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useEffect } from "react";
 import axios from "axios";
-import { apiBaseURL } from "../apiSwitch";
+import { apiBaseURL, serverBaseURL } from "../apiSwitch";
 
 const initialUser = {
   username: null,
@@ -75,7 +75,7 @@ export function UserProvider({ children }) {
   useEffect(()=>{
 
     const pinger = setInterval( ()=>{
-        axios.get('https://geodrop.onrender.com/ping')
+        axios.get(`${serverBaseURL}/ping`)
           .then(res => console.log(res.data))
           .catch(err => console.log(err.message))
     }, 60000)

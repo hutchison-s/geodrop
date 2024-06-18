@@ -10,6 +10,7 @@ const dropSchema = new Schema(
         // Required
         type: {type: String, enum: ['audio', 'video', 'image', 'text'], required: true},
         data: {type: String, required: true},
+        path: {type: String},
         location: {type: positionSchema, required: true}, 
         title: {type: String, required: true},
         creatorInfo: {

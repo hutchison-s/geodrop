@@ -15,6 +15,12 @@ export default function MapController({panTo, children, clearParams}) {
         }
     }, [panTo, map])
 
+    useEffect(()=>{
+        if (!isBrowsing) {
+            map.panTo(position, {duration: 0.1, animate: true})
+        }
+    }, [position])
+
     useMapEvents({
         dragstart: ()=>{
             setIsBrowsing(true)
