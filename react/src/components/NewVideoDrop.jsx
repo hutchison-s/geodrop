@@ -19,7 +19,7 @@ export default function NewVideoDrop() {
         if (typeof(navigator.mediaDevices.getUserMedia) === 'function') {
             navigator.mediaDevices.getUserMedia({video: true, audio: true})
                 .then(stream => {
-                    const recorder = new MediaRecorder(stream, {mimeType: 'video/webm'});
+                    const recorder = new MediaRecorder(stream, {mimeType: 'video/mp4'});
                     recorder.onstart = ()=>{
                         chunksRef.current.length = 0;
                         setIsRecording(true)
@@ -28,7 +28,7 @@ export default function NewVideoDrop() {
                         chunksRef.current.push(e.data)
                     }
                     recorder.onstop = ()=>{
-                        const videoBlob = new Blob(chunksRef.current, {type: 'video/webm'});
+                        const videoBlob = new Blob(chunksRef.current, {type: 'video/mp4'});
                         setBlob(videoBlob);
                         setIsRecording(false);
                         setIsSubmitting(true)
