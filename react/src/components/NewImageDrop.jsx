@@ -24,7 +24,14 @@ export default function NewImageDrop() {
                     videoRef.current.srcObject = stream;
                     ctx.current = canvasRef.current.getContext("2d")
                 })
+                
+        return ()=>{
+            if (videoRef.current && videoRef.current.srcObject) {
+                videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+            }
+        };
         }
+        
     }, [])
 
     const snapshot = ()=>{

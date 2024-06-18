@@ -60,7 +60,7 @@ export default function NewVideoDrop() {
     return (
         <>
             <div className="videoPreviewWrapper">
-                    <video id="newDropVideo" muted ref={videoRef} width='100%' height='100%' autoPlay></video>
+                    <video id="newDropVideo" muted ref={videoRef} playsInline autoPlay></video>
                     <button 
                         onClick={toggleRecording}
                         id="shutter" 
