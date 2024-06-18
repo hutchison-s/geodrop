@@ -19,7 +19,7 @@ export default function NewImageDrop() {
 
     useEffect(()=>{
         if (typeof(navigator.mediaDevices.getUserMedia) === 'function') {
-            navigator.mediaDevices.getUserMedia({video: true, audio: false})
+            navigator.mediaDevices.getUserMedia({video: {width: videoRef.current.width, height: videoRef.current.height, facingMode: 'environment'}, audio: false, })
                 .then(stream => {
                     videoRef.current.srcObject = stream;
                     ctx.current = canvasRef.current.getContext("2d")
