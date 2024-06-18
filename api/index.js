@@ -41,15 +41,20 @@ app.get('/ping', (req, res)=>{
     return res.end('ping')
 })
 
-function sendUpdate(update) {
-    axios.post('https://geodrop.onrender.com/notify', update, {
+async function sendUpdate(update) {
+    console.log('sending update to Render');
+    const data = await axios.post('https://geodrop.onrender.com/notify', update, {
         headers: {
             'Authorization': `Basic ${btoa(process.env.INTERSERVERAUTH)}`
         }
     })
-    .then(response => response.data)
-    .then(data => console.log('Success:', data))
+    .then(response => {
+        console.log('Update sent successfully');
+        return response.data;
+    })
     .catch(error => console.error('Error:', error));
+
+    return data;
 }
 
 /* ----------------------------------------------------------
@@ -116,7 +121,7 @@ app.post('/drops', async (req, res) => {
     const dropObject = {type, data, creator, title, location, viewLimit, tags, description}
     try {
         const newDrop = await createDrop(dropObject)
-        sendUpdate({type: 'newDrop', data: newDrop})
+        await sendUpdate({type: 'newDrop', data: newDrop})
         return res.status(201).send(newDrop)
     } catch (err) {
         return res.status(500).send({ error: err.message });
@@ -128,7 +133,7 @@ app.delete('/drops/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const deletedDrop = await deleteDrop(id)
-        sendUpdate({type: 'deleteDrop', data: deletedDrop})
+        await sendUpdate({type: 'deleteDrop', data: deletedDrop})
         return res.send(deletedDrop);
     } catch (err) {
       return res.status(500).send({ error: err.message });
@@ -224,7 +229,7 @@ app.patch('/users/:id', async (req, res) => {
     const updateObject = {bio, photo, displayName};
     try {
         const updatedUser = await updateUser(id, updateObject);
-        sendUpdate({type: 'updateUser', data: updatedUser})
+        // sendUpdate({type: 'updateUser', data: updatedUser})
         return res.send(updatedUser);
     } catch (err) {
         return res.status(500).send({ error: err.message });
@@ -236,7 +241,7 @@ app.patch('/users/:id', async (req, res) => {
     const { id } = req.params;
     try {
       const deletedUser = await deleteUser(id);
-      sendUpdate({type: 'deleteUser', data: deletedUser})
+    //   sendUpdate({type: 'deleteUser', data: deletedUser})
       return res.send(deletedUser);
     } catch (err) {
       return res.status(500).send({ error: err.message });
@@ -253,7 +258,7 @@ app.post('/drops/:id/like/:user', async (req, res) => {
     const { id, user } = req.params;
     try {
         const updatedDrop = await likeDrop(id, user)
-        sendUpdate({type: 'updateDrop', data: updatedDrop})
+        await sendUpdate({type: 'updateDrop', data: updatedDrop})
         return res.send(updatedDrop);
     } catch (err) {
         return res.status(500).send({error: err.message})
@@ -265,7 +270,7 @@ app.delete('/drops/:id/like/:user', async (req, res) => {
     const { id, user } = req.params;
     try {
         const updatedDrop = await unlikeDrop(id, user)
-        sendUpdate({type: 'updateDrop', data: updatedDrop})
+        await sendUpdate({type: 'updateDrop', data: updatedDrop})
         return res.send(updatedDrop);
     } catch (err) {
         return res.status(500).send({error: err.message})
@@ -277,7 +282,7 @@ app.post('/drops/:id/view/:user', async (req, res) => {
     const { id, user } = req.params
     try {
         const updatedDrop = await viewDrop(id, user);
-        sendUpdate({type: 'updateDrop', data: updatedDrop})
+        await sendUpdate({type: 'updateDrop', data: updatedDrop})
         return res.send(updatedDrop);
     } catch (err) {
         return res.status(500).send({error: err.message})
@@ -293,7 +298,7 @@ app.post('/users/:id/follow/:user', async (req, res) => {
     const { id, user } = req.params
     try {
         const updatedUser = await followUser(id, user);
-        sendUpdate({type: 'updateUser', data: updatedUser});
+        await sendUpdate({type: 'updateUser', data: updatedUser});
         return res.send(updatedUser);
     } catch (err) {
         return res.status(500).send({error: err.message})
@@ -306,7 +311,7 @@ app.delete('/users/:id/follow/:user', async (req, res) => {
     const { id, user } = req.params
     try {
         const updatedUser = await unfollowUser(id, user)
-        sendUpdate({type: 'updateUser', data: updatedUser});
+        await sendUpdate({type: 'updateUser', data: updatedUser});
         return res.send(updatedUser);
     } catch (err) {
         return res.status(500).send({error: err.message})
