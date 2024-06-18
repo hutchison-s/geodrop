@@ -1,6 +1,6 @@
 // import { useUser } from "../contexts/UserContext"
 import { auth, googleProvider } from "../config/firebase";
-import { signInWithPopup, setPersistence, browserSessionPersistence } from "firebase/auth";
+import { signInWithPopup, setPersistence, browserLocalPersistence } from "firebase/auth";
 // import axios from 'axios'
 import dropLogo from '../assets/logo.png';
 import '../styles/login.css'
@@ -11,8 +11,8 @@ export default function Login() {
 
     const onClick = async () => {
         try {
-            // Set persistence to session
-            await setPersistence(auth, browserSessionPersistence);
+            // Set persistence to local storage
+            await setPersistence(auth, browserLocalPersistence);
     
             // Try sign in with popup
             const result = await signInWithPopup(auth, googleProvider);
