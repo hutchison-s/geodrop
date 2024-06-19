@@ -12,7 +12,7 @@ export default function NewTextDrop() {
     return (
         <>
             <div className="videoPreviewWrapper">
-                <textarea className='w100 padM textDropInput' value={textContent} onInput={(e)=>{setTextContent(e.target.value)}} maxLength={1000} rows={24}></textarea>
+                <textarea className='w100 padM textDropInput' value={textContent} onInput={(e)=>{setTextContent(e.target.value)}} maxLength={1000} rows={18}></textarea>
                     <button 
                         onClick={()=>{setIsSubmitting(true)}}
                         id="shutter" 

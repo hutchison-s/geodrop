@@ -11,6 +11,7 @@ export default function MapController({panTo, children, clearParams}) {
 
     useEffect(()=>{
         if (panTo) {
+            setIsBrowsing(true)
             map.flyTo(panTo, 16)
         }
     }, [panTo, map])

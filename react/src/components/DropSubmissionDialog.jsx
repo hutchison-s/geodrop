@@ -79,7 +79,9 @@ export default function DropSubmissionDialog({finish, dropType, file, text}) {
             <dialog ref={submitRef} id="dropSubmission" className="shadowWall">
                 
                 <div className="formContentWrapper flex vertical center padS w100 h100">
-                    <DropContent type={dropType} data={content} title={title}/>
+                    <div className="submissionDropContentWrapper">
+                        <DropContent type={dropType} data={content} title={title}/>
+                    </div>
                     <button onClick={handleModalClose} id="closeModal">Cancel</button>
                     <form onSubmit={handleSubmit}>
                         <input type="file" name="image" id="dropImage" style={{display: 'none'}}/>

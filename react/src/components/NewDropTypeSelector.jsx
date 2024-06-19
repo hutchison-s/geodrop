@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import PropTypes from 'prop-types'
 
+
 export default function NewDropTypeSelector({state, setState}) {
   
   const highligherRef = useRef(null);
+
 
   const getElementIndex = (el)=>{
     return Array.from(el.parentNode.children).indexOf(el)
@@ -18,11 +20,13 @@ export default function NewDropTypeSelector({state, setState}) {
     highligherRef.current.style.transform = `translateX(${translate}px)`
   };
 
+  
+
   return (
     <>
       <div className="flex w100 typeSelector">
         <div className="highlighter" ref={highligherRef}></div>
-        <label className="typeOption flex1 colorFG textCenter padL">
+        <label className="typeOption flex1 textCenter padS">
           <i className="fa-solid fa-camera"></i>
           <input 
             type="radio" 
@@ -33,7 +37,7 @@ export default function NewDropTypeSelector({state, setState}) {
             style={{ display: 'none' }}
           />
         </label>
-        <label className="typeOption flex1 colorFG textCenter padL">
+        <label className="typeOption flex1 textCenter padS">
           <i className="fa-solid fa-video"></i>
           <input 
             type="radio" 
@@ -44,7 +48,7 @@ export default function NewDropTypeSelector({state, setState}) {
             style={{ display: 'none' }}
           />
         </label>
-        <label className="typeOption flex1 colorFG textCenter padL">
+        <label className="typeOption flex1 textCenter padS">
           <i className="fa-solid fa-headphones"></i>
           <input 
             type="radio" 
@@ -55,7 +59,7 @@ export default function NewDropTypeSelector({state, setState}) {
             style={{ display: 'none' }}
           />
         </label>
-        <label className="typeOption flex1 colorFG textCenter padL">
+        <label className="typeOption flex1 textCenter padS">
           <i className="fa-regular fa-file-lines"></i>
           <input 
             type="radio" 

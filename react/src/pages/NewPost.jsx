@@ -5,6 +5,8 @@ import NewImageDrop from "../components/NewImageDrop";
 import NewVideoDrop from "../components/NewVideoDrop";
 import NewAudioDrop from "../components/NewAudioDrop";
 import NewTextDrop from "../components/NewTextDrop";
+import Marquee from "../components/Marquee";
+import logo from '../assets/logo.png'
 
 export default function NewPost() {
   const [chosenType, setChosenType] = useState("image");
@@ -25,17 +27,11 @@ export default function NewPost() {
   };
 
   return (
-    <section className="newDropPage flex vertical spread">
-      <DropInterface />
+    <section className="newDropPage flex vertical">
       <NewDropTypeSelector state={chosenType} setState={setChosenType} />
-      <div className="infiniteScroll">
-        <div className="scrollCar">
-          <span className="scrollText">What will you leave behind?</span>
-          <span className="scrollText">What will you leave behind?</span>
-          <span className="scrollText">What will you leave behind?</span>
-          <span className="scrollText">What will you leave behind?</span>
-        </div>
-      </div>
+      <Marquee text='What will you leave behind?' text2={<img src={logo} alt="GeoDrop" width='60px'></img>} />
+      <DropInterface />
+      
     </section>
   );
 }

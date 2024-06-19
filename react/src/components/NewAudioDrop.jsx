@@ -14,9 +14,8 @@ export default function NewAudioDrop() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isRecording, setIsRecording] = useState(false)
 
-    useEffect(()=>{
-        if (typeof(navigator.mediaDevices.getUserMedia) === 'function') {
-            navigator.mediaDevices.getUserMedia({audio: true})
+    const initializeRecorder = ()=>{
+        navigator.mediaDevices.getUserMedia({audio: true})
                 .then(stream => {
                     const recorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
                     recorder.onstart = ()=>{
@@ -31,12 +30,18 @@ export default function NewAudioDrop() {
                         setBlob(audioBlob);
                         setIsRecording(false);
                         setIsSubmitting(true)
+                        stream.getTracks().forEach(track => track.stop());
                     }
                     recorderRef.current = recorder;
                 })
                 .catch(err => {
                     console.error(err)
                 })
+    }
+
+    useEffect(()=>{
+        if (typeof(navigator.mediaDevices.getUserMedia) === 'function') {
+            initializeRecorder();
         }
     }, [])
 
@@ -56,10 +61,10 @@ export default function NewAudioDrop() {
                         onClick={toggleRecording}
                         id="shutter" 
                         className="grid center circle shadow3d borderNone mAuto">
-                            {isRecording ? <i className="fa-solid fa-stop"></i> : <i className="fa-solid fa-microphone colorFG"></i>}
+                            {isRecording ? <i className="fa-solid fa-stop recordingInProgress"></i> : <i className="fa-solid fa-microphone colorFG"></i>}
                     </button>
             </div>
-           {isSubmitting && <DropSubmissionDialog finish={()=>{setIsSubmitting(false)}} dropType='audio' file={blob} text=''/>}
+           {isSubmitting && <DropSubmissionDialog finish={()=>{setIsSubmitting(false); setBlob(undefined); initializeRecorder()}} dropType='audio' file={blob} text=''/>}
             
         </>
     )

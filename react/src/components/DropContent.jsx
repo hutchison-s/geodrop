@@ -1,6 +1,7 @@
 import '../styles/dropviewer.css'
 import PropTypes from 'prop-types'
 import AudioPlayer from './AudioPlayer';
+import VideoPlayer from './VideoPlayer';
 
 export default function DropContent({type, data, title}) {
 
@@ -13,11 +14,11 @@ export default function DropContent({type, data, title}) {
                 );
             case 'image':
                 return (
-                    <img src={data} alt={title} width='100%' />
+                    <img src={data} alt={title} width='100%' style={{maxHeight: '50vh'}}/>
                 );
             case 'video':
                 return (
-                    <video controls autoPlay src={data} alt={title} width='100%' />
+                    <VideoPlayer url={data} title={title}/>
                 )
             case 'audio':
                 return (

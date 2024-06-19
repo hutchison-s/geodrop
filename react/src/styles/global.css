@@ -193,6 +193,7 @@ body {
 }
 
 #root .contentWrap:has(.leaflet-container),
-#root .appView:has(.leaflet-container) {
+#root .appView:has(.leaflet-container),
+#root .contentWrap:has(.typeSelector) {
     padding: 0 0;
 }

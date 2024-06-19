@@ -32,9 +32,13 @@ export default function Feed() {
     const filterProximity = (dropList) => {
         return dropList.filter(drop => (distanceToDrop(drop.location) < 26000) && !drop.viewedBy.includes(profile._id))
     }
-
+    // Filter for drops beyond 5 miles by other users the profile follows
     const filterFollowing = (dropList) => {
         return dropList.filter(drop => (distanceToDrop(drop.location) >= 26000 && profile.following.includes(drop.creatorInfo._id)))
+    }
+    // Filter out drops the user created
+    const filterMine = (dropList) => {
+        return dropList.filter(drop => drop.creatorInfo._id !== profile._id);
     }
 
     // Sort the filtered list from nearest to farthest
@@ -44,7 +48,7 @@ export default function Feed() {
     return (
         <>
             
-            <DropFeed drops={sortByDistance(filterProximity(drops))}>
+            <DropFeed drops={sortByDistance(filterProximity(filterMine(drops)))}>
                 <div className="feedWelcome">
                     <h2>Welcome {profile.displayName}!</h2>
                     <p>Explore these new drops near you:</p>

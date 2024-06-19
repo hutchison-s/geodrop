@@ -15,7 +15,7 @@ export default function AudioPlayer({ src }) {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-    //   progRef.current.style.opacity = "1";
+
       audioRef.current.play();
     }
   };
@@ -23,7 +23,6 @@ export default function AudioPlayer({ src }) {
   const handleProgress = () => {
     if (audioRef.current.currentTime === audioRef.current.duration) {
       setTimeout(() => {
-        // progRef.current.style.opacity = "0";
         setProgress(0);
       }, 300);
 
@@ -36,21 +35,20 @@ export default function AudioPlayer({ src }) {
 
   return (
     <div className="audioPlayer">
-      <div className="w100" style={{flex: '100%', position: 'relative', height: '10px', overflow: 'hidden', borderRadius: '10px'}}>
+  
           <div
             className="progressBar"
             ref={progRef}
             style={{
-              width: `100%`,
-              position: 'absolute',
-              top: '0',
-            //   right: '0',
-              right: `${100 - progress}%`,
+              flex: `100%`,
+              transform: `scaleX(${progress}%)`,
               height: "10px",
+              borderRadius: '10px',
               background: "var(--blue)",
-            //   transition: "right 0.3s linear",
-            }}
-          ></div>
+              transformOrigin: 'left',
+              transition: "transform 0.5s linear",
+
+            }}>
       </div>
       <button onClick={handlePlayToggle}>
         {isPlaying ? (

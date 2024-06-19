@@ -29,5 +29,9 @@ export default function MapDrops() {
         // return distance < 5; // expanded for development to 5 km
     }
 
-    return drops.map(drop => (isClose(drop.location) || drop.viewedBy.includes(profile._id)) ? <NearDrop key={drop._id} drop={drop}/> : <FarDrop key={drop._id} drop={drop} />)
+    const isViewable = (drop) => {
+        return (isClose(drop) || drop.viewedBy.includes(profile._id) || drop.creatorInfo._id === profile._id)
+    }
+
+    return drops.map(drop => (isViewable(drop)) ? <NearDrop key={drop._id} drop={drop}/> : <FarDrop key={drop._id} drop={drop} />)
 }
