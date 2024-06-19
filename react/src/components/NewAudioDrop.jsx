@@ -14,10 +14,16 @@ export default function NewAudioDrop() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isRecording, setIsRecording] = useState(false)
 
+    const acceptedFormat = ()=>{
+        const useWebM = MediaRecorder.isTypeSupported('audio/webm');
+        return useWebM ? 'audio/webm' : 'audio/mp4'
+    }
+
     const initializeRecorder = ()=>{
         navigator.mediaDevices.getUserMedia({audio: true})
                 .then(stream => {
-                    const recorder = new MediaRecorder(stream, {mimeType: 'audio/webm'});
+                    const recorder = new MediaRecorder(stream, {mimeType: acceptedFormat()});
+                    recorderRef.current = recorder;
                     recorder.onstart = ()=>{
                         chunksRef.current.length = 0;
                         setIsRecording(true)
@@ -26,13 +32,13 @@ export default function NewAudioDrop() {
                         chunksRef.current.push(e.data)
                     }
                     recorder.onstop = ()=>{
-                        const audioBlob = new Blob(chunksRef.current, {type: 'audio/webm'});
+                        const audioBlob = new Blob(chunksRef.current, {type: acceptedFormat()});
                         setBlob(audioBlob);
                         setIsRecording(false);
                         setIsSubmitting(true)
                         stream.getTracks().forEach(track => track.stop());
                     }
-                    recorderRef.current = recorder;
+                    
                 })
                 .catch(err => {
                     console.error(err)

@@ -22,6 +22,9 @@ export default function NewVideoDrop() {
     }
 
     const startStream = async (cameraId)=>{
+        // if (cameraId) {
+        //     console.log('attempting to start stream from:', (await navigator.mediaDevices.enumerateDevices()).find(dev => dev.deviceId === cameraId).label);
+        // }
         if (streamRef.current) {
             streamRef.current.getTracks().forEach(track => track.stop());
         }
@@ -39,7 +42,7 @@ export default function NewVideoDrop() {
             .then(newDevice => {
                 console.log(newDevice);
                 if (newDevice) {
-                    startStream(newDevice)
+                    startStream(newDevice.deviceId)
                 } else {
                     console.log("no other cameras");
                 }

@@ -87,7 +87,7 @@ export default function DropPreview({ drop, distance }) {
         </div>
       </div>
       <div className="flex spread w100">
-        <p className="dropDistance">{feetToText(distance)}</p>
+        {(drop.viewedBy.includes(profile._id) || drop.creatorInfo._id === profile._id) ? <button className="viewDropButton">View Drop</button> : <p className="dropDistance">{feetToText(distance)}</p>}
         <Link
           to={`/explore?lat=${drop.location.lat}&lng=${drop.location.lng}`}
           className="viewOnMapButton"

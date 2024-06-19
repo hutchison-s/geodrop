@@ -67,7 +67,8 @@
     color: var(--fg);
     text-shadow: 0 0 8px #00000055;
 }
-.dropPreviewFrame .viewOnMapButton {
+.dropPreviewFrame .viewOnMapButton,
+.dropPreviewFrame .viewDropButton {
     background-color: transparent;
     border: 1px solid var(--blue);
     color: var(--blue) !important;

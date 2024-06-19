@@ -29,10 +29,14 @@ export default function NewImageDrop() {
     }, [])
 
     const startStream = async (cameraId)=>{
+        // if (cameraId) {
+        //     console.log('attempting to start stream from:', (await navigator.mediaDevices.enumerateDevices()).find(dev => dev.deviceId === cameraId).label);
+        // }
+        
         if (streamRef.current) {
             streamRef.current.getTracks().forEach(track => track.stop());
         }
-        streamRef.current = await navigator.mediaDevices.getUserMedia({video: {deviceId: cameraId ? {exact: cameraId} : undefined}});
+        streamRef.current = await navigator.mediaDevices.getUserMedia({video: cameraId ? {deviceId: {exact: cameraId}} : true});
         videoRef.current.srcObject = streamRef.current
         ctx.current = canvasRef.current.getContext("2d")
     }
@@ -46,7 +50,7 @@ export default function NewImageDrop() {
             .then(newDevice => {
                 console.log(newDevice);
                 if (newDevice) {
-                    startStream(newDevice)
+                    startStream(newDevice.deviceId)
                 } else {
                     console.log("no other cameras");
                 }
