@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 export default function ClickableProfileImage({id, photo, name}) {
     return (
         <>
-            <Link to={`/profile/${id}`}>
+            <Link to={`/profile/${id}`} style={{display: 'grid', placeItems: 'center'}}>
                 <img src={photo} alt={name} width='36px' className='circle'/>
             </Link>
         </>

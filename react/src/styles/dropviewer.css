@@ -7,11 +7,14 @@
     translate: -50% -50%;
     border: none;
     border-radius: 0.5rem;
-    background: var(--blue80);
-    backdrop-filter: blur(6px);
+    background-color: var(--blue50);
+    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(6px);
     overflow: hidden;
     animation: popup 0.3s cubic-bezier(.51,.79,.69,1.22) both;
+}
+.dropViewer.darkMode {
+    background-color: var(--blue25);
 }
 
 @keyframes popup {
@@ -21,7 +24,7 @@
 
 .dropViewer .dropWrapper {
     width: 90%;
-    padding: 2rem 1rem;
+    padding: 1rem;
     border-radius: 0.5rem;
     background: var(--fg);
     color: var(--bg);
@@ -32,6 +35,9 @@
     top: 50%;
     left: 50%;
     translate: -50% -50%;
+}
+.dropViewer.darkMode .dropWrapper {
+    background: var(--bg)
 }
 .dropViewer .dropWrapper p {
     font-size: 1.1rem;
@@ -45,6 +51,10 @@
 .dropViewer .dropWrapper > p {
     font-size: 1.4rem;
 }
+.dropViewer.darkMode .dropWrapper p,
+.dropViewer.darkMode .dropViewerHeader {
+    color: var(--fg)
+}
 .dropViewer .dropWrapper i {
     font-size: 1.4rem;
     color: var(--blue)
@@ -52,8 +62,19 @@
 .dropViewer .dropWrapper button i {
     color: var(--fg)
 }
+.dropViewer .dropViewerHeader {
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.dropViewer .dropTitle {
+    text-align: left;
+    width: 100%;
+}
 .dropViewer .dropWrapper .dropCreator {
     text-align: left;
+    font-size: medium;
+    font-weight: 400;
+    font-style: italic;
 }
 .dropViewer .closeButton {
     position: absolute;
@@ -64,4 +85,16 @@
     color: var(--fg);
     background: transparent;
     border: unset;
+}
+
+.dropViewer .deleteDropButton {
+    border: none;
+    padding: 0.5rem;
+    margin: 0 1rem;
+}
+.dropViewer.darkMode .deleteDropButton i {
+    color: var(--fg);
+}
+.dropViewer .deleteDropButton i {
+    color: var(--bg);
 }

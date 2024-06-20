@@ -88,7 +88,7 @@ export default function ProfileDisplay({profileId}) {
     }
 
     const profileDrops = (allDrops)=>{
-        return allDrops.filter(p => viewing.drops.includes(p._id)).sort((a,b)=>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+        return allDrops.filter(p => viewing.drops.includes(p._id)).sort((a,b)=>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     }
 
     return (

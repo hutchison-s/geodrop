@@ -25,6 +25,9 @@ export default function MapController({panTo, children, clearParams}) {
     useMapEvents({
         dragstart: ()=>{
             setIsBrowsing(true)
+        },
+        popupopen: ()=>{
+            setIsBrowsing(true)
         }
     })
 

@@ -66,7 +66,7 @@ export default function NewAudioDrop() {
                     <button 
                         onClick={toggleRecording}
                         id="shutter" 
-                        className="grid center circle shadow3d borderNone mAuto">
+                        className="grid center circle shadow3d borderNone mAuto recordButton">
                             {isRecording ? <i className="fa-solid fa-stop recordingInProgress"></i> : <i className="fa-solid fa-microphone colorFG"></i>}
                     </button>
             </div>

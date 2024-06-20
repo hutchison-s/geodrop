@@ -5,6 +5,7 @@
     --fg: #F1EFEF;
     --blue: #26A9E0;
     --blue25: #26A9E055;
+    --blue50: #26A9E099;
     --blue80: #26A9E0dd;
     --basic: #dadee2;
 }
@@ -30,7 +31,7 @@ body {
     font-family: 'Lato', sans-serif;
   }
   
-  p, .article-text, .description {
+  p, .article-text, .description, input, textarea {
     font-family: 'Source Sans 3', sans-serif;
   }
 .colorFG {
@@ -179,9 +180,12 @@ body {
 
 #root .appView {
     width: 100%;
-    height: calc(100dvh - 100px);
+    height: calc(100dvh - 80px);
     padding: 0 1rem;
     background-color: var(--bg);
+}
+#root .appView:has(.newDropPage) {
+    padding: 0;
 }
 
 #root .contentWrap {

@@ -1,5 +1,5 @@
 import { Marker } from "react-leaflet";
-import { Popup, useMap } from "react-leaflet";
+import { Popup } from "react-leaflet";
 import { icons } from "../assets/icons";
 import { useUser } from "../contexts/UserContext";
 import { DropProp } from "../assets/customProps";
@@ -11,16 +11,12 @@ import { apiBaseURL } from "../apiSwitch";
 
 export default function NearDrop({ drop }) {
   const { profile } = useUser();
-  const map = useMap();
   const [viewing, setViewing] = useState(false)
 
-  const handleView = ()=>{
-    map.flyTo(drop.location, 16)
-    if (!drop.viewedBy.includes(profile._id)) {
-        axios.post(`${apiBaseURL}/drops/${drop._id}/view/${profile._id}`)
-            .catch(err => console.log(err.message))
-    }
-  }
+  // const handleView = ()=>{
+  //   map.flyTo(drop.location, 18)
+    
+  // }
 
   const handleLikeToggle = ()=>{
     if (drop.likedBy.includes(profile._id)) {
@@ -34,14 +30,12 @@ export default function NearDrop({ drop }) {
 
   return (
     <>
-      {!drop.viewedBy.includes(profile._id) && (
+      {!drop.viewedBy.includes(profile._id) && drop.creatorInfo._id !== profile._id && (
         <Marker icon={icons.ripple} position={drop.location} />
       )}
       {viewing && <DropViewer drop={drop} close={()=>setViewing(false)}/>}
       <Marker icon={icons.drop} position={drop.location}>
-        <Popup eventHandlers={{
-            add: handleView
-        }}>
+        <Popup >
           <div className="popupFrame flex w100 spread">
             <div className="popupLeft flex vertical">
               <p className="popupTitle">

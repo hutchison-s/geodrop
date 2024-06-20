@@ -75,11 +75,18 @@
     border-radius: 0.5rem;
     padding: 0 0.5rem;
 }
+.viewDropButton {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1rem;
+}
 
 .dropPreviewFrame .deleteDropButton {
     width: 36px;
     height: 36px;
     display: grid;
-    align-items: center;
+    place-items: center;
     border: 1px solid var(--bg);
+}
+.darkMode .dropPreviewFrame .deleteDropButton i {
+    color: var(--fg)
 }

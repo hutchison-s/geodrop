@@ -17,6 +17,9 @@
     width: 100%;
     height: 100%;
 }
+.you-icon {
+    box-shadow: 0 0 20px #ffffff33;
+}
 
 .leaflet-control-attribution {
     opacity: 0.3;
@@ -52,7 +55,7 @@
     margin-bottom: 0.5rem;
 }
 
-.leaflet-marker-icon[src='/src/assets/drop-far.png'] {
+.far-drop-icon {
     filter: blur(2px);
 }
 .popupCreatorImage {
