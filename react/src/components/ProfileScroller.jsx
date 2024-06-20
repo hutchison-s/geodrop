@@ -30,7 +30,7 @@ export default function ProfileScroller({people}) {
         <>
             <div className="profileScroller w100">
                 <div className="scroller">
-                    {profiles && profiles.map(p => <ClickableProfileImage key={p._id} id={p._id} photo={p.photo} name={p.displayName}/>)}
+                    {profiles && profiles.map(p => <ClickableProfileImage key={p._id} creator={p}/>)}
                 </div>
             </div>
         </>

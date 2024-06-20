@@ -13,11 +13,12 @@ import { deleteFile } from "../config/firebase";
 
 export default function DropViewer({ drop, close }) {
     const { profile, setProfile } = useUser();
-    const {mode} = useMode();
+    const {isDark} = useMode();
     const nodeRef = useRef(null);
 
     const isMine = drop.creatorInfo._id === profile._id;
     const alreadyViewed = drop.viewedBy.includes(profile._id);
+    const alreadyLiked = drop.likedBy.includes(profile._id);
 
     const handleClose = () => {
         nodeRef.current?.close();
@@ -25,7 +26,7 @@ export default function DropViewer({ drop, close }) {
     };
 
     const handleLikeToggle = () => {
-        if (drop.likedBy.includes(profile._id)) {
+        if (alreadyLiked) {
             axios.delete(`${apiBaseURL}/drops/${drop._id}/like/${profile._id}`)
                 .catch(err => console.log(err.message));
         } else {
@@ -64,16 +65,24 @@ export default function DropViewer({ drop, close }) {
     }, []);
 
     return (
-        <dialog ref={nodeRef} className={`dropViewer ${mode !== 'light' ? 'darkMode' : ''}`}>
+        <dialog ref={nodeRef} className={`dropViewer ${isDark ? 'darkMode' : ''}`}>
             <button onClick={handleClose} className="closeButton">
                 <i className="fa-solid fa-xmark"></i>
             </button>
             <div className="dropWrapper">
                 
-                <div className="flex dropViewerHeader w100 gapS">
+                <div className="flex spread dropViewerHeader w100">
                     
-                    <ClickableProfileImage photo={drop.creatorInfo.photo} id={drop.creatorInfo._id} name={drop.creatorInfo.displayName} />
-                    <p className="dropCreator w100">{drop.creatorInfo.displayName}</p>
+                    <div className="flex gapS center">
+                        <ClickableProfileImage creator={drop.creatorInfo} />
+                        <p className="dropCreator w100">{drop.creatorInfo.displayName}</p>
+                    </div>
+                    {isMine && <button
+                            onClick={handleDelete}
+                            className="bgNone padS circle deleteDropButton"
+                        >
+                            <i className="fa-solid fa-trash"></i>
+                        </button>}
                 </div>
                 <h3 className="dropTitle">{drop.title}</h3>
                 <DropContent type={drop.type} data={drop.data} title={drop.title} />
@@ -82,20 +91,12 @@ export default function DropViewer({ drop, close }) {
                     <div>
                         <p><small><em>{new Date(drop.timestamp).toLocaleString()}</em></small></p>
                     </div>
-                    <div>
-                        {isMine && <button
-                            onClick={handleDelete}
-                            className="bgNone padS circle deleteDropButton"
-                        >
-                            <i className="fa-solid fa-trash"></i>
-                        </button>}
-                        <i
-                            className={`fa-${drop.likedBy.includes(profile._id) ? "solid" : "regular"} fa-heart`}
-                            role="button"
-                            onClick={handleLikeToggle}
-                            tabIndex={0}
-                        ></i>
-                    </div>
+                    <i
+                        className={`fa-${alreadyLiked ? "solid" : "regular"} fa-heart`}
+                        role="button"
+                        onClick={handleLikeToggle}
+                        tabIndex={0}
+                    ></i>
                 </div>
             </div>
         </dialog>

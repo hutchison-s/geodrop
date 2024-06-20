@@ -5,40 +5,12 @@ import axios from 'axios'
 import "../styles/droppreview.css";
 import { useEffect } from "react";
 import { useState } from "react";
+import { readableTimeStamp, typeIcon } from "../functions/utilityFunctions";
+import DropContent from "./DropContent";
 
 export default function LikedDrop({ drop }) {
-  const { mode } = useMode();
+  const { isDark } = useMode();
   const [cityName, setCityName] = useState('Somewhere...')
-
-  const typeIcon = () => {
-    switch (drop.type) {
-      case "audio":
-        return "headphones";
-      case "image":
-        return "camera";
-      case "video":
-        return "video";
-      default:
-        return "file-lines";
-    }
-  };
-
-  const Content = ()=>{
-    switch(drop.type) {
-        case 'text':
-            return (
-                <p>{drop.data}</p>
-            );
-        case 'image':
-            return (
-                <img src={drop.data} alt={drop.title} width='100%'/>
-            );
-        default:
-            return (
-                <p>Cannot display this type yet</p>
-            )
-    }
-}
 
   useEffect(()=>{
 
@@ -59,13 +31,13 @@ export default function LikedDrop({ drop }) {
 
   return (
     <div
-      className={`dropPreviewFrame w100 ${mode === "dark" ? "darkMode" : ""}`}
+      className={`dropPreviewFrame w100 ${isDark ? "darkMode" : ""}`}
     >
       <div className="dropPreviewHeader flex spread w100">
         <h3>{drop.title}</h3>
         <div className="flex gapS">
           <div className="circle dropTypeIcon">
-            <i className={`fa-solid fa-${typeIcon()}`}></i>
+            <i className={typeIcon(drop.type)}></i>
           </div>
           <img
             src={drop.creatorInfo.photo}
@@ -76,7 +48,7 @@ export default function LikedDrop({ drop }) {
         </div>
       </div>
       <div className="dropContent padM">
-        <Content />
+        <DropContent data={drop.data} title={drop.title} type={drop.type} />
       </div>
       <div className="flex spread w100">
           <p className="dropDistance">Found in {cityName}</p>
@@ -88,7 +60,7 @@ export default function LikedDrop({ drop }) {
         </p>
         <p className="dropPreviewTimestamp">
           <small>
-            <em>{new Date(drop.timestamp).toLocaleString()}</em>
+            <em>{readableTimeStamp(drop.timestamp)}</em>
           </small>
         </p>
       </div>

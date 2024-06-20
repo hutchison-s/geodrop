@@ -10,14 +10,17 @@ import { useUser } from '../contexts/UserContext';
 import { useMode } from '../contexts/LightContext';
 import { useDrops } from '../contexts/DropContext';
 import { apiBaseURL } from '../apiSwitch';
+import { readableTimeStamp } from '../functions/utilityFunctions';
 
 export default function ProfileDisplay({profileId}) {
 
     const [viewing, setViewing] = useState();
     const {profile, setProfile} = useUser();
-    const {mode} = useMode();
+    const {isDark} = useMode();
     const {drops} = useDrops();
     const navigate = useNavigate();
+
+    const isFollowing = viewing && profile.following.includes(viewing._id)
 
     useEffect(()=>{
         const getProfile = async () => {
@@ -36,7 +39,7 @@ export default function ProfileDisplay({profileId}) {
 
 
     const handleFollowToggle = ()=>{
-        if (profile.following.includes(viewing._id)) {
+        if (isFollowing) {
             unfollow()
         } else {
             follow()
@@ -87,18 +90,50 @@ export default function ProfileDisplay({profileId}) {
         
     }
 
+    // Filter
+    const isMine = drop => viewing.drops.includes(drop._id)
+    // Sort
+    const timeDescending = (a,b)=>(new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+
     const profileDrops = (allDrops)=>{
-        return allDrops.filter(p => viewing.drops.includes(p._id)).sort((a,b)=>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+        return allDrops.filter(isMine).sort(timeDescending);
+    }
+
+    const StillLoading = ()=>{
+        return <>
+            <h2 className="textCenter profileName minH2 contentLoading"></h2>
+            <p className="textCenter profileTimestamp minH2 contentLoading"></p>
+            <div className="circle mAuto contentLoading" style={{width: '50%', aspectRatio: '1'}}></div>
+            <div className="profileStats grid padM gapS">
+                <div className="flex w100">
+                <div>
+                    <img src={dropIcon} alt="drops" width='48px' /></div>
+                    <div><i className="fa-regular fa-heart"></i></div>
+                    <div><i className="fa-solid fa-eye"></i></div>
+                </div>
+                <div className="flex w100">
+                    <div className="contentLoading"></div>
+                    <div className="contentLoading"></div>
+                    <div className="contentLoading"></div>
+                </div>
+            </div>
+            <div className="w100 contentLoading" style={{height: '3rem'}}></div>
+            <div className="dropFeed flex vertical gapM">
+                <div className="dropPreviewFrame minH4 contentLoading"></div>
+                <div className="dropPreviewFrame minH4 contentLoading"></div>
+                <div className="dropPreviewFrame minH4 contentLoading"></div>
+            </div>
+        </>
     }
 
     return (
-        viewing && <>
-            <section id='profileFrame' className={`grid ${mode === 'light' ? '' : 'darkMode'}`}>
+        viewing ? <>
+            <section id='profileFrame' className={`grid ${isDark ? 'darkMode' : ''}`}>
             <h2 className="textCenter profileName">{viewing.displayName}</h2>
-            <p className="textCenter profileTimestamp"><small><em>{profileDrops(drops).length > 0 ? `Last dropped on ${new Date(profileDrops(drops)[0].timestamp).toLocaleDateString()}` : 'No Drops Yet'}</em></small></p>
+            <p className="textCenter profileTimestamp"><small><em>{profileDrops(drops).length > 0 ? `Last dropped on ${readableTimeStamp(profileDrops(drops)[0].timestamp)}` : 'No Drops Yet'}</em></small></p>
             <img src={viewing.photo} alt={`${viewing.displayName}`} className="circle shadowL" width='50%'/>
             {profile._id !== viewing._id 
-                ? <button onClick={handleFollowToggle} className="shadow3d followButton">{profile.following.includes(viewing._id) ? 'Unfollow' : 'Follow'}</button>
+                ? <button onClick={handleFollowToggle} className="shadow3d followButton">{isFollowing ? 'Unfollow' : 'Follow'}</button>
                 : <button className="borderNone bgNone profileEdit padM"><i className="fa-solid fa-pencil"></i> Edit Profile</button>
             }
             <div className="profileStats grid padM gapS">
@@ -119,6 +154,7 @@ export default function ProfileDisplay({profileId}) {
             </DropFeed>
         </section>
         </>
+        : <StillLoading />
     )
 }
 

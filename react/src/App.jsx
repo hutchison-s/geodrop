@@ -13,6 +13,7 @@ import GeoLocationProvider from "./contexts/GeoLocationContext";
 import AwaitLocation from "./router/AwaitLocation";
 import { LightContextProvider } from "./contexts/LightContext";
 import { DropContextProvider } from "./contexts/DropContext";
+import FullScreenContent from "./pages/FullScreenContent";
 
 function App() {
     
@@ -38,6 +39,7 @@ function App() {
                                       <Route path=":id" element={<Profile />}/>
                                   </Route>
                                   <Route path="favorites" element={<Favorites />}/>
+                                  <Route path="content/:id" element={<FullScreenContent/>} />
                                   <Route path="*" element={<NotFound />} />
                               </Route>
                           </Routes>

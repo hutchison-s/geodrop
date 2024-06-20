@@ -11,7 +11,7 @@ import { useMode } from "../contexts/LightContext";
 
 export default function NewPost() {
   const [chosenType, setChosenType] = useState("image");
-  const {mode} = useMode();
+  const {isDark} = useMode();
 
   const DropInterface = () => {
     switch (chosenType) {
@@ -29,7 +29,7 @@ export default function NewPost() {
   };
 
   return (
-    <section className={`newDropPage flex vertical ${mode !== 'light' ? 'darkMode' : ''}`}>
+    <section className={`newDropPage flex vertical ${isDark ? 'darkMode' : ''}`}>
       <NewDropTypeSelector state={chosenType} setState={setChosenType} />
       <Marquee text='What will you leave behind?' text2={<img src={logo} alt="GeoDrop" width='60px'></img>} />
       <DropInterface />

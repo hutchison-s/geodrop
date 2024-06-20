@@ -8,7 +8,7 @@ export default function FarDrop({ drop }) {
   const map = useMap();
 
   return (
-    <Marker icon={icons.farDrop} position={drop.location} >
+    <Marker icon={icons.farDrop} position={drop.location} autoPanOnFocus={true}>
       <Popup eventHandlers={{add: ()=>{map.flyTo(drop.location)}}}>
         <div className="popupFrame flex spread">
           <div className="popupLeft flex vertical">
@@ -23,7 +23,7 @@ export default function FarDrop({ drop }) {
             </p>
           </div>
           <div className="popupRight flex vertical center gapS">
-          <ClickableProfileImage id={drop.creatorInfo._id} photo={drop.creatorInfo.photo} name={drop.creatorInfo.displayName} />
+          <ClickableProfileImage creator={drop.creatorInfo} />
             <div>
               <div className="popupViews flex gapS spread">
                 <span>{drop.viewedBy.length}</span>

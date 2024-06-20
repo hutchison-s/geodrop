@@ -3,60 +3,50 @@ import { useGeoLoc } from "../contexts/GeoLocationContext";
 import { useDrops } from "../contexts/DropContext"
 import { useUser } from "../contexts/UserContext";
 import '../styles/feed.css'
+import { distanceToDrop } from "../functions/utilityFunctions";
 
 export default function Feed() {
     const {drops} = useDrops();
     const {profile} = useUser(); 
     const {position} = useGeoLoc();
 
-    // from GPT
-    const distanceToDrop = (dropLocation) => {
-        const toRadians = (degree) => degree * (Math.PI / 180);
-        const R = 6371;
+    const isMine = (drop)=> drop.creatorInfo._id === profile._id;
+    const alreadyViewed = (drop) => drop.viewedBy.includes(profile._id);
+    const isFollowing = (drop) => profile.following.includes(drop.creatorInfo._id);
+    const threshold = 5280 * 5 // 5 miles
 
-        const dLat = toRadians(dropLocation.lat - position.lat);
-        const dLng = toRadians(dropLocation.lng - position.lng);
-        const lat1 = toRadians(position.lat);
-        const lat2 = toRadians(dropLocation.lat);
+    // Filters
+    const proximity = (drop) => ((distanceToDrop(position, drop.location) < threshold) && !alreadyViewed(drop))
+    const following = (drop) => ((distanceToDrop(position, drop.location) >= threshold) && isFollowing(drop))
+    const notMine = drop => !isMine(drop);
+    
+    // Sorts
+    const distanceAscending = (a,b)=>distanceToDrop(position, a.location) - distanceToDrop(position, b.location)
 
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                    Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        const distance = (R * c) * 3280.8398950131; // Distance in feet
-
-        return distance 
+    const StillLoading = ()=>{
+       return  <div className="dropFeed flex vertical gapM">
+                <div className="dropPreviewFrame minH4 contentLoading"></div>
+                <div className="dropPreviewFrame minH4 contentLoading"></div>
+                <div className="dropPreviewFrame minH4 contentLoading"></div>
+            </div>
     }
 
-    // Filter for drops by connections and drops within 5 miles
-    const filterProximity = (dropList) => {
-        return dropList.filter(drop => (distanceToDrop(drop.location) < 26000) && !drop.viewedBy.includes(profile._id))
-    }
-    // Filter for drops beyond 5 miles by other users the profile follows
-    const filterFollowing = (dropList) => {
-        return dropList.filter(drop => (distanceToDrop(drop.location) >= 26000 && profile.following.includes(drop.creatorInfo._id)))
-    }
-    // Filter out drops the user created
-    const filterMine = (dropList) => {
-        return dropList.filter(drop => drop.creatorInfo._id !== profile._id);
-    }
 
-    // Sort the filtered list from nearest to farthest
-    const sortByDistance = (dropList) => {
-        return dropList.sort((a,b)=>distanceToDrop(a.location) - distanceToDrop(b.location))
-    }
     return (
-        <>
+        drops ? <>
             
-            <DropFeed drops={sortByDistance(filterProximity(filterMine(drops)))}>
+            {/* <DropFeed drops={sortByDistance(filterProximity(filterMine(drops)))}> */}
+            <DropFeed drops={drops.filter(notMine).filter(proximity).sort(distanceAscending)}>
                 <div className="feedWelcome">
                     <h2>Welcome {profile.displayName}!</h2>
                     <p>Explore these new drops near you:</p>
                 </div>
             </DropFeed>
-            <DropFeed drops={sortByDistance(filterFollowing(drops))}>
+            {/* <DropFeed drops={sortByDistance(filterFollowing(drops))}> */}
+            <DropFeed drops={drops.filter(following).sort(distanceAscending)}>
                 <p className="textCenter w100 padM colorFG">More distant drops by people you follow:</p>
             </DropFeed>
             </>
+        : <StillLoading />
     )
 }

@@ -30,11 +30,12 @@ export default function AudioPlayer({ src }) {
     }
     const progress =
       (audioRef.current.currentTime / audioRef.current.duration) * 100;
-    setProgress(progress);
+    // eslint-disable-next-line no-unused-vars
+    setProgress(prog => progress);
   };
 
   return (
-    <div className="audioPlayer">
+    <div className="audioPlayer" style={{position: 'relative'}}>
   
           <div
             className="progressBar"
@@ -46,7 +47,7 @@ export default function AudioPlayer({ src }) {
               borderRadius: '10px',
               background: "var(--blue)",
               transformOrigin: 'left',
-              transition: "transform 0.5s linear",
+              transition: "transform 0.3s linear",
 
             }}>
       </div>

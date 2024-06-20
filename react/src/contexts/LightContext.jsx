@@ -11,9 +11,11 @@ export function LightContextProvider({children}) {
         setMode(m => m === 'light' ? 'dark' : 'light')
     }
 
+    const isDark = mode === 'dark'
+
     return (
         <>
-            <LightContext.Provider value={{mode, switchMode}}>
+            <LightContext.Provider value={{mode, isDark, switchMode}}>
                 {children}
             </LightContext.Provider>
         </>

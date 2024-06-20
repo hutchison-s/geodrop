@@ -2,6 +2,7 @@ import '../styles/dropviewer.css'
 import PropTypes from 'prop-types'
 import AudioPlayer from './AudioPlayer';
 import VideoPlayer from './VideoPlayer';
+import ImageDisplay from './ImageDisplay';
 
 export default function DropContent({type, data, title}) {
 
@@ -14,7 +15,7 @@ export default function DropContent({type, data, title}) {
                 );
             case 'image':
                 return (
-                    <img src={data} alt={title} width='100%' style={{maxHeight: '50vh'}}/>
+                    <ImageDisplay url={data} title={title} />
                 );
             case 'video':
                 return (

@@ -6,6 +6,37 @@
     color: var(--fg);
 }
 
+.loginGlobe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -39% -66%;
+  scale: 0.17;
+  z-index: 100;
+  animation-name: days, spinWorld;
+  animation-duration: 10s, 10s;
+  animation-timing-function: ease-in, linear;
+  animation-iteration-count: infinite, infinite;
+  animation-fill-mode: both;
+}
+@keyframes days {
+  0% {
+    scale: 0.17;
+    translate: -39% -66%;
+    filter: blur(0px);
+  }
+  25%, 100% {
+    scale: 8;
+    translate: -50% -50%;
+    filter: blur(10px);
+  }
+}
+
+@keyframes spinWorld {
+  from {rotate: 0}
+  to { rotate: 360deg}
+}
+
 .gsi-material-button {
     -moz-user-select: none;
     -webkit-user-select: none;

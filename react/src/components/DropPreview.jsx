@@ -11,35 +11,18 @@ import { apiBaseURL } from "../apiSwitch";
 import { deleteFile } from "../config/firebase";
 import DropViewer from "./DropViewer";
 import { useState } from "react";
+import { feetToText, readableTimeStamp, typeIcon } from "../functions/utilityFunctions";
 
 export default function DropPreview({ drop, distance }) {
-  const { mode } = useMode();
+  const { isDark } = useMode();
   const { profile, setProfile } = useUser();
   const [viewing, setViewing] = useState(false);
 
-  const typeIcon = () => {
-    switch (drop.type) {
-      case "audio":
-        return "headphones";
-      case "image":
-        return "camera";
-      case "video":
-        return "video";
-      default:
-        return "file-lines";
-    }
-  };
+  const isMine = drop.creatorInfo._id === profile._id;
+  const alreadyViewed = drop.viewedBy.includes(profile._id);
+  const isFollowing = profile.following.includes(drop.creatorInfo._id)
 
-  const feetToText = (feet) => {
-    switch (true) {
-      case feet < 500:
-        return `Only ${Math.round(feet)} feet away!`;
-      case feet < 1000:
-        return `${Math.round(feet)} feet away`;
-      default:
-        return `${(feet / 5280).toFixed(1)} miles away`;
-    }
-  };
+  
 
   const handleDelete = async () => {
     axios
@@ -62,15 +45,15 @@ export default function DropPreview({ drop, distance }) {
     <>
       <div
         className={`dropPreviewFrame w100 ${
-          mode === "dark" ? "darkMode" : ""
+          isDark ? "darkMode" : ""
         } ${
-          profile.following.includes(drop.creatorInfo._id) ? "following" : ""
+          isFollowing ? "following" : ""
         }`}
       >
         <div className="dropPreviewHeader flex spread w100">
           <h3>{drop.title}</h3>
           <div className="flex gapS">
-            {drop.creatorInfo._id === profile._id ? (
+            {isMine ? (
               <button
                 onClick={handleDelete}
                 className="bgNone padS circle deleteDropButton"
@@ -79,31 +62,27 @@ export default function DropPreview({ drop, distance }) {
               </button>
             ) : (
               <div className="circle dropTypeIcon">
-                <i className={`fa-solid fa-${typeIcon()}`}></i>
+                <i className={typeIcon(drop.type)}></i>
               </div>
             )}
 
             <ClickableProfileImage
-              id={drop.creatorInfo._id}
-              photo={drop.creatorInfo.photo}
-              name={drop.creatorInfo.displayName}
+              creator={drop.creatorInfo}
             />
           </div>
         </div>
         <div className="flex spread w100">
-          {drop.viewedBy.includes(profile._id) ||
-          drop.creatorInfo._id === profile._id ? (
-            <button
-              className="viewDropButton"
-              onClick={() => {
-                setViewing(true);
-              }}
-            >
-              View Drop
-            </button>
-          ) : (
-            <p className="dropDistance">{feetToText(distance)}</p>
-          )}
+          {alreadyViewed || isMine 
+            ?   <button
+                  className="viewDropButton"
+                  onClick={() => {
+                    setViewing(true);
+                  }}
+                >
+                  View Drop
+                </button> 
+            :   <p className="dropDistance">{feetToText(distance)}</p>
+          }
           <Link
             to={`/explore?lat=${drop.location.lat}&lng=${drop.location.lng}`}
             className="viewOnMapButton"
@@ -117,7 +96,7 @@ export default function DropPreview({ drop, distance }) {
           </p>
           <p className="dropPreviewTimestamp">
             <small>
-              <em>{new Date(drop.timestamp).toLocaleString()}</em>
+              <em>{readableTimeStamp(drop.timestamp)}</em>
             </small>
           </p>
         </div>
@@ -136,6 +115,5 @@ export default function DropPreview({ drop, distance }) {
 
 DropPreview.propTypes = {
   drop: DropProp,
-  distance: PropTypes.number.isRequired,
-  following: PropTypes.bool.isRequired,
+  distance: PropTypes.number.isRequired
 };

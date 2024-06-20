@@ -29,9 +29,6 @@ export default function NewImageDrop() {
     }, [])
 
     const startStream = async (cameraId)=>{
-        // if (cameraId) {
-        //     console.log('attempting to start stream from:', (await navigator.mediaDevices.enumerateDevices()).find(dev => dev.deviceId === cameraId).label);
-        // }
         
         if (streamRef.current) {
             streamRef.current.getTracks().forEach(track => track.stop());
@@ -85,6 +82,7 @@ export default function NewImageDrop() {
     return (
         <>
             <div className="videoPreviewWrapper">
+                {!streamRef.current && <div className="w100 minH4 contentLoading"></div>}
                     <video id="newDropVideo" muted ref={videoRef} autoPlay playsInline></video>
                     <button 
                         onClick={snapshot}

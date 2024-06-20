@@ -34,7 +34,7 @@ export default function NearDrop({ drop }) {
         <Marker icon={icons.ripple} position={drop.location} />
       )}
       {viewing && <DropViewer drop={drop} close={()=>setViewing(false)}/>}
-      <Marker icon={icons.drop} position={drop.location}>
+      <Marker icon={icons.drop} position={drop.location} autoPanOnFocus={true}>
         <Popup >
           <div className="popupFrame flex w100 spread">
             <div className="popupLeft flex vertical">
@@ -52,7 +52,7 @@ export default function NearDrop({ drop }) {
               </p>
             </div>
             <div className="popupRight flex vertical center gapS">
-            <ClickableProfileImage id={drop.creatorInfo._id} photo={drop.creatorInfo.photo} name={drop.creatorInfo.displayName} />
+            <ClickableProfileImage creator={drop.creatorInfo} />
 
               <div className="w100">
                 <div className="popupViews flex spread gapS w100">

@@ -74,12 +74,16 @@
     color: var(--blue) !important;
     border-radius: 0.5rem;
     padding: 0 0.5rem;
+    margin: 0.5rem 0;
 }
 .viewDropButton {
     font-family: 'Source Sans 3', sans-serif;
     font-size: 1rem;
 }
 
+.darkMode .dropPreviewFrame .deleteDropButton {
+    border-color: var(--fg);
+}
 .dropPreviewFrame .deleteDropButton {
     width: 36px;
     height: 36px;
@@ -87,6 +91,9 @@
     place-items: center;
     border: 1px solid var(--bg);
 }
+.dropPreviewFrame .deleteDropButton i {
+    color: var(--bg);
+}
 .darkMode .dropPreviewFrame .deleteDropButton i {
-    color: var(--fg)
+    color: var(--fg);
 }
