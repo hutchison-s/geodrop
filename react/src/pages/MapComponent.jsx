@@ -76,7 +76,7 @@ export default function MapComponent() {
               opacity: 0.3,
             }}
             spiderfyOnMaxZoom={true}
-            spiderfyDistanceMultiplier={2}
+            spiderfyDistanceMultiplier={3}
           >
             <MapDrops />
             
