@@ -9,7 +9,7 @@ export default function DropContent({type, data, title}) {
         switch (type) {
             case 'text':
                 return (
-                    <div style={{maxHeight: '400px', overflowY: 'auto', margin: 'auto', width: '100%'}}>
+                    <div className="dropContentText" style={{maxHeight: '400px', overflowY: 'auto', margin: 'auto', width: '100%'}}>
                         <p>{data}</p>
                     </div>
                 );

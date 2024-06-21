@@ -2,16 +2,15 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react"
-import DropSubmissionDialog from "./DropSubmissionDialog";
+import PropTypes from 'prop-types'
 
 
-export default function NewAudioDrop() {
+export default function NewAudioDrop({collect, cancel}) {
 
     const recorderRef = useRef(null)
     const chunksRef = useRef([])
 
-    const [blob, setBlob] = useState();
-    const [isSubmitting, setIsSubmitting] = useState(false)
+
     const [isRecording, setIsRecording] = useState(false)
 
     const acceptedFormat = ()=>{
@@ -33,10 +32,9 @@ export default function NewAudioDrop() {
                     }
                     recorder.onstop = ()=>{
                         const audioBlob = new Blob(chunksRef.current, {type: acceptedFormat()});
-                        setBlob(audioBlob);
-                        setIsRecording(false);
-                        setIsSubmitting(true)
                         stream.getTracks().forEach(track => track.stop());
+                        collect(audioBlob)
+                        
                     }
                     
                 })
@@ -51,7 +49,8 @@ export default function NewAudioDrop() {
         }
     }, [])
 
-    const toggleRecording = ()=>{
+    const toggleRecording = (e)=>{
+        e.stopPropagation();
         if (isRecording) {
             recorderRef.current.stop()
         } else {
@@ -62,16 +61,19 @@ export default function NewAudioDrop() {
 
     return (
         <>
-            <div className="videoPreviewWrapper">
-                    <button 
+             <div id="audioCapture" className='fullscreen' onClick={cancel}>
+                <button 
                         onClick={toggleRecording}
-                        id="shutter" 
-                        className="grid center circle shadow3d borderNone mAuto recordButton">
+                        id="recordButton" 
+                        className="grid center circle shadow3d borderNone recordButton">
                             {isRecording ? <i className="fa-solid fa-stop recordingInProgress"></i> : <i className="fa-solid fa-microphone colorFG"></i>}
-                    </button>
-            </div>
-           {isSubmitting && <DropSubmissionDialog finish={()=>{setIsSubmitting(false); setBlob(undefined); initializeRecorder()}} dropType='audio' file={blob} text=''/>}
+                    </button></div>  
             
         </>
     )
+}
+
+NewAudioDrop.propTypes = {
+    collect: PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired
 }

@@ -1,343 +1,196 @@
 .newDropPage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    /* background-image: linear-gradient(var(--bg), var(--basic), var(--bg)); */
-        --s: 150px; /* control the size*/
-        --c1: #e3e7eb;
-        --c2: var(--fg);
-        
-        --_g: var(--c1)        6.1%,var(--c2)  6.4% 18.6%,var(--c1) 18.9% 31.1%,
-              var(--c2) 31.4% 43.6%,var(--c1) 43.9% 56.1%,var(--c2) 56.4% 68.6%,#0000 68.9%;
-        background:
-          radial-gradient(var(--s) at 100% 0   ,var(--_g)),
-          radial-gradient(var(--s) at 0    0   ,var(--_g)),
-          radial-gradient(var(--s) at 0    100%,var(--_g)),
-          radial-gradient(var(--s) at 100% 100%,var(--_g)) var(--c1);
-        background-size: var(--s) var(--s);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.1rem;
+  /* padding: 0.75rem; */
+
+  /* background-image: linear-gradient(var(--bg), var(--basic), var(--bg)); */
+  --s: 150px; /* control the size*/
+  --c1: #e3e7eb;
+  --c2: var(--fg);
+
+  --_g: var(--c1) 6.1%, var(--c2) 6.4% 18.6%, var(--c1) 18.9% 31.1%,
+    var(--c2) 31.4% 43.6%, var(--c1) 43.9% 56.1%, var(--c2) 56.4% 68.6%,
+    #0000 68.9%;
+  background: radial-gradient(var(--s) at 100% 0, var(--_g)),
+    radial-gradient(var(--s) at 0 0, var(--_g)),
+    radial-gradient(var(--s) at 0 100%, var(--_g)),
+    radial-gradient(var(--s) at 100% 100%, var(--_g)) var(--c1);
+  background-size: var(--s) var(--s);
 }
+
 
 .newDropPage.darkMode {
-    --c1: var(--bg);
-    --c2: #0f1120;
+  --c1: var(--bg);
+  --c2: #0f1120;
 }
 
-/* -------------- Drop type selector */
-
-.typeSelector {
-    font-size: 1.2rem;
-    border-radius: 1rem;
-    overflow: hidden;
-    position: relative;
-    background-color: transparent;
-    max-width: 90vw;
-    margin: 0 auto;
+.newDropPage > label {
+  background-color: var(--blue50);
+  cursor: pointer;
 }
-.darkMode .typeSelector .typeOption {
-    color: #ffffff88;
+.newDropPage > label:hover {
+  filter: brightness(105%)
 }
-.typeSelector .highlighter {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 25%;
-    height: 100%;
-    background-color: var(--blue80);
-    transition: transform 0.3s;
+.newDropPage > label i {
+  color: var(--bg);
+  font-size: 4rem;
 }
-.typeSelector .typeOption {
-    z-index: 1;
-    color: var(--bg80);
-    transition: color 0.2s 0.1s;
-}
-.typeSelector .typeOption:has(:checked) {
-    color: var(--fg);
+.newDropPage.darkMode > label i {
+  color: var(--basic);
 }
 
-/* -------------- Marquee */
-
-.infiniteScroll {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    mask-image: linear-gradient(90deg, transparent, black, transparent);
-}
-.scrollCar {
-    width: 600%;
-    display: flex;
-    align-items: center;
-}
-.scrollText {
-    overflow: hidden;
-    width: 100%;
-    text-wrap: nowrap;
-    text-align: center;
-    color: transparent;
-    font-size: 1.2rem;
-    font-weight: 200;
-    flex: 1;
-    display: block;
-    background-image: linear-gradient(90deg, var(--blue) 10%, var(--blue), var(--bg) 30%, var(--bg) 70%, var(--blue), var(--blue) 90%);
-    background-size: 1000%;
-    background-repeat: repeat-x;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation-name: marquee, backgroundSlide;
-    animation-duration: 8s, 4s;
-    animation-iteration-count: infinite, infinite;
-    animation-timing-function: linear;
-    animation-delay: 0, 0.4s;
-}
-.darkMode .scrollText {
-    background-image: linear-gradient(90deg, var(--blue) 10%, var(--blue), var(--fg) 30%, var(--fg) 70%, var(--blue), var(--blue) 90%);
-}
-.infiniteScroll img {
-    filter: drop-shadow(0 0 5px var(--bg))
-}
-.darkMode .infiniteScroll img {
-    filter: none;
-}
-
-@keyframes marquee {
-    from {translate: 0}
-    to {translate: -200%}
-}
-@keyframes backgroundSlide {
-    from {background-position: 100%}
-    to {background-position: 0%}
-}
-
-/* -------------- Video Preview */
-
-.videoPreviewWrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    width: 100%;
-    max-width: 500px;
-    max-height: 70vh;
-    margin: auto;
-}
-#newDropVideo {
-    width: 100%;
-    max-width: 500px;
-    object-fit: cover;
-
-}
-
-#shutter {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    translate: -50% -50%;
-    background-color: var(--blue);
-    width: 3.5rem;
-    height: 3.5rem;
-    font-size: 1.8rem;
-}
-#shutter i {
-    color: var(--fg);
-}
-
-
-#screenshotCanvas {
-    display: none;
-    /* transform: rotateY(180deg); */
-}
-
-#flipCamera {
-    width: 40px;
-    height: 40px;
-    background: #ffffff33;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    color: var(--bg);
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
+.newDropPage .fullscreen {
+  width: 100%;
+  height: calc(100dvh - 80px);
+  overflow-y: auto;
+  position: fixed;
+  z-index: 5000;
+  background: var(--bg80);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  margin: auto;
+  max-width: 600px;
+  padding-bottom: 4rem;
 }
 
 /* -------------- Submission Modal */
-
-#dropSubmission {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    width: 100vw;
-    max-width: 500px;
-    height: 100dvh;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: var(--blue50);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(6px);
-    padding: 1rem 0.5rem;
+#submissionForm {
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 3.5rem;
+  
 }
-#dropSubmission.darkMode {
-    background-color: var(--blue25);
+#submissionForm input,
+#submissionForm textarea {
+  width: 80%;
+  padding: 0.25rem;
+  background: var(--bg80);
+  font-size: 16px;
+  color: var(--basic);
+  border: 1px solid var(--basic);
 }
-#closeModal {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.5rem;
-    border: 1px solid #ffffffcc;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    color: #ffffffcc;
-    background-color: transparent;
-}
-#dropSubmission .formContentWrapper p {
-    background: var(--fg);
-    padding: 1rem;
-    height: 100%;
-    width: 100%;
-    margin: auto;
-    border-radius: 0.5rem;
-    border: 4px solid var(--blue);
-    font-size: 1.2rem;
-    line-height: 1.2;
-    overflow-y: auto;
-
-}
-#dropSubmission .formContentWrapper .submissionDropContentWrapper {
-    max-width: 45vh;
-}
-#dropSubmission form {
-    margin-top: 1rem;
-    display: grid;
-    gap: 1rem;
-    width: 100%;
-}
-.inputWrapper {
-    position: relative;
-    gap: 0.5rem;
-    color: var(--fg);
-    width: 100%;
-}
-.inputWrapper span {
-    position: absolute;
-    font-weight: 200;
-    font-size: 1.2rem;
-    font-style: italic;
-    top: 0rem;
-    left: 0.5rem;
-    transition: font-size 0.2s;
-}
-.inputWrapper span:has(~:focus),
-.inputWrapper span.invisible {
-    font-size: 0rem;
-}
-#dropSubmission input,
-#dropSubmission textarea {
-    font-size: 1rem;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    resize: none;
-    border: 2px solid var(--bg);
-    background: var(--bg80);
-    color: var(--fg);
-    width: 100%;
-    font-weight: 200;
+#submissionForm textarea {
+  min-height: 4rem;
+  resize: none;
 }
 
-#submitDrop {
-    width: fit-content;
-    margin: 0 auto;
-    display: grid;
-    place-items: center;
-    padding: 0.5rem;
-    border: 1px solid var(--blue);
-    background-color: var(--bg80);
-    position: relative;
-}
-.darkMode #submitDrop {
-    background-color: #ffffff11;
-}
-#submitDrop.error {
-    background-color: #ff000073;
-}
-#submitDrop:disabled {
-    filter: grayscale(80%);
-}
-#submitDrop:not(.submitting)::before {
-    content: '';
-    position: absolute;
-    display: block;
-    width: 120%;
-    height: 120%;
-    left: 50%;
-    top: 50%;
-    translate: -50% -50%;
-    border-radius: 50%;
-    filter: blur(18px);
-    background-color: #ffffff33;
-    animation: blobRotate 4s linear infinite;
-    z-index: -1;
-}
-#submitDrop.submitting::before {
-    content: '';
-    position: absolute;
-    display: block;
-    width: 120%;
-    height: 120%;
-    left: 50%;
-    top: 50%;
-    translate: -50% -50%;
-    border-radius: 50%;
-    mask-image: radial-gradient(transparent, transparent 65%, black 66%);
-    background-image: conic-gradient( transparent, transparent 60%, #ffffff33 90%, white);
-    animation: rotate 1s infinite linear;
+#cancelSubmission {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  border: 1px solid var(--basic);
 }
 
-@keyframes rotate {
-    to{rotate: 360deg}
+#submissionForm img,
+#submissionForm video {
+  max-width: 30vh;
+}
+
+#submissionForm .dropContentText {
+  padding: 1rem;
+  background: var(--bg80);
+  font-size: 16px;
+  color: var(--basic);
+  border: 1px solid var(--basic);
+  width: 80%;
+  margin: auto;
+  line-height: 1.4;
 }
 
 /* -------------- Text Drop */
 
 .textDropInput {
-    background-color: var(--basic);
-    font-size: medium;
-    font-weight: 200;
-    color: var(--bg);
+  background-color: var(--basic);
+  font-size: medium;
+  font-weight: 200;
+  color: var(--bg);
+  width: 90%;
+  padding: 0.5rem;
+  resize: none;
 }
 .darkMode .textDropInput {
-    color: var(--fg);
-    background-color: #ffffff22;
-}
-/* Audio  */
-#shutter.recordButton {
-    width: 6rem;
-    height: 6rem;
-    font-size: 3rem;
+  color: var(--fg);
+  background-color: #ffffff22;
 }
 
-.darkMode button:has(.recordingInProgress)::before {
-    background-color: var(--fg);
+#finishWriting {
+  border-radius: 0.5rem;
+  background-color: var(--blue80);
+  border: none;
 }
-button:has(.recordingInProgress)::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    z-index: -100;
-    border-radius: 35%;
-    background-color: var(--bg);
-    display: block;
-    filter: blur(18px);
-    mask-image: radial-gradient(transparent 50%, transparent 60%, black);
-    animation: blobRotate 4s linear infinite;
+/* Audio  */
+
+#audioCapture {
+  display: block;
+}
+
+#recordButton {
+  position: fixed;
+  top: 42%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 6rem;
+  height: 6rem;
+  font-size: 3rem;
+  background-color: var(--blue);
+}
+
+.darkMode #recordButton:has(.recordingInProgress)::before {
+  background-color: var(--fg);
+}
+#recordButton:has(.recordingInProgress)::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: -100;
+  border-radius: 35%;
+  background-color: var(--bg);
+  display: block;
+  filter: blur(18px);
+  mask-image: radial-gradient(transparent 50%, transparent 60%, black);
+  animation: blobRotate 4s linear infinite;
 }
 
 @keyframes blobRotate {
-    0% {border-radius: 35%; rotate: 0deg; scale: 1}
-    20% {rotate: 72deg; border-radius: 55% 40% / 60% 70%; scale: 0.8}
-    40% {rotate: 144deg; border-radius: 45% 50% / 50% 40%; scale: 1.2}
-    60% {rotate: 216deg; border-radius: 70% 90% / 30% 25%; scale: 0.9}
-    80% {rotate: 288deg; border-radius: 40% 20% / 70% 65%; scale: 1.1}
-    100% {rotate: 360deg; border-radius: 35%; scale: 1}
+  0% {
+    border-radius: 35%;
+    rotate: 0deg;
+    scale: 1;
+  }
+  20% {
+    rotate: 72deg;
+    border-radius: 55% 40% / 60% 70%;
+    scale: 0.8;
+  }
+  40% {
+    rotate: 144deg;
+    border-radius: 45% 50% / 50% 40%;
+    scale: 1.2;
+  }
+  60% {
+    rotate: 216deg;
+    border-radius: 70% 90% / 30% 25%;
+    scale: 0.9;
+  }
+  80% {
+    rotate: 288deg;
+    border-radius: 40% 20% / 70% 65%;
+    scale: 1.1;
+  }
+  100% {
+    rotate: 360deg;
+    border-radius: 35%;
+    scale: 1;
+  }
 }

@@ -1,27 +1,44 @@
-
-import { useState } from "react";
-import DropSubmissionDialog from "./DropSubmissionDialog";
+import PropTypes from 'prop-types'
 
 
-export default function NewTextDrop() {
-    const [textContent, setTextContent] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false)
-
-
-    
+export default function NewTextDrop({collect, cancel}) {
+   
     return (
         <>
-            <div className="videoPreviewWrapper">
-                <textarea className='w100 padM textDropInput' value={textContent} onInput={(e)=>{setTextContent(e.target.value)}} maxLength={1000} rows={18}></textarea>
-                    <button 
-                        onClick={()=>{setIsSubmitting(true)}}
-                        id="shutter" 
-                        className="grid center circle shadow3d borderNone mAuto">
-                            <i className="fa-solid fa-pencil colorFG"></i>
-                    </button>
+            <form
+            className="fullscreen grid center padL gapL"
+            onSubmit={collect}
+          >
+            <button
+                id="cancelSubmission"
+                type="button"
+                onClick={cancel}
+                className="padM circle grid center colorFG bgNone"
+              >
+          <i className="fa-solid fa-xmark"></i>
+        </button>
+            <div className="innerWrap grid center gapM w100">
+              <textarea
+                name="textInput"
+                id="textInput"
+                rows={18}
+                className="textDropInput"
+              ></textarea>
+              <button
+                id="finishWriting"
+                type="submit"
+                className="noBorder bgNone padM colorFG mAuto"
+              >
+                Ready to Drop
+              </button>
             </div>
-           {isSubmitting && <DropSubmissionDialog finish={()=>{setIsSubmitting(false)}} dropType='text' text={textContent}/>}
+          </form>
             
         </>
     )
+}
+
+NewTextDrop.propTypes = {
+    collect: PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired
 }

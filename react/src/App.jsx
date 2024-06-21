@@ -8,7 +8,7 @@ import NotFound from "./pages/NotFound"
 import { UserProvider } from "./contexts/UserContext";
 import './styles/global.css'
 import Favorites from "./pages/Favorites";
-import NewPost from "./pages/NewPost";
+import NewDrop from "./pages/NewDrop";
 import GeoLocationProvider from "./contexts/GeoLocationContext";
 import AwaitLocation from "./router/AwaitLocation";
 import { LightContextProvider } from "./contexts/LightContext";
@@ -32,7 +32,7 @@ function App() {
                                             <MapComponent />
                                         </AwaitLocation>
                                         }/>
-                                  <Route path="drop" element={<NewPost />}/>
+                                  <Route path="drop" element={<NewDrop />}/>
                                   <Route path="profile">
                                       <Route index element={<NotFound />}/>
                                       <Route path="me" element={<Profile isMine/>}/>
