@@ -2,18 +2,15 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react"
-import DropSubmissionDialog from "./DropSubmissionDialog";
+import PropTypes from 'prop-types'
 
 
-export default function NewVideoDrop() {
+export default function NewVideoDrop({collect, cancel}) {
 
     const videoRef = useRef(null);
     const recorderRef = useRef(null)
     const chunksRef = useRef([])
     const streamRef = useRef(null)
-
-    const [blob, setBlob] = useState();
-    const [isSubmitting, setIsSubmitting] = useState(false)
     const [isRecording, setIsRecording] = useState(false)
 
     const acceptedFormat = ()=>{
@@ -22,9 +19,6 @@ export default function NewVideoDrop() {
     }
 
     const startStream = async (cameraId)=>{
-        // if (cameraId) {
-        //     console.log('attempting to start stream from:', (await navigator.mediaDevices.enumerateDevices()).find(dev => dev.deviceId === cameraId).label);
-        // }
         if (streamRef.current) {
             streamRef.current.getTracks().forEach(track => track.stop());
         }
@@ -33,22 +27,6 @@ export default function NewVideoDrop() {
         videoRef.current.srcObject = streamRef.current
     }
 
-    const switchCamera = ()=>{
-        const currentDevice = videoRef.current.srcObject.getVideoTracks()[0].getSettings().deviceId
-
-        navigator.mediaDevices.enumerateDevices()
-            .then(devices => devices.filter(device => device.kind === 'videoinput'))
-            .then(videoDevices => videoDevices.find(vid => vid.deviceId !== currentDevice))
-            .then(newDevice => {
-                console.log(newDevice);
-                if (newDevice) {
-                    startStream(newDevice.deviceId)
-                } else {
-                    console.log("no other cameras");
-                }
-            })
-
-    }
 
     const initializeRecorder = (stream)=>{
         const options = { mimeType: acceptedFormat() };
@@ -62,9 +40,7 @@ export default function NewVideoDrop() {
         }
         recorder.onstop = ()=>{
             const videoBlob = new Blob(chunksRef.current, {type: acceptedFormat()});
-            setBlob(videoBlob);
-            setIsRecording(false);
-            setIsSubmitting(true)
+            collect({target: {files: [videoBlob]}})
         }
         recorderRef.current = recorder;
     }
@@ -92,9 +68,16 @@ export default function NewVideoDrop() {
 
     return (
         <>
-            <div className="videoPreviewWrapper">
-                    <video id="newDropVideo" muted ref={videoRef} playsInline autoPlay></video>
-                    <button id="flipCamera" className="borderNone padS circle grid center" onClick={switchCamera}><i className="fa-solid fa-camera-rotate"></i></button>
+            <div className="videoPreviewWrapper fullscreen flex vertical center">
+                    <video id="newDropVideo" muted ref={videoRef} playsInline autoPlay className="w100"></video>
+                    <button
+                            id="cancelSubmission"
+                            type="button"
+                            onClick={cancel}
+                            className="padM circle grid center colorFG bgNone"
+                        >
+                    <i className="fa-solid fa-xmark"></i>
+                    </button>
                     <button 
                         onClick={toggleRecording}
                         id="shutter" 
@@ -102,8 +85,12 @@ export default function NewVideoDrop() {
                             {isRecording ? <i className="fa-solid fa-stop"></i> : <i className="fa-solid fa-video colorFG"></i>}
                     </button>
             </div>
-           {isSubmitting && <DropSubmissionDialog finish={()=>{setIsSubmitting(false)}} dropType='video' file={blob} text=''/>}
             
         </>
     )
+}
+
+NewVideoDrop.propTypes = {
+    collect: PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired
 }

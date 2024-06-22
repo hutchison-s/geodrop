@@ -104,6 +104,43 @@
   margin: auto;
   line-height: 1.4;
 }
+#submitDrop {
+  position:relative;
+}
+#submitDrop:disabled {
+  filter: grayscale(80%);
+}
+#submitDrop.error {
+  background-color: #ff0000a3;
+}
+#submitDrop.submitting::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background-image: conic-gradient(transparent, transparent 180deg, white);
+  mask-image: radial-gradient(transparent, transparent 55%, white 60%, white 65%, transparent 82%);
+  animation: spin 1.2s infinite linear;
+}
+@keyframes spin {
+  to {rotate: 360deg}
+}
+
+/* ------------- Desktop Video */
+
+#shutter {
+  position: absolute;
+  top: 75%;
+  width: 6rem;
+  height: 6rem;
+  background-color: var(--blue80);
+  font-size: 3rem;
+}
 
 /* -------------- Text Drop */
 

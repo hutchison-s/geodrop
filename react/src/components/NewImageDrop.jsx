@@ -1,21 +1,18 @@
 
-import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react"
-import DropSubmissionDialog from "./DropSubmissionDialog";
+import PropTypes from 'prop-types'
 
 
-export default function NewImageDrop() {
+export default function NewImageDrop({collect, cancel}) {
 
     const canvasRef = useRef(null);
     const ctx = useRef(null)
     const videoRef = useRef(null);
-
-    const [blob, setBlob] = useState();
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const streamRef = useRef(null);
 
     useEffect(()=>{
+        
         if (typeof(navigator.mediaDevices.getUserMedia) === 'function') {
             startStream();
                 
@@ -38,26 +35,9 @@ export default function NewImageDrop() {
         ctx.current = canvasRef.current.getContext("2d")
     }
 
-    const switchCamera = ()=>{
-        const currentDevice = videoRef.current.srcObject.getVideoTracks()[0].getSettings().deviceId
-
-        navigator.mediaDevices.enumerateDevices()
-            .then(devices => devices.filter(device => device.kind === 'videoinput'))
-            .then(videoDevices => videoDevices.find(vid => vid.deviceId !== currentDevice))
-            .then(newDevice => {
-                console.log(newDevice);
-                if (newDevice) {
-                    startStream(newDevice.deviceId)
-                } else {
-                    console.log("no other cameras");
-                }
-            })
-
-    }
-
     const snapshot = ()=>{
         const {width, height} = videoRef.current.getBoundingClientRect();
-        const rect = document.querySelector(".videoPreviewWrapper").getBoundingClientRect();
+        const rect = videoRef.current.getBoundingClientRect();
         const w = rect.width;
         const h = rect.height;
         console.log(width, "x", height, "vs", w, "x", h);
@@ -67,34 +47,39 @@ export default function NewImageDrop() {
         ctx.current.fillRect(0,0,width,height);
         ctx.current.to
         ctx.current.drawImage(videoRef.current, 0, 0, width, height);
-        canvasRef.current.toBlob(async (blob)=>{
-            // eslint-disable-next-line no-unused-vars
-            setBlob(b => blob);
-            setIsSubmitting(true)
+        canvasRef.current.toBlob((blob)=>{
+            collect({target: {files: [blob]}})
         })
         
     }
 
     
 
-    
-
     return (
         <>
-            <div className="videoPreviewWrapper">
-                {!streamRef.current && <div className="w100 minH4 contentLoading"></div>}
-                    <video id="newDropVideo" muted ref={videoRef} autoPlay playsInline></video>
+            <div className="videoCaptureFrame fullscreen flex vertical center">
+                    <video id="newDropVideo" muted ref={videoRef} autoPlay playsInline className="w100"></video>
+                    <button
+                            id="cancelSubmission"
+                            type="button"
+                            onClick={cancel}
+                            className="padM circle grid center colorFG bgNone"
+                        >
+                    <i className="fa-solid fa-xmark"></i>
+                    </button>
                     <button 
                         onClick={snapshot}
                         id="shutter" 
                         className="grid center circle shadow3d borderNone mAuto">
                             <i className="fa-solid fa-camera colorFG"></i>
                     </button>
-                    <button id="flipCamera" className="borderNone padS circle grid center" onClick={switchCamera}><i className="fa-solid fa-camera-rotate"></i></button>
                     <canvas id="screenshotCanvas" ref={canvasRef}></canvas>
             </div>
-           {isSubmitting && <DropSubmissionDialog finish={()=>{setIsSubmitting(false)}} dropType='image' file={blob} text=''/>}
-            
         </>
     )
+}
+
+NewImageDrop.propTypes = {
+    collect: PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired
 }

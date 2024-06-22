@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import DropSubmissionDialog from "../components/DropSubmissionDialog";
 import { useEffect } from "react";
 import NewTextDrop from "../components/NewTextDrop";
+import MobileDetect from 'mobile-detect'
+import NewImageDrop from "../components/NewImageDrop";
+import NewVideoDrop from "../components/NewVideoDrop";
 
 export default function NewDrop() {
   const [chosenType, setChosenType] = useState("");
@@ -19,16 +22,24 @@ export default function NewDrop() {
   const { position, setIsTracking } = useGeoLoc();
 
   const [blob, setBlob] = useState();
+  const [isDesktop, setIsDesktop] = useState(false);
   const [textContent, setTextContent] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isWorking, setIsWorking] = useState(false);
   const [hasError, setHasError] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    const md = new MobileDetect(navigator.userAgent);
+      if (!md.mobile()) {
+          setIsDesktop(true)
+      }
+  }, [])
+
   async function handleSubmit(e) {
+    setIsWorking(true);
     e.preventDefault();
     setHasError(false);
-    setIsWorking(true);
     console.log("submitting");
     const { title, description } = e.target;
     let desc =
@@ -141,7 +152,9 @@ export default function NewDrop() {
             capture
             style={{ display: "none" }}
             onChange={handleInputChange}
+            disabled={isDesktop}
           />
+          {isDesktop}
         </label>
         <label
           className="flex1 grid center w100"
@@ -156,6 +169,7 @@ export default function NewDrop() {
             capture
             style={{ display: "none" }}
             onChange={handleInputChange}
+            disabled={isDesktop}
           />
         </label>
         {chosenType === "text" && !isSubmitting && <NewTextDrop collect={handleTextChange} cancel={handleReset} />}
@@ -171,6 +185,8 @@ export default function NewDrop() {
             }}
           />
         )}
+        {isDesktop && chosenType === 'video' && <NewVideoDrop collect={handleInputChange} cancel={handleReset}/>}
+        {isDesktop && chosenType === 'image' && <NewImageDrop collect={handleInputChange} cancel={handleReset}/>}
         {isSubmitting && (
           <DropSubmissionDialog
             onCancel={handleReset}
@@ -182,6 +198,7 @@ export default function NewDrop() {
             isWorking={isWorking}
           />
         )}
+        
       </section>
     </>
   );
