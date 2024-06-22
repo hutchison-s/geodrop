@@ -75,7 +75,7 @@ body {
     display: grid;
 }
 .grid.center {
-    align-items: center;
+    place-items: center;
 }
 .gapS {
     gap: 0.5rem;
@@ -215,6 +215,10 @@ body {
 }
 #root ul {
     list-style-type: none;
+}
+#root button:hover,
+#root button:focus {
+    filter: brightness(105%);
 }
 
 #root .appView {

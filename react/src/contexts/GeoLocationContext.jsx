@@ -11,6 +11,7 @@ export const GeoLocationContext = createContext(initialLocation);
 export default function GeoLocationProvider({children}) {
 
     const [position, setPosition] = useState({lat: null, lng: null});
+    const [isTracking, setIsTracking] = useState(true);
 
     // from GPT
     const isSignificant = (coords) => {
@@ -43,7 +44,7 @@ export default function GeoLocationProvider({children}) {
                         }
                     })
                 } else {
-                    if (isSignificant(result.coords)) {
+                    if (isSignificant(result.coords) && isTracking) {
                         // eslint-disable-next-line no-unused-vars
                         setPosition(p => {
                             return {
@@ -71,7 +72,7 @@ export default function GeoLocationProvider({children}) {
     }, [])
     return (
         <>
-            <GeoLocationContext.Provider value={{position}}>
+            <GeoLocationContext.Provider value={{position, setIsTracking}}>
                 {children}
             </GeoLocationContext.Provider>
         </>

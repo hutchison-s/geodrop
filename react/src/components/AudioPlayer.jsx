@@ -51,7 +51,7 @@ export default function AudioPlayer({ src }) {
 
             }}>
       </div>
-      <button onClick={handlePlayToggle}>
+      <button onClick={handlePlayToggle} className="grid center circle shadow3d borderNone" type="button">
         {isPlaying ? (
           <i className="fa-solid fa-pause"></i>
         ) : (
