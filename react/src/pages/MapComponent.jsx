@@ -1,5 +1,4 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import { useSearchParams } from "react-router-dom";
 import { useGeoLoc } from "../contexts/GeoLocationContext.jsx";
 import "../styles/map.css";
@@ -11,7 +10,6 @@ import MapController from "../components/MapController.jsx";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Popup } from "react-leaflet";
-import L from "leaflet";
 
 export default function MapComponent() {
   const { position } = useGeoLoc();
@@ -37,15 +35,6 @@ export default function MapComponent() {
     setDestination(undefined);
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const customCluster = (cluster) => {
-    const groupIcon = L.divIcon({
-      className: "custom-marker-cluster",
-      html: `<span class="clusterCount">${cluster.getChildCount()}</span><span class="clusterImage"></span>`,
-    });
-    return groupIcon;
-  };
-
   return (
     <section className={isDark ? 'darkMode' : ''} style={{width: '100%', height: '100%'}}>
       <MapContainer center={position} zoom={16} maxZoom={18} minZoom={6}>
@@ -67,20 +56,7 @@ export default function MapComponent() {
               <p>Longitude: {position.lng}</p>
             </Popup>
           </Marker>
-          <MarkerClusterGroup
-            chunkedLoading
-            iconCreateFunction={customCluster}
-            spiderLegPolylineOptions={{
-              weight: 1,
-              color: "#aaaaff",
-              opacity: 0.3,
-            }}
-            spiderfyOnMaxZoom={true}
-            spiderfyDistanceMultiplier={3}
-          >
-            <MapDrops />
-            
-          </MarkerClusterGroup>
+          <MapDrops />
         </MapController>
       </MapContainer>
     </section>

@@ -16,7 +16,7 @@ export default function DropViewer({ drop, close }) {
     const {isDark} = useMode();
     const nodeRef = useRef(null);
 
-    const isMine = drop.creatorInfo._id === profile._id;
+    const isMine = d=>d.creatorInfo._id === profile._id;
     const alreadyViewed = d=>d.viewedBy.includes(profile._id);
     const alreadyLiked = d=>d.likedBy.includes(profile._id);
 
@@ -36,7 +36,7 @@ export default function DropViewer({ drop, close }) {
     };
 
     const logView = ()=>{
-        if (!isMine && !alreadyViewed(drop)) {
+        if (!isMine(drop) && !alreadyViewed(drop)) {
             axios.post(`${apiBaseURL}/drops/${drop._id}/view/${profile._id}`)
                 .catch(err => console.log(err))
         }
@@ -77,7 +77,7 @@ export default function DropViewer({ drop, close }) {
                         <ClickableProfileImage creator={drop.creatorInfo} />
                         <p className="dropCreator w100">{drop.creatorInfo.displayName}</p>
                     </div>
-                    {isMine && <button
+                    {isMine(drop) && <button
                             onClick={handleDelete}
                             className="bgNone padS circle deleteDropButton"
                         >

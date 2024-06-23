@@ -18,7 +18,6 @@ export default function ProximityMarker({drop}) {
         html: `<div class='my-drop'><img src='${profile.photo}' alt='my drop' width='35px'/></div>`,
         iconSize: [40, 40]
     })
-    
 
     useEffect(()=>{
         // eslint-disable-next-line no-unused-vars
