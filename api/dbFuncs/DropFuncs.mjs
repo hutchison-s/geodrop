@@ -67,6 +67,10 @@ export async function deleteDropReferences(id) {
 // LIKES
 
 export async function likeDrop(dropId, userId) {
+    const dropTarget = await Drop.findById(dropId);
+    if (dropTarget.likedBy.includes(userId)) {
+        throw new Error("Drop already liked")
+    }
     const updatedDrop = await Drop.findByIdAndUpdate(
         dropId,
         { $push: {likedBy: userId}},
@@ -88,6 +92,10 @@ export async function likeDrop(dropId, userId) {
 }
 
 export async function unlikeDrop(dropId, userId) {
+    const dropTarget = await Drop.findById(dropId);
+    if (!dropTarget.likedBy.includes(userId)) {
+        throw new Error("Cannot unlike because user has not liked the drop yet.")
+    }
     const updatedDrop = await Drop.findByIdAndUpdate(
         dropId,
         { $pull: {likedBy: userId}},
@@ -111,6 +119,10 @@ export async function unlikeDrop(dropId, userId) {
 // VIEWS
 
 export async function viewDrop(dropId, userId) {
+    const dropTarget = await Drop.findById(dropId);
+    if (dropTarget.viewedBy.includes(userId)) {
+        throw new Error("Drop already viewed")
+    }
     const updatedDrop = await Drop.findByIdAndUpdate(
         dropId,
         { $push: {viewedBy: userId}},
