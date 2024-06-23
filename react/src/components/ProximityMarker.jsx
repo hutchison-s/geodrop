@@ -30,7 +30,7 @@ export default function ProximityMarker({drop}) {
     }
     if (drop.creatorInfo._id === profile._id) {
         return <NearDrop drop={drop} icon={myDrop} />
-    } else if (distance <= 200) {
+    } else if (distance <= 100) {
         return  <NearDrop drop={drop} icon={drop.viewedBy.includes(profile._id) ? icons.drop : icons.newDrop}/>
     } else {
         return <FarDrop drop={drop}/>
