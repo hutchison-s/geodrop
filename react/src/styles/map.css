@@ -8,7 +8,7 @@
     box-shadow: 0 0 20px #ffffff33;
 }
 .near-drop-icon {
-    filter: grayscale(60%);
+    filter: grayscale(75%) contrast(80%);
 }
 .near-drop-icon.undiscovered {
     background-image: url('../assets/ripple.gif');
