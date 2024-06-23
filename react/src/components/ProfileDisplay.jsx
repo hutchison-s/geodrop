@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios'
-import { useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 import dropIcon from '../assets/drop.png'
 import FollowersFollowing from "../components/FollowersFollowing";
@@ -11,6 +10,8 @@ import { useMode } from '../contexts/LightContext';
 import { useDrops } from '../contexts/DropContext';
 import { apiBaseURL } from '../apiSwitch';
 import { readableTimeStamp } from '../functions/utilityFunctions';
+import ProfileEditor from './ProfileEditor';
+import { uploadFile } from '../config/firebase';
 
 export default function ProfileDisplay({profileId}) {
 
@@ -18,6 +19,7 @@ export default function ProfileDisplay({profileId}) {
     const {profile, setProfile} = useUser();
     const {isDark} = useMode();
     const {drops} = useDrops();
+    const [isEditing, setIsEditing] = useState(false)
     const navigate = useNavigate();
 
     const isFollowing = viewing && profile.following.includes(viewing._id)
@@ -90,6 +92,39 @@ export default function ProfileDisplay({profileId}) {
         
     }
 
+    const handleProfileEdit = async (e)=>{
+        e.preventDefault();
+        const {name, bio, photo} = e.target;
+        let photoURL = profile.photo;
+        if (photo.files.length > 0) {
+            const {url} = await uploadFile(photo.files[0]);
+            photoURL = url;
+        }
+        const update = {
+            displayName: name.value,
+            bio: bio.value,
+            photo: photoURL
+        };
+        axios.patch(`${apiBaseURL}/users/${profile._id}`, update)
+            .then(res => {
+                if (res.status === 200) {
+                    setProfile(p => {
+                        return {
+                            ...p,
+                            photo: res.data.photo,
+                            bio: res.data.bio,
+                            displayName: res.data.displayName
+                        }
+                    });
+                    navigate('/profile/me')
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                setIsEditing(false)
+            })
+    }
+
     // Filter
     const isMine = drop => viewing.drops.includes(drop._id)
     // Sort
@@ -128,13 +163,16 @@ export default function ProfileDisplay({profileId}) {
 
     return (
         viewing ? <>
+            {profile._id === viewing._id && isEditing && <ProfileEditor cancel={()=>{setIsEditing(false)}} collect={handleProfileEdit} />}
             <section id='profileFrame' className={`grid ${isDark ? 'darkMode' : ''}`}>
+            
             <h2 className="textCenter profileName">{viewing.displayName}</h2>
             <p className="textCenter profileTimestamp"><small><em>{profileDrops(drops).length > 0 ? `Last dropped on ${readableTimeStamp(profileDrops(drops)[0].timestamp)}` : 'No Drops Yet'}</em></small></p>
-            <img src={viewing.photo} alt={`${viewing.displayName}`} className="circle shadowL" width='50%'/>
+            <img src={viewing.photo} alt={`${viewing.displayName}`} className="circle shadowL" width='50%' />
+            {viewing.bio && <p className='textCenter colorFG padM'>{viewing.bio}</p>}
             {profile._id !== viewing._id 
                 ? <button onClick={handleFollowToggle} className="shadow3d followButton">{isFollowing ? 'Unfollow' : 'Follow'}</button>
-                : <button className="borderNone bgNone profileEdit padM"><i className="fa-solid fa-pencil"></i> Edit Profile</button>
+                : <button className="borderNone bgNone profileEdit padM" onClick={()=>{setIsEditing(true)}}><i className="fa-solid fa-pencil"></i> Edit Profile</button>
             }
             <div className="profileStats grid padM gapS">
                 <div className="flex w100">

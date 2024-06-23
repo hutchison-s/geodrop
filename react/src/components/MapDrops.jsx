@@ -53,7 +53,7 @@ export default function MapDrops() {
   return (
     <>
       <LayersControl position="topleft">
-        <LayersControl.BaseLayer name="All Drops" >
+        <LayersControl.BaseLayer name="All Drops" checked={true}>
           <MarkerClusterGroup
             chunkedLoading
             iconCreateFunction={customCluster}

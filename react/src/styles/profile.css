@@ -1,5 +1,6 @@
 #profileFrame {
     padding: 1rem 0;
+    width: 100%;
 }
 #profileFrame .profileName,
 #profileFrame .profileTimestamp,
@@ -16,6 +17,8 @@
 }
 #profileFrame > img {
     margin: 1rem auto;
+    object-fit: cover;
+    aspect-ratio: 1;
 }
 
 .followButton {
@@ -63,3 +66,66 @@
     translate: -50%;
     max-width: 100%;
 }
+
+#profileEditor {
+    width: calc(100% - 2rem);
+    height: calc(100dvh - 80px);
+    overflow-y: auto;
+    position: fixed;
+    z-index: 5000;
+    background: var(--bg80);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    margin: auto;
+    max-width: 600px;
+    padding-bottom: 4rem;
+  }
+
+  #cancelEdit {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    border: 1px solid var(--basic);
+  }
+
+  #profileEditor label > small,
+  #profileEditor label i {
+    color: var(--basic)
+  }
+  #profileEditor .bigButton {
+    padding: 0.5rem 2rem;
+    background-color: var(--blue80);
+    color: var(--fg);
+    text-shadow: 0 0 5px #00000055;
+    border: none;
+    border-radius: 0.5rem;
+  }
+  #photoLabel {
+    width: 50%;
+    position: relative
+  }
+  #profileEditor img {
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  #profileEditor label {
+   padding: 0.5rem;
+  }
+
+  #profileEditor input,
+  #profileEditor textarea {
+    width: 100%;
+    padding: 0.25rem;
+    background: var(--bg80);
+    font-size: 16px;
+    color: var(--basic);
+    border: 1px solid var(--basic);
+  }
+  #profileEditor textarea {
+    min-height: 4rem;
+    resize: none;
+  }
