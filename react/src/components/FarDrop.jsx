@@ -1,15 +1,14 @@
 import { Marker } from "react-leaflet";
-import { Popup, useMap } from "react-leaflet";
+import { Popup } from "react-leaflet";
 import { icons } from "../assets/icons";
 import { DropProp } from "../assets/customProps";
 import ClickableProfileImage from "./ClickableProfileImage";
 
 export default function FarDrop({ drop }) {
-  const map = useMap();
 
   return (
     <Marker icon={icons.farDrop} position={drop.location} autoPanOnFocus={true}>
-      <Popup eventHandlers={{add: ()=>{map.flyTo(drop.location)}}}>
+      <Popup >
         <div className="popupFrame flex spread">
           <div className="popupLeft flex vertical">
             <p className="popupTitle">
