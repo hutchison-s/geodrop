@@ -2,44 +2,43 @@ import PropTypes from 'prop-types'
 import { useEffect } from 'react';
 import {useMap, useMapEvents} from 'react-leaflet'
 import { useGeoLoc } from '../contexts/GeoLocationContext';
-import { useState } from 'react';
 
 export default function MapController({panTo, children, clearParams}) {
     const map = useMap();
-    const {position} = useGeoLoc();
-    const [isBrowsing, setIsBrowsing] = useState(panTo !== undefined)
+    const {position, isTracking, setIsTracking} = useGeoLoc();
 
     useEffect(()=>{
         if (panTo) {
-            setIsBrowsing(true)
+            // eslint-disable-next-line no-unused-vars
+            setIsTracking(t => false)
             map.flyTo(panTo, 16)
         }
-    }, [panTo, map])
+    }, [panTo, map, setIsTracking])
 
     useEffect(()=>{
-        if (!isBrowsing) {
+        if (isTracking) {
             map.panTo(position, {duration: 0.1, animate: true})
         }
-    }, [position])
+    }, [position, isTracking, map])
 
     useMapEvents({
         dragstart: ()=>{
-            setIsBrowsing(true)
+            setIsTracking(false)
         },
         popupopen: ()=>{
-            setIsBrowsing(true)
+            setIsTracking(false)
         }
     })
 
     const findMe = ()=>{
         map.flyTo(position, 16);
         clearParams();
-        setIsBrowsing(false)
+        setIsTracking(true)
     }
 
     return (
         <>
-            {(panTo || isBrowsing) && <button className='findMeButton shadow3d' onClick={findMe}><i className="fa-solid fa-location-crosshairs"></i></button>}
+            {(!isTracking) && <button className='findMeButton shadow3d' onClick={findMe}><i className="fa-solid fa-location-crosshairs"></i></button>}
             {children}
         </>
     )

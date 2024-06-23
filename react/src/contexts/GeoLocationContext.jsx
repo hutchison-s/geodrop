@@ -72,7 +72,7 @@ export default function GeoLocationProvider({children}) {
     }, [])
     return (
         <>
-            <GeoLocationContext.Provider value={{position, setIsTracking}}>
+            <GeoLocationContext.Provider value={{position, isTracking, setIsTracking}}>
                 {children}
             </GeoLocationContext.Provider>
         </>
