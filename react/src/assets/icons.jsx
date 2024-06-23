@@ -5,7 +5,6 @@ import dropIcon from '../assets/drop.png'
 import dropFarIcon from '../assets/drop-far.png'
 import multidrop from '../assets/multidrop.png';
 import multidropDark from '../assets/multidrop-dark.png';
-import ripple from '../assets/ripple.gif';
 
 const youIconLightMode = new Icon({
     iconUrl: personIcon,
@@ -25,6 +24,12 @@ const nearDropIcon = new Icon({
     className: 'near-drop-icon'
 })
 
+const newNearDropIcon = new Icon({
+    iconUrl: dropIcon,
+    iconSize: [40,40],
+    className: 'near-drop-icon undiscovered'
+})
+
 const farDropIcon = new Icon({
     iconUrl: dropFarIcon,
     iconSize: [40,40],
@@ -42,17 +47,12 @@ const groupIconDarkMode = new Icon({
     iconSize: [40,40]
 })
 
-const rippleIcon = new Icon({
-    iconUrl: ripple,
-    iconSize: [80,80]
-})
-
 export const icons = {
     youLight: youIconLightMode,
     youDark: youIconDarkMode,
     drop: nearDropIcon,
+    newDrop: newNearDropIcon,
     farDrop: farDropIcon,
     multidrop: groupIcon,
     multidropDark: groupIconDarkMode,
-    ripple: rippleIcon
 }

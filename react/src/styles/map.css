@@ -7,6 +7,34 @@
 .you-icon {
     box-shadow: 0 0 20px #ffffff33;
 }
+.near-drop-icon {
+    filter: grayscale(60%);
+}
+.near-drop-icon.undiscovered {
+    background-image: url('../assets/ripple.gif');
+    background-size: 150%;
+    background-position: center;
+    overflow: visible;
+    filter: none;
+}
+.leaflet-div-icon:has(.my-drop) {
+    background: transparent;
+    border: none;
+}
+.my-drop {
+    background: center / cover url('../assets/drop.png') no-repeat;
+    width: 40px;
+    height: 40px;
+}
+.my-drop img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    translate: -50%;
+}
 
 .custom-marker-cluster {
     width: 40px;

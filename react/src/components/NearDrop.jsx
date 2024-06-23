@@ -1,6 +1,5 @@
 import { Marker } from "react-leaflet";
 import { Popup } from "react-leaflet";
-import { icons } from "../assets/icons";
 import { useUser } from "../contexts/UserContext";
 import { DropProp } from "../assets/customProps";
 import axios from 'axios'
@@ -8,15 +7,11 @@ import { useState } from "react";
 import DropViewer from './DropViewer'
 import ClickableProfileImage from "./ClickableProfileImage";
 import { apiBaseURL } from "../apiSwitch";
+import PropTypes from 'prop-types'
 
-export default function NearDrop({ drop }) {
+export default function NearDrop({ drop, icon }) {
   const { profile } = useUser();
   const [viewing, setViewing] = useState(false)
-
-  // const handleView = ()=>{
-  //   map.flyTo(drop.location, 18)
-    
-  // }
 
   const handleLikeToggle = ()=>{
     if (drop.likedBy.includes(profile._id)) {
@@ -30,11 +25,8 @@ export default function NearDrop({ drop }) {
 
   return (
     <>
-      {!drop.viewedBy.includes(profile._id) && drop.creatorInfo._id !== profile._id && (
-        <Marker icon={icons.ripple} position={drop.location} />
-      )}
       {viewing && <DropViewer drop={drop} close={()=>setViewing(false)}/>}
-      <Marker icon={icons.drop} position={drop.location} autoPanOnFocus={true}>
+      <Marker icon={icon} position={drop.location} autoPanOnFocus={true}>
         <Popup >
           <div className="popupFrame flex w100 spread">
             <div className="popupLeft flex vertical">
@@ -81,4 +73,5 @@ export default function NearDrop({ drop }) {
 
 NearDrop.propTypes = {
   drop: DropProp,
+  icon: PropTypes.object
 };

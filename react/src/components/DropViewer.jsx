@@ -17,8 +17,8 @@ export default function DropViewer({ drop, close }) {
     const nodeRef = useRef(null);
 
     const isMine = drop.creatorInfo._id === profile._id;
-    const alreadyViewed = drop.viewedBy.includes(profile._id);
-    const alreadyLiked = drop.likedBy.includes(profile._id);
+    const alreadyViewed = d=>d.viewedBy.includes(profile._id);
+    const alreadyLiked = d=>d.likedBy.includes(profile._id);
 
     const handleClose = () => {
         nodeRef.current?.close();
@@ -26,7 +26,7 @@ export default function DropViewer({ drop, close }) {
     };
 
     const handleLikeToggle = () => {
-        if (alreadyLiked) {
+        if (alreadyLiked(drop)) {
             axios.delete(`${apiBaseURL}/drops/${drop._id}/like/${profile._id}`)
                 .catch(err => console.log(err.message));
         } else {
@@ -36,7 +36,7 @@ export default function DropViewer({ drop, close }) {
     };
 
     const logView = ()=>{
-        if (!isMine && !alreadyViewed) {
+        if (!isMine && !alreadyViewed(drop)) {
             axios.post(`${apiBaseURL}/drops/${drop._id}/view/${profile._id}`)
                 .catch(err => console.log(err))
         }
@@ -92,7 +92,7 @@ export default function DropViewer({ drop, close }) {
                         <p><small><em>{new Date(drop.timestamp).toLocaleString()}</em></small></p>
                     </div>
                     <i
-                        className={`fa-${alreadyLiked ? "solid" : "regular"} fa-heart`}
+                        className={`fa-${alreadyLiked(drop) ? "solid" : "regular"} fa-heart`}
                         role="button"
                         onClick={handleLikeToggle}
                         tabIndex={0}
