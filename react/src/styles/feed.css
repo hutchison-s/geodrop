@@ -3,9 +3,18 @@
     gap: 0.75rem;
     padding: 0.5rem 0.5rem 2.5rem;
 }
-.appView:has(.dropFeed) {
-    mask-image: linear-gradient(to top, transparent, transparent 2%, black 10%, black );
+.dropFeed h2 {
+    margin-top: 1rem;
 }
+#root .appView:has(.dropFeed) {
+    mask-image: linear-gradient(to top, transparent, transparent 2%, black 10%, black );
+    /* margin-top: 2rem;
+    height: calc(100% - 160px) */
+}
+
+/* #root .contentView:has(.dropFeed) {
+    height: calc(100% - 2rem)
+} */
 
 .feedWelcome {
     color: var(--fg);
@@ -13,4 +22,22 @@
     margin: 0 auto 1rem;
     display: grid;
     gap: 1rem;
+}
+#root #feedSelector a {
+    color: var(--fg);
+    font-weight: 200;
+}
+#feedSelector {
+    width: calc(100% - 2rem);
+    max-width: calc(600px - 2rem);
+    transform: translateY(-1rem);
+    background-color: var(--bg);
+    padding-bottom: 4px;
+}
+#feedSelector #highlighter {
+    bottom: 5px;
+    left: 0;
+    height: 0;
+    border: 1px solid var(--fg);
+    transition: transform 0.2s;
 }
