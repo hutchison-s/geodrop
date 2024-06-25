@@ -1,13 +1,13 @@
 // takes current position {lat, lng} and drop location {lat, lng}
 // returns distance from position to drop in feet
-export function distanceToDrop(position, dropLocation) {
+export function distanceInFeet(position1, position2) {
     const toRadians = (degree) => degree * (Math.PI / 180);
     const R = 6371; // Radius of earth in meters
 
-    const dLat = toRadians(dropLocation.lat - position.lat);
-    const dLng = toRadians(dropLocation.lng - position.lng);
-    const lat1 = toRadians(position.lat);
-    const lat2 = toRadians(dropLocation.lat);
+    const dLat = toRadians(position2.lat - position1.lat);
+    const dLng = toRadians(position2.lng - position1.lng);
+    const lat1 = toRadians(position1.lat);
+    const lat2 = toRadians(position2.lat);
 
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);

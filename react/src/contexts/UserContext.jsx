@@ -31,7 +31,10 @@ export function UserProvider({ children }) {
           .then((res) => {
             if (res.status === 200) {
               // Log in with user profile
-              login(res.data);
+              axios.patch(`${apiBaseURL}/users/${res.data._id}`, {newLogin: true})
+                .then(res => {
+                  login(res.data)
+                })
             } else {
               throw new Error("Failed to confirm user.");
             }

@@ -1,5 +1,5 @@
 import { useGeoLoc } from "../contexts/GeoLocationContext";
-import { distanceToDrop } from "../functions/utilityFunctions";
+import { distanceInFeet } from "../functions/utilityFunctions";
 import DropPreview from "./DropPreview";
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,7 @@ export default function DropFeed({drops, children}) {
         <div className="dropFeed">
             {children}
             {drops.length > 0 
-                ?   drops.map(drop => <DropPreview key={drop._id} drop={drop} distance={distanceToDrop(position, drop.location)}/>)
+                ?   drops.map(drop => <DropPreview key={drop._id} drop={drop} distance={distanceInFeet(position, drop.location)}/>)
                 :   <p className="textCenter colorFG">No new drops to display</p>}
         </div>
         

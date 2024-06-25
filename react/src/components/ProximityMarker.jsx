@@ -5,7 +5,7 @@ import { DropProp } from '../assets/customProps';
 import { useUser } from '../contexts/UserContext';
 import {useGeoLoc} from '../contexts/GeoLocationContext'
 import { useEffect, useState } from 'react';
-import {distanceToDrop} from '../functions/utilityFunctions.jsx'
+import {distanceInFeet} from '../functions/utilityFunctions.jsx'
 import {icons} from '../assets/icons.jsx'
 import L from 'leaflet';
 
@@ -21,7 +21,7 @@ export default function ProximityMarker({drop}) {
 
     useEffect(()=>{
         // eslint-disable-next-line no-unused-vars
-        setDistance(d => distanceToDrop(position, drop.location))
+        setDistance(d => distanceInFeet(position, drop.location))
     }, [position, drop])
 
     if (!distance || !drop) {

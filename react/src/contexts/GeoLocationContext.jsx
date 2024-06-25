@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
+import { distanceInFeet } from "../functions/utilityFunctions";
 
 const initialLocation = {
     lat: 40,
@@ -13,23 +14,9 @@ export default function GeoLocationProvider({children}) {
     const [position, setPosition] = useState({lat: null, lng: null});
     const [isTracking, setIsTracking] = useState(true);
 
-    // from GPT
     const isSignificant = (coords) => {
-        const toRadians = (degree) => degree * (Math.PI / 180);
-    
-        const R = 6371; // Radius of the Earth in kilometers
-        const dLat = toRadians(coords.latitude - position.lat);
-        const dLng = toRadians(coords.longitude - position.lng);
-        const lat1 = toRadians(position.lat);
-        const lat2 = toRadians(coords.latitude);
-    
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    
-        const distance = R * c; // Distance in kilometers
-    
-        return distance > 0.002; // Check if distance is greater than 2 meters
+        const newPosition = {lat: coords.latitude, lng: coords.longitude};
+        return distanceInFeet(position, newPosition) > 10 // Check if location update is farther than 10 feet away (debounce)
     }
 
     const foundLocation = (result)=>{
@@ -52,6 +39,8 @@ export default function GeoLocationProvider({children}) {
                                 lng: longitude
                             }
                         })
+                    } else {
+                        console.log('skipped position update because it was less than 10 feet difference');
                     }
                 }
                 

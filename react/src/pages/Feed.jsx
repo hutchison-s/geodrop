@@ -3,7 +3,7 @@ import { useGeoLoc } from "../contexts/GeoLocationContext";
 import { useDrops } from "../contexts/DropContext";
 import { useUser } from "../contexts/UserContext";
 import "../styles/feed.css";
-import { distanceToDrop } from "../functions/utilityFunctions";
+import { distanceInFeet } from "../functions/utilityFunctions";
 import { useCallback, useEffect, useState } from "react";
 import HereSwiper from "../components/HereSwiper";
 import MobileDetector from "mobile-detect";
@@ -24,21 +24,21 @@ export default function Feed() {
   // Filters
   const here = useCallback(
     (drop) =>
-      distanceToDrop(position, drop.location) < hereThresh &&
+      distanceInFeet(position, drop.location) < hereThresh &&
       !alreadyViewed(drop) &&
       !isMine(drop),
     [position, alreadyViewed, isMine]
   );
   const nearby = useCallback((drop) =>
-    distanceToDrop(position, drop.location) < nearThresh &&
+    distanceInFeet(position, drop.location) < nearThresh &&
     !alreadyViewed(drop) &&
     !isMine(drop), [position, isMine, alreadyViewed, nearThresh]);
   const following = useCallback((drop) =>
-    distanceToDrop(position, drop.location) >= nearThresh && isFollowing(drop), [isFollowing, nearThresh, position]);
+    distanceInFeet(position, drop.location) >= nearThresh && isFollowing(drop), [isFollowing, nearThresh, position]);
 
   // Sorts
   const distanceAscending = (a, b) =>
-    distanceToDrop(position, a.location) - distanceToDrop(position, b.location);
+    distanceInFeet(position, a.location) - distanceInFeet(position, b.location);
   const recency = (a, b) =>
     new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
 
