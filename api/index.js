@@ -29,7 +29,7 @@ app.use(urlencoded({extended: true}))
 app.use(cors({
     origin: ['https://geodrop.netlify.app', 'https://www.geodrop.xyz', 'http://localhost:5173']
   }))
-app.use(cors());
+// app.use(cors());
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -144,21 +144,6 @@ app.delete('/drops/:id', async (req, res) => {
 -----------------------  USERS  -----------------------------
 ---------------------------------------------------------- */
 
-app.post('/users/populate', async (req, res)=>{
-    const {users} = req.body;
-    console.log(users);
-    User.insertMany(users)
-        .then(data => {
-            console.log(data.length+" users added");
-            res.send({success: true})
-        })
-        .catch(err => {
-            console.log(err.message);
-            res.status(500).send({message: err.message})
-        })
-
-})
-
 // Authorize by email
 
 app.post('/confirm', async (req, res) => {
@@ -225,7 +210,11 @@ app.post('/users', async (req, res) => {
 // Update User Info
 app.patch('/users/:id', async (req, res) => {
     const { id } = req.params;
-    const {bio, photo, displayName} = req.body;
+    const {bio, photo, displayName, newLogin} = req.body;
+    if (newLogin) {
+        const updatedUser = await User.findByIdAndUpdate(id, {lastLogin: new Date().toISOString()});
+        return res.send(updatedUser)
+    }
     const updateObject = {bio, photo, displayName};
     try {
         const updatedUser = await updateUser(id, updateObject);
