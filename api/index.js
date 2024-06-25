@@ -26,9 +26,9 @@ connect(mongoURI)
 // Middleware
 app.use(json());
 app.use(urlencoded({extended: true}))
-// app.use(cors({
-//     origin: ['https://listenhere.netlify.app', 'http://localhost:5173']
-//   }))
+app.use(cors({
+    origin: ['https://geodrop.netlify.app', 'https://www.geodrop.xyz', 'http://localhost:5173']
+  }))
 app.use(cors());
 
 app.listen(port, () => {
