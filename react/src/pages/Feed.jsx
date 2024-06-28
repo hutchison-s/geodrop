@@ -55,7 +55,7 @@ export default function Feed() {
   };
 
   useEffect(() => {
-    const md = new MobileDetector();
+    const md = new MobileDetector(navigator.userAgent);
     if (!md.mobile()) {
       setIsMobile(false);
     }
