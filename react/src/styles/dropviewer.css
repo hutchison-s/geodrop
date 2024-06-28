@@ -84,7 +84,8 @@
     font-size: 1.5rem;
     padding: 0.5rem;
     color: var(--fg);
-    background: transparent;
+    background: var(--blue);
+    z-index: 20000;
     border: unset;
 }
 
