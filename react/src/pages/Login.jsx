@@ -1,6 +1,5 @@
 import { auth, googleProvider } from "../config/firebase";
 import {
-  signInWithPopup,
   signInWithRedirect,
   setPersistence,
   browserLocalPersistence,
@@ -17,18 +16,23 @@ export default function Login() {
   const [hasError, setHasError] = useState(false);
 
   const onClick = async () => {
+    console.log('Login request process started');
     setIsWorking(true)
     try {
+      console.log('Setting persistence to local');
       // Set persistence to local storage
       await setPersistence(auth, browserLocalPersistence);
 
+      console.log('signing in with redirect');
       // Try sign in with popup
       await signInWithRedirect(auth, googleProvider);
+      console.log('checking result');
       const result = await getRedirectResult(auth)
       if (!result) {
         setHasError(true)
         throw new Error("No redirect result found");
       }
+      console.log('result from redirect:', result.user);
     } catch (error) {
       console.log("Error during sign-in process:", error);
     }
