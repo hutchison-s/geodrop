@@ -47,7 +47,8 @@ export default function GeoLocationProvider({children}) {
                 
     }
     const locationError = (error)=>{
-        alert("Error occured: "+error.message)
+        console.log(error.message);
+        alert("Location must be shared in order to use this website. Please check your device and browser settings and allow sharing location with GeoDrop.xyz" )
     }
 
     useEffect(()=>{

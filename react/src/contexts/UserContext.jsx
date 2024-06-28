@@ -33,7 +33,7 @@ export function UserProvider({ children }) {
               // Log in with user profile
               axios.patch(`${apiBaseURL}/users/${res.data._id}`, {newLogin: true})
                 .then(res => {
-                  login(res.data)
+                  login(res.data);
                 })
             } else {
               throw new Error("Failed to confirm user.");

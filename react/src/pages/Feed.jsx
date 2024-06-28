@@ -15,6 +15,8 @@ export default function Feed() {
   const [dropsHere, setDropsHere] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
 
+  
+
   const isMine = useCallback((drop) => drop.creatorInfo._id === profile._id, [profile]);
   const alreadyViewed = useCallback((drop) => drop.viewedBy.includes(profile._id), [profile]);
   const isFollowing = useCallback((drop) => profile.following.includes(drop.creatorInfo._id), [profile]);
