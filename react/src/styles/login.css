@@ -19,6 +19,13 @@
   animation-iteration-count: infinite, infinite;
   animation-fill-mode: both;
 }
+
+#learnMore {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  width: 100%;
+}
 @keyframes days {
   0% {
     scale: 0.17;

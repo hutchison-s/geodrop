@@ -4,11 +4,13 @@ import {
   setPersistence,
   browserLocalPersistence,
   getRedirectResult,
+  signInWithPopup,
 } from "firebase/auth";
 import dropLogo from "../assets/logo.png";
 import globe from '../assets/globe.png';
 import "../styles/login.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
 
@@ -21,9 +23,14 @@ export default function Login() {
       // Set persistence to local storage
       await setPersistence(auth, browserLocalPersistence);
 
-      // Try sign in with popup
+      // Try sign in with redirect
       await signInWithRedirect(auth, googleProvider);
       const result = await getRedirectResult(auth)
+
+      // Development sign in with popup !!! Comment out before commit !!!
+      // const result = await signInWithPopup(auth, googleProvider)
+      
+      
       setIsWorking(true)
       if (!result) {
         setHasError(true)
@@ -81,6 +88,9 @@ export default function Login() {
         </div>
       </button>
       {hasError && <p style={{padding: '1rem', textAlign: 'center', background: 'red', color: 'white'}}>Error occurred during login. Please try again later.</p>}
+      <div style={{padding: '2rem', textAlign: 'center'}} id="learnMore">
+        <Link to='/about' style={{textDecoration: 'underline', color: 'var(--blue)'}}>Learn more about GeoDrop</Link>
+      </div>
     </section>
   );
 }
