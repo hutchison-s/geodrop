@@ -4,6 +4,7 @@ import {
   setPersistence,
   browserLocalPersistence,
   getRedirectResult,
+  // eslint-disable-next-line no-unused-vars
   signInWithPopup,
 } from "firebase/auth";
 import dropLogo from "../assets/logo.png";
@@ -46,7 +47,8 @@ export default function Login() {
       <img src={dropLogo} alt="GeoDrop" width="80%" />
       {isWorking && !hasError && <img src={globe} alt="globe" width='100%' className="loginGlobe"></img>}
       <h1 style={{ display: "none" }}>GeoDrop</h1>
-      <h2>Sign in to get started!</h2>
+      <h2>Welcome to GeoDrop!</h2>
+      <p>Sign in to get started</p>
       <button
         className="gsi-material-button"
         style={{ width: "200px" }}
