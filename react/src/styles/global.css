@@ -247,3 +247,48 @@ body {
 #root .contentWrap:has(.typeSelector) {
     padding: 0 0;
 }
+
+#error404 h2 {
+    font-size: 8rem;
+    color: var(--basic);
+    text-align: center;
+    margin-top: 20vh;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+#error404 h2 span:first-child {
+    animation: flyIn 0.6s both;
+}
+#error404 h2 span:last-child {
+    animation: flyInLeft 0.6s 0.05s both;
+}
+#error404 h2 span:nth-child(2) {
+    animation: dropIn 0.7s 0.1s both cubic-bezier(.62,1.25,.7,1.13);
+}
+#error404 p {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: var(--blue);
+    animation: fadeIn 0.8s 0.8s both;
+}
+#error404 p:last-child {
+    animation-delay: 1s;
+}
+@keyframes flyIn {
+    from {translate: -100vw}
+    to {translate: 0}
+}
+@keyframes flyInLeft {
+    from {translate: 100vw}
+    to {translate: 0}
+}
+@keyframes dropIn {
+    from {translate: 0 -100vh}
+    to {translate: 0}
+}
+@keyframes fadeIn {
+    from {opacity: 0}
+    to {opacity: 1}
+}
