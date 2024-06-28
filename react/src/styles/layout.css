@@ -50,7 +50,8 @@
 #optionsMenu.visible {
     translate: -100%;
 }
-#optionsMenu button {
+#optionsMenu button,
+#optionsMenu a {
     border: none;
     background: var(--bg50);
     padding: 2rem 1rem;
