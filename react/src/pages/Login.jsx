@@ -1,15 +1,13 @@
 import { auth, googleProvider } from "../config/firebase";
 import {
   signInWithPopup,
-  signInWithRedirect,
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
-import MobileDetector from 'mobile-detect'
 import dropLogo from "../assets/logo.png";
 import globe from '../assets/globe.png';
 import "../styles/login.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Login() {
 
@@ -19,12 +17,11 @@ export default function Login() {
   const onClick = async () => {
     setIsWorking(true)
     try {
-      const md = new MobileDetector(navigator.userAgent);
       // Set persistence to local storage
       await setPersistence(auth, browserLocalPersistence);
 
       // Try sign in with popup
-      const result = md.mobile() ? await signInWithRedirect(auth, googleProvider) : await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
 
       if (!result) {
         setHasError(true)
@@ -34,10 +31,6 @@ export default function Login() {
       console.log("Error during sign-in process:", error);
     }
   };
-
-  useEffect(()=>{
-    
-  }, [])
 
   return (
     <section id="loginPage" className="flex vertical center gapM">
