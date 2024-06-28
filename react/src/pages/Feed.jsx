@@ -105,10 +105,13 @@ export default function Feed() {
       .addEventListener("scroll", checkScroll);
 
     return () => {
-      document
+      if (document.querySelector('.contentWrap')) {
+        document
         .querySelector(".contentWrap")
         .removeEventListener("scroll", checkScroll);
+      }
     };
+      
   });
 
   const handleAnchorClick = (e, targetId) => {
