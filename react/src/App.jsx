@@ -13,6 +13,7 @@ import GeoLocationProvider from "./contexts/GeoLocationContext";
 import AwaitLocation from "./router/AwaitLocation";
 import { LightContextProvider } from "./contexts/LightContext";
 import { DropContextProvider } from "./contexts/DropContext";
+import About from "./pages/About";
 
 function App() {
     
@@ -22,26 +23,27 @@ function App() {
           <LightContextProvider>
               <GeoLocationProvider>
                   <DropContextProvider>
-                      <Protected>
-                          <Routes>
-                              <Route path="/" element={<Layout/>}>
-                                  <Route index element={<Feed />}/>
-                                      <Route path="explore" element={
-                                        <AwaitLocation>
-                                            <MapComponent />
-                                        </AwaitLocation>
-                                        }/>
-                                  <Route path="drop" element={<NewDrop />}/>
-                                  <Route path="profile">
-                                      <Route index element={<NotFound />}/>
-                                      <Route path="me" element={<Profile isMine/>}/>
-                                      <Route path=":id" element={<Profile />}/>
-                                  </Route>
-                                  <Route path="favorites" element={<Favorites />}/>
-                                  <Route path="*" element={<NotFound />} />
-                              </Route>
-                          </Routes>
-                      </Protected>
+                      <Routes>
+                        <Route path="/about" element={<About />}/>
+                            <Route path="/" element={<Protected/>}>
+                                <Route element={<Layout/>}>
+                                <Route index element={<Feed />}/>
+                                    <Route path="explore" element={
+                                    <AwaitLocation>
+                                        <MapComponent />
+                                    </AwaitLocation>
+                                    }/>
+                                <Route path="drop" element={<NewDrop />}/>
+                                <Route path="profile">
+                                    <Route index element={<NotFound />}/>
+                                    <Route path="me" element={<Profile isMine/>}/>
+                                    <Route path=":id" element={<Profile />}/>
+                                </Route>
+                                <Route path="favorites" element={<Favorites />}/>
+                                <Route path="*" element={<NotFound />} />
+                                </Route>
+                            </Route>
+                      </Routes>
                   </DropContextProvider>
               </GeoLocationProvider>
           </LightContextProvider>        
