@@ -10,12 +10,13 @@ export default function OptionsMenu({visible, close}) {
 
     return (
         <ul id="optionsMenu" className={`flex vertical fixed ${visible ? 'visible' : ''}`}>
-            <li><button>Boost Range</button></li>
+            
             <li><button onClick={logout}>Log Out</button></li>
             <li><button onClick={()=>{
                 switchMode();
                 close();
             }}>Switch to {nextMode} Mode</button></li>
+            <li ><button className="comingSoon">Boost Range</button></li>
         </ul>
     )
 }
