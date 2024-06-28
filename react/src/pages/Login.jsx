@@ -1,8 +1,10 @@
 import { auth, googleProvider } from "../config/firebase";
 import {
   signInWithPopup,
+  signInWithRedirect,
   setPersistence,
   browserLocalPersistence,
+  getRedirectResult,
 } from "firebase/auth";
 import dropLogo from "../assets/logo.png";
 import globe from '../assets/globe.png';
@@ -21,8 +23,8 @@ export default function Login() {
       await setPersistence(auth, browserLocalPersistence);
 
       // Try sign in with popup
-      const result = await signInWithPopup(auth, googleProvider);
-
+      await signInWithRedirect(auth, googleProvider);
+      const result = await getRedirectResult(auth)
       if (!result) {
         setHasError(true)
         throw new Error("No redirect result found");
