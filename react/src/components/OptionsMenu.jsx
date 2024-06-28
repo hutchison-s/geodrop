@@ -14,7 +14,7 @@ export default function OptionsMenu({visible, close}) {
         <ul id="optionsMenu" className={`flex vertical fixed ${visible ? 'visible' : ''}`}>
             
             <li><button onClick={logout}>Log Out</button></li>
-            <li><button onClick={navigate('/about')}>About GeoDrop</button></li>
+            <li><button onClick={()=>{navigate('/about')}}>About GeoDrop</button></li>
             <li><button onClick={()=>{
                 switchMode();
                 close();
