@@ -7,6 +7,7 @@ import { distanceInFeet } from "../functions/utilityFunctions";
 import { useCallback, useEffect, useState } from "react";
 import HereSwiper from "../components/HereSwiper";
 import MobileDetector from "mobile-detect";
+import SEO from "../components/SEO";
 
 export default function Feed() {
   const { drops } = useDrops();
@@ -134,6 +135,7 @@ export default function Feed() {
 
   return drops ? (
     <>
+      <SEO title='GeoDrop Feed' desc='GeoDrop is a location-based social media platform where you can create and share content specific to your current location. Think geocaching meets Instagram.' canon=''/>
       <div className="flex center fixed" id="feedSelector">
         <div
           id="highlighter"
