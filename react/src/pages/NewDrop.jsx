@@ -14,6 +14,7 @@ import NewTextDrop from "../components/NewTextDrop";
 import MobileDetect from 'mobile-detect'
 import NewImageDrop from "../components/NewImageDrop";
 import NewVideoDrop from "../components/NewVideoDrop";
+import SEO from "../components/SEO";
 
 export default function NewDrop() {
   const [chosenType, setChosenType] = useState("");
@@ -122,6 +123,7 @@ export default function NewDrop() {
 
   return (
     <>
+      <SEO title='Creat a GeoDrop' desc='Create a new multimedia GeoDrop tied to your current location for others to discover. What will you leave behind?' canon='newdrop'/>
       <section className={`newDropPage grid w100 ${isDark ? "darkMode" : ""}`}>
         <label
           className="flex1 grid center w100"
