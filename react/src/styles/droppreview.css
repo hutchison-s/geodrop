@@ -53,6 +53,11 @@
     border-color: var(--fg);
 }
 
+.dropPreviewFrame .dropContent img,
+.dropPreviewFrame .dropContent video {
+    margin: auto;
+}
+
 .dropPreviewFrame p.dropDistance {
   color: var(--blue);
   margin: 0.5rem 0;
