@@ -22,7 +22,7 @@ export default function ImageDisplay({url, title}) {
     }
     return (
         <>
-            <img src={url} alt={title} width='100%' onClick={toggleFullScreen} />
+            <img src={url} alt={title} width='80%' onClick={toggleFullScreen} />
             <dialog ref={fullModal} id='fullScreen' className='shadowWall'>
                 <img src={url} alt={title} width='100%' onClick={toggleFullScreen} />
             </dialog>

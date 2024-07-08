@@ -6,7 +6,7 @@ export default function VideoPlayer({url, title}) {
     return (
         <>
 
-            <video controls autoPlay src={url} alt={title} width='100%' playsInline/>
+            <video controls autoPlay src={url} alt={title} width='80%' playsInline/>
         </>
     )
 }
