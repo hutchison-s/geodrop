@@ -12,7 +12,6 @@ import { apiBaseURL } from '../apiSwitch';
 import { readableTimeStamp } from '../functions/utilityFunctions';
 import ProfileEditor from './ProfileEditor';
 import { uploadFile } from '../config/firebase';
-import SEO from './SEO';
 
 export default function ProfileDisplay({profileId}) {
 
@@ -164,10 +163,6 @@ export default function ProfileDisplay({profileId}) {
 
     return (
         viewing ? <>
-            {profile._id === viewing._id
-                ? <SEO title='Your GeoDrop Profile' desc='Manage your GeoDrop profile including profile photo, display name, bio, user connections and your previous drops' canon='profile/me' />
-                : <SEO title={viewing.displayName+'on GeoDrop'} desc={`GeoDrop Profile for ${viewing.displayName}`} canon={`profile/${viewing._id}`} />
-            }
             {profile._id === viewing._id && isEditing && <ProfileEditor cancel={()=>{setIsEditing(false)}} collect={handleProfileEdit} />}
             <section id='profileFrame' className={`grid ${isDark ? 'darkMode' : ''}`}>
             
