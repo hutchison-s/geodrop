@@ -123,7 +123,7 @@ export default function NewDrop() {
 
   return (
     <>
-      <SEO title='Creat a GeoDrop' desc='Create a new multimedia GeoDrop tied to your current location for others to discover. What will you leave behind?' canon='newdrop'/>
+      <SEO title='Create a GeoDrop' desc='Create a new multimedia GeoDrop tied to your current location for others to discover. What will you leave behind?' canon='newdrop'/>
       <section className={`newDropPage grid w100 ${isDark ? "darkMode" : ""}`}>
         <label
           className="flex1 grid center w100"
