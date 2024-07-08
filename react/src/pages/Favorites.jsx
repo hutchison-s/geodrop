@@ -1,4 +1,5 @@
 import LikedDrop from "../components/LikedDrop";
+import SEO from "../components/SEO";
 import { useDrops } from "../contexts/DropContext"
 import { useUser } from "../contexts/UserContext";
 
@@ -8,6 +9,11 @@ export default function Favorites() {
 
     return (
         <>
+            <SEO 
+                title='Favorite GeoDrops'
+                desc='Browse your favorite GeoDrops from other users.'
+                canon='favorites'
+            />
             <div className="dropFeed">
                 <div className="feedWelcome">
                     <h2>Your Favorite Things</h2>
